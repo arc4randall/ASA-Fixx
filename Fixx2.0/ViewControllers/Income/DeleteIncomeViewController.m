@@ -122,7 +122,6 @@
         self.incomeBoardController.incomeObjectArray = [[DBManager getSharedInstance]getAllIncome];
     }
     [self.incomeBoardController viewWillAppear:YES];
-    //[self.view.superview removeFromSuperview];
     [self.popover dismissPopoverAnimated:YES];
     
 }
