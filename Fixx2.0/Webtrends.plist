@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>wt_dc_charge_threshold_minimum</key>
+		<integer>30</integer>
+		<key>wt_dc_event_table_size_maximum</key>
+		<integer>10000</integer>
+		<key>wt_dc_timezone</key>
+		<integer>-5</integer>
+		<key>wt_dc_session_maximum</key>
+		<integer>480</integer>
+		<key>wt_dc_app_name</key>
+		<string>FIXX</string>
+		<key>wt_dc_debug</key>
+		<false />
+		<key>wt_dc_use_uncaught_exception_handler</key>
+		<false />
+		<key>wt_dc_dcsid</key>
+		<string>dcs222qgnzc6rvo623n4esy05_2h6m</string>
+		<key>wt_dc_event_retry_maximum</key>
+		<integer>5</integer>
+		<key>wt_dc_session_timeout</key>
+		<integer>30</integer>
+		<key>wt_dc_app_version</key>
+		<string>2.0</string>
+		<key>wt_dc_app_publisher</key>
+		<string>SALT</string>
+		<key>wt_dc_url</key>
+		<string>https://dc.webtrends.com/v1/</string>
+		<key>wt_dc_id_method</key>
+		<string>vendor_id</string>
+		<key>wt_dc_enabled</key>
+		<true />
+		<key>wt_dc_app_category</key>
+		<string>Finance</string>
+	</dict>
+</plist>
