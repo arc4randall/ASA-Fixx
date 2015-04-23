@@ -25,7 +25,7 @@
 
 @implementation UpdateProfileViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -83,31 +83,31 @@
     //Sign Up Field
     NSAttributedString *strFName = [[NSAttributedString alloc] initWithString:@"First Name" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor],NSFontAttributeName:[UIFont fontWithName:ProximaNovaRegular size:16.0f] }];
     [_txtFName setAttributedPlaceholder:strFName];
-    [_txtFName setText:[dicUserInfo objectForKey:@"Firstname"]];
+    [_txtFName setText:dicUserInfo[@"Firstname"]];
     [_txtFName setFont:[UIFont fontWithName:ProximaNovaRegular size:16.0f]];
     [_txtFName setTextColor:[UIColor whiteColor]];
     
     NSAttributedString *strLName = [[NSAttributedString alloc] initWithString:@"Last Name" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor],NSFontAttributeName:[UIFont fontWithName:ProximaNovaRegular size:16.0f] }];
     [_txtLName setAttributedPlaceholder:strLName];
-    [_txtLName setText:[dicUserInfo objectForKey:@"Lastname"]];
+    [_txtLName setText:dicUserInfo[@"Lastname"]];
     [_txtLName setFont:[UIFont fontWithName:ProximaNovaRegular size:16.0f]];
     [_txtLName setTextColor:[UIColor whiteColor]];
     
     NSAttributedString *strEmail = [[NSAttributedString alloc] initWithString:@"Email" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor],NSFontAttributeName:[UIFont fontWithName:ProximaNovaRegular size:16.0f] }];
     [_txtEmail setAttributedPlaceholder:strEmail];
-    [_txtEmail setText:[dicUserInfo objectForKey:@"Email"]];
+    [_txtEmail setText:dicUserInfo[@"Email"]];
     [_txtEmail setFont:[UIFont fontWithName:ProximaNovaRegular size:16.0f]];
     [_txtEmail setTextColor:[UIColor whiteColor]];
     
     NSAttributedString *strPassword = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor],NSFontAttributeName:[UIFont fontWithName:ProximaNovaRegular size:16.0f] }];
     [_txtPassword setAttributedPlaceholder:strPassword];
-    [_txtPassword setText:[dicUserInfo objectForKey:@"Password"]];
+    [_txtPassword setText:dicUserInfo[@"Password"]];
     [_txtPassword setFont:[UIFont fontWithName:ProximaNovaRegular size:16.0f]];
     [_txtPassword setTextColor:[UIColor whiteColor]];
     
-    if ([dicUserInfo objectForKey:@"year_of_birth"] ) {
+    if (dicUserInfo[@"year_of_birth"] ) {
         [_btnYearOfBirth setTitleEdgeInsets:UIEdgeInsetsMake(0, -450, 0, 0)];
-        [_btnYearOfBirth setTitle:[dicUserInfo objectForKey:@"year_of_birth"] forState:UIControlStateNormal];
+        [_btnYearOfBirth setTitle:dicUserInfo[@"year_of_birth"] forState:UIControlStateNormal];
     }
     
     
@@ -261,7 +261,7 @@
    
     NSMutableDictionary *tmpDic = [[NSMutableDictionary alloc] init];
     [tmpDic setValue:_txtEmail.text forKey:@"UserName"];
-    [tmpDic setValue:[dicUserInfo objectForKey:@"Password"] forKey:@"Password"];
+    [tmpDic setValue:dicUserInfo[@"Password"] forKey:@"Password"];
     [tmpDic setValue:@"" forKey:@"returnUrl"];
     [tmpArray addObject:tmpDic];
     
@@ -280,7 +280,7 @@
     
     //[appLoader startActivityLoader:self.view:Progressing];
     NSMutableDictionary *tmpEmailDic = [[NSMutableDictionary alloc] init];
-    [tmpEmailDic setValue:[[[dicMyProfile objectForKey:@"Emails"] objectAtIndex:0] objectForKey:@"EmailAddress"] forKey:@"EmailAddress"];
+    [tmpEmailDic setValue:dicMyProfile[@"Emails"][0][@"EmailAddress"] forKey:@"EmailAddress"];
     [tmpEmailDic setValue:[NSNull null] forKey:@"Type"];
     [tmpEmailDic setValue:[NSNull null] forKey:@"TypeID"];
     [tmpEmailDic setValue:[NSNumber numberWithBool:false] forKey:@"NewRecord"];
@@ -291,25 +291,25 @@
     
     
     
-    NSString *strFName = [dicMyProfile objectForKey:@"FirstName"];
+    NSString *strFName = dicMyProfile[@"FirstName"];
     strFName = [strFName stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
     
     //strFName = [strFName stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [strFName length])];
     
-    NSString *strLName = [dicMyProfile objectForKey:@"LastName"];
+    NSString *strLName = dicMyProfile[@"LastName"];
     strLName = [strLName stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
     //strLName = [strLName stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [strLName length])];
     
     NSMutableDictionary *tmpDic = [[NSMutableDictionary alloc] init];
-    [tmpDic setValue:[dicMyProfile objectForKey:@"IndividualId"] forKey:@"IndividualId"];
-    [tmpDic setValue:[dicMyProfile objectForKey:@"MembershipId"] forKey:@"MembershipId"];
-    [tmpDic setValue:[dicMyProfile objectForKey:@"ActiveDirectoryKey"] forKey:@"ActiveDirectoryKey"];
+    [tmpDic setValue:dicMyProfile[@"IndividualId"] forKey:@"IndividualId"];
+    [tmpDic setValue:dicMyProfile[@"MembershipId"] forKey:@"MembershipId"];
+    [tmpDic setValue:dicMyProfile[@"ActiveDirectoryKey"] forKey:@"ActiveDirectoryKey"];
     [tmpDic setValue:strFName forKey:@"FirstName"];
     [tmpDic setValue:strLName forKey:@"LastName"];
-    [tmpDic setValue:[dicMyProfile objectForKey:@"DisplayName"] forKey:@"DisplayName"];
-    [tmpDic setValue:[dicMyProfile objectForKey:@"PrimaryEmailKey"] forKey:@"PrimaryEmailKey"];
-    [tmpDic setValue:[dicUserInfo objectForKey:@"Password"] forKey:@"Password"];
-    if ([[dicUserInfo objectForKey:@"Password"] isEqualToString:_txtPassword.text]) {
+    [tmpDic setValue:dicMyProfile[@"DisplayName"] forKey:@"DisplayName"];
+    [tmpDic setValue:dicMyProfile[@"PrimaryEmailKey"] forKey:@"PrimaryEmailKey"];
+    [tmpDic setValue:dicUserInfo[@"Password"] forKey:@"Password"];
+    if ([dicUserInfo[@"Password"] isEqualToString:_txtPassword.text]) {
           [tmpDic setValue:[NSNull null] forKey:@"NewPassword"];
     } else
           [tmpDic setValue:_txtPassword.text forKey:@"NewPassword"];
@@ -342,12 +342,12 @@
     NSLog(@"login reponse %@",dicResponse);
    
     
-    if ([dicResponse objectForKey:@"Error"]) {
+    if (dicResponse[@"Error"]) {
          [appLoader stopActivityLoader];
-        [alertView displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:[ [dicResponse objectForKey:@"Error" ] objectForKey:@"message"]withButtonTitle:@"OK" withOtherButtonTitle:Nil];
-    } else if ([[dicResponse objectForKey:@"Success"] integerValue] == 1) {
+        [alertView displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:dicResponse[@"Error"][@"message"]withButtonTitle:@"OK" withOtherButtonTitle:Nil];
+    } else if ([dicResponse[@"Success"] integerValue] == 1) {
         dicMyProfile = [[NSMutableDictionary alloc] init];
-        dicMyProfile = [dicResponse objectForKey:@"Member"];
+        dicMyProfile = dicResponse[@"Member"];
         /*UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"In Session" message:[NSString stringWithFormat:@"%@",dicResponse] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
         */
@@ -358,7 +358,7 @@
         [alert show];
         */
          [appLoader stopActivityLoader];
-        if ([[dicResponse objectForKey:@"ErrorList"] count] == 0) {
+        if ([dicResponse[@"ErrorList"] count] == 0) {
             @try {
                 NSMutableDictionary *dicUserInfo = [objSharedData getUserInfo];
                 
@@ -375,7 +375,7 @@
             [alertView displayAlertViewWithView:self.view withTitle:@"Success" withMessage:@"You have successfully updated profile." withButtonTitle:@"OK" withOtherButtonTitle:Nil];
         } else {
             @try {
-                [alertView displayAlertViewWithView:self.view withTitle:@"Failed" withMessage:[[[dicResponse objectForKey:@"ErrorList"] objectAtIndex:0] objectForKey:@"DetailMessage"] withButtonTitle:@"OK" withOtherButtonTitle:Nil];
+                [alertView displayAlertViewWithView:self.view withTitle:@"Failed" withMessage:dicResponse[@"ErrorList"][0][@"DetailMessage"] withButtonTitle:@"OK" withOtherButtonTitle:Nil];
             }
             @catch (NSException *exception) {
                 
@@ -412,7 +412,7 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [_arrSourceDOBPicker objectAtIndex:row];
+    return _arrSourceDOBPicker[row];
 }
 
 
@@ -420,7 +420,7 @@
 {
     NSLog(@"Selected Row %ld", (long)row);
     [_btnYearOfBirth setTitleEdgeInsets:UIEdgeInsetsMake(0, -450, 0, 0)];
-    [_btnYearOfBirth setTitle:[_arrSourceDOBPicker objectAtIndex:row] forState:UIControlStateNormal];
+    [_btnYearOfBirth setTitle:_arrSourceDOBPicker[row] forState:UIControlStateNormal];
 }
 
 #pragma mark - IBAction Button

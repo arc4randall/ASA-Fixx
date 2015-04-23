@@ -17,7 +17,7 @@
 @synthesize responseData;
 @synthesize delegate,str;
 
--(id)init {
+-(instancetype)init {
     if ( self = [super init] ) {
     }
     return self;
@@ -78,21 +78,21 @@
         for (int i=0; i<[keyArr count]; i++) {
             if(i==[keyArr count]-1)
             {
-                if([methodName length]>1 && [[keyArr objectAtIndex:i] isEqualToString:methodName])
+                if([methodName length]>1 && [keyArr[i] isEqualToString:methodName])
                 {
-                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":%@",[keyArr objectAtIndex:i],[valueDic objectForKey:[keyArr objectAtIndex:i]]]];
+                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":%@",keyArr[i],valueDic[keyArr[i]]]];
                 }else
                 {
-                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":\"%@\"",[keyArr objectAtIndex:i],[valueDic objectForKey:[keyArr objectAtIndex:i]]]];
+                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":\"%@\"",keyArr[i],valueDic[keyArr[i]]]];
                 }
             }else
-                if([methodName length]>1 && [[keyArr objectAtIndex:i] isEqualToString:methodName])
+                if([methodName length]>1 && [keyArr[i] isEqualToString:methodName])
                 {
-                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":%@,",[keyArr objectAtIndex:i],[valueDic objectForKey:[keyArr objectAtIndex:i]]]];
+                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":%@,",keyArr[i],valueDic[keyArr[i]]]];
                 }else
                     
                 {
-                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":\"%@\",",[keyArr objectAtIndex:i],[valueDic objectForKey:[keyArr objectAtIndex:i]]]];
+                    [requestStr appendString:[NSString stringWithFormat:@"\"%@\":\"%@\",",keyArr[i],valueDic[keyArr[i]]]];
                 }
         }
         [requestStr appendString:@"}"];

@@ -10,14 +10,14 @@
 #import "Income.h"
 #import "DBManager.h"
 
-@interface DeleteIncomeViewController ()
+@interface DeleteIncomeViewController () <UITextFieldDelegate>
 
 @end
 
 @implementation DeleteIncomeViewController
 @synthesize incomeBoardController, incomeObj, popover;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -27,7 +27,7 @@
     return self;
 }
 
--(id)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration
+-(instancetype)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration
 {
     self = [super init];
     if (self) {
@@ -50,19 +50,27 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view from its nib.
-    self.timeFrameSegmentedControl.frame = CGRectMake(self.view.frame.size.width / 12, self.view.frame.size.height / 12, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.timeFrameSegmentedControl.frame = CGRectMake(-5,0,self.view.frame.size.width * 0.81, self.view.frame.size.height * 0.10);
     self.timeFrameSegmentedControl.tintColor = [UIColor blackColor];
     
-    self.incomeValueTextField.frame = CGRectMake(self.view.frame.size.width / 12,(self.view.frame.size.height /12) * 3, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.incomeValueTextField.frame = CGRectMake(self.view.frame.size.width / 12 + 15,(self.view.frame.size.height /12 - 10) * 3, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
     [self.incomeValueTextField setKeyboardType:UIKeyboardTypeNumberPad];
     
-    self.incomeSourceTextField.frame = CGRectMake(self.view.frame.size.width / 12,(self.view.frame.size.height / 12) * 4, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.incomeSourceTextField.frame = CGRectMake(self.view.frame.size.width / 12 + 15,(self.view.frame.size.height / 12) * 4, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
     
-    self.saveButton.frame = CGRectMake(self.view.frame.size.width * 0.3333333,(self.view.frame.size.height / 12) * 6, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.saveButton.frame = CGRectMake(self.view.frame.size.width * 0.3333333,(self.view.frame.size.height / 12) * 6 - 2, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
     
-    self.deleteButton.frame = CGRectMake(self.view.frame.size.width * -0.1,(self.view.frame.size.height / 12) * 6, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.saveButton.tintColor = [UIColor blackColor];
+    
+    self.deleteButton.frame = CGRectMake(self.view.frame.size.width * -0.1 + 18,(self.view.frame.size.height / 12) * 6 - 2, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
     NSLog(@"X: %f Y: %f Width: %f Height: %f ",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height);
     
+    self.deleteButton.tintColor = [UIColor blackColor];
+    
+    if (self.incomeBoardController.isExpenseController) {
+        [self.incomeSourceTextField setPlaceholder:@"Expense Source"];
+    }
+   
     NSLog(@"save x: %f del x: %f",self.saveButton.frame.origin.x,self.deleteButton.frame.origin.x);
 
 }
@@ -123,11 +131,20 @@
     }
     [self.incomeBoardController viewWillAppear:YES];
     [self.popover dismissPopoverAnimated:YES];
-    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.incomeValueTextField resignFirstResponder];
     [self.incomeSourceTextField resignFirstResponder];
+}
+#pragma mark UITextField Methods
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    textField.placeholder = nil;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    textField.placeholder = @"";
+}
+- (IBAction)categoryButtonPressed:(id)sender {
 }
 @end

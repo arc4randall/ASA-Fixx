@@ -36,7 +36,7 @@
 - (BOOL)appendDictionary:(NSDictionary*)fragment into:(NSMutableString*)json;
 - (BOOL)appendString:(NSString*)fragment into:(NSMutableString*)json;
 
-- (NSString*)indent;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *indent;
 
 @end
 
@@ -168,7 +168,7 @@
             return NO;
         
         [json appendString:colon];
-        if (![self appendValue:[fragment objectForKey:value] into:json]) {
+        if (![self appendValue:fragment[value] into:json]) {
             [self addErrorWithCode:EUNSUPPORTED description:[NSString stringWithFormat:@"Unsupported value for key %@ in object", value]];
             return NO;
         }

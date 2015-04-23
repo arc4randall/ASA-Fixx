@@ -104,14 +104,13 @@ typedef struct UParseError {
   UniChar postContext[U_PARSE_CONTEXT_LEN];
 } UParseError;
 
-enum {
+typedef NS_OPTIONS(NSUInteger, RKLRegexOp) {
   RKLSplitOp        = 1,
   RKLReplaceOp      = 2,
   RKLRangeOp        = 3,
   RKLMaskOp         = 0xf,
   RKLReplaceMutable = 1 << 4,
 };
-typedef NSUInteger RKLRegexOp;
 
 typedef struct {
   CFStringRef  string;
@@ -464,7 +463,7 @@ static id performRegexOp(id self, SEL _cmd, RKLRegexOp doRegexOp, NSString *rege
   if(exception != NULL) {
     if([exception isKindOfClass:[NSException class]]) { [[NSException exceptionWithName:[exception name] reason:RKLStringFromClassAndMethod(self, _cmd, [exception reason]) userInfo:[exception userInfo]] raise]; }
     else {
-        [[NSAssertionHandler currentHandler] handleFailureInFunction:[exception objectForKey:@"function"] file:[exception objectForKey:@"file"] lineNumber:[[exception objectForKey:@"line"] longValue] description:[exception objectForKey:@"description"]];
+        [[NSAssertionHandler currentHandler] handleFailureInFunction:exception[@"function"] file:exception[@"file"] lineNumber:[exception[@"line"] longValue] description:exception[@"description"]];
     }
   }
   if(replaceMutable == YES) { // We're working on a mutable string and if there were successfull matches with replaced text we still have work to do.  Done outside the cache lock.
@@ -524,7 +523,7 @@ static NSArray *rkl_splitArray(RKLCacheSlot *cacheSlot, id *exception, int32_t *
   NSRange    *splitRanges         = NULL;
   BOOL        copiedStackToHeap   = NO;
 
-  if(cacheSlot->setToLength == 0) { resultArray = [NSArray array]; goto exitNow; } // Return an empty array when there is nothing to search.
+  if(cacheSlot->setToLength == 0) { resultArray = @[]; goto exitNow; } // Return an empty array when there is nothing to search.
 
   if(splitRangesSize < RKL_STACK_LIMIT) { if((splitRanges = alloca(splitRangesSize))                              == NULL) { goto exitNow; } stackUsed += splitRangesSize; }
   else                                  { if((splitRanges = rkl_realloc(&scratchBuffer[0], splitRangesSize, 0UL)) == NULL) { goto exitNow; } }
@@ -744,19 +743,19 @@ static NSDictionary *userInfoDictionary(NSString *regexString, RKLRegexOptions o
   id objects[64], keys[64];
   NSUInteger count = 0;
 
-  NSString *errorNameString = [NSString stringWithUTF8String:u_errorName(status)];
+  NSString *errorNameString = @(u_errorName(status));
 
   addKeyAndObject(objects, keys, count, RKLICURegexRegexErrorKey,        regexString);
-  addKeyAndObject(objects, keys, count, RKLICURegexRegexOptionsErrorKey, [NSNumber numberWithUnsignedInt:options]);
-  addKeyAndObject(objects, keys, count, RKLICURegexErrorCodeErrorKey,    [NSNumber numberWithInt:status]);
+  addKeyAndObject(objects, keys, count, RKLICURegexRegexOptionsErrorKey, @(options));
+  addKeyAndObject(objects, keys, count, RKLICURegexErrorCodeErrorKey,    @(status));
   addKeyAndObject(objects, keys, count, RKLICURegexErrorNameErrorKey,    errorNameString);
 
   if((parseError != NULL) && (parseError->line != -1)) {
     NSString *preContextString  = [NSString stringWithCharacters:&parseError->preContext[0]  length:(NSUInteger)u_strlen(&parseError->preContext[0])];
     NSString *postContextString = [NSString stringWithCharacters:&parseError->postContext[0] length:(NSUInteger)u_strlen(&parseError->postContext[0])];
 
-    addKeyAndObject(objects, keys, count, RKLICURegexLineErrorKey,        [NSNumber numberWithInt:parseError->line]);
-    addKeyAndObject(objects, keys, count, RKLICURegexOffsetErrorKey,      [NSNumber numberWithInt:parseError->offset]);
+    addKeyAndObject(objects, keys, count, RKLICURegexLineErrorKey,        @(parseError->line));
+    addKeyAndObject(objects, keys, count, RKLICURegexOffsetErrorKey,      @(parseError->offset));
     addKeyAndObject(objects, keys, count, RKLICURegexPreContextErrorKey,  preContextString);
     addKeyAndObject(objects, keys, count, RKLICURegexPostContextErrorKey, postContextString);
     addKeyAndObject(objects, keys, count, @"NSLocalizedFailureReason",    ([NSString stringWithFormat:@"The error %@ occurred at line %d, column %d: %@<<HERE>>%@", errorNameString, parseError->line, parseError->offset, preContextString, postContextString]));
@@ -782,8 +781,8 @@ static NSDictionary *RKLCAssertDictionary(const char *function, const char *file
   va_start(varArgsList, format);
   NSString *formatString   = [[[NSString alloc] initWithFormat:format arguments:varArgsList] autorelease];
   va_end(varArgsList);
-  NSString *functionString = [NSString stringWithUTF8String:function], *fileString = [NSString stringWithUTF8String:file];
-  return([NSDictionary dictionaryWithObjectsAndKeys:formatString, @"description", functionString, @"function", fileString, @"file", [NSNumber numberWithInt:line], @"line", NSInternalInconsistencyException, @"exceptionName", NULL]);
+  NSString *functionString = @(function), *fileString = @(file);
+  return(@{@"description": formatString, @"function": functionString, @"file": fileString, @"line": @(line), @"exceptionName": NSInternalInconsistencyException});
 }
 
 static NSString *RKLStringFromClassAndMethod(id object, SEL selector, NSString *format, ...) {

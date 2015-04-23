@@ -33,7 +33,7 @@
 @protocol AlertDialogProgressViewDelegate;
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, ADProgressHUDMode) {
 	/** Progress is shown using an UIActivityIndicatorView. This is the default. */
 	ADProgressHUDModeIndeterminate,
 	/** Progress is shown using a round, pie-chart like, progress view. */
@@ -44,16 +44,16 @@ typedef enum {
 	ADProgressHUDModeCustomView,
 	/** Shows only labels */
 	ADProgressHUDModeText
-} ADProgressHUDMode;
+} ;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, ADProgressHUDAnimation) {
 	/** Opacity animation */
 	ADProgressHUDAnimationFade,
 	/** Opacity + scale animation */
 	ADProgressHUDAnimationZoom,
 	ADProgressHUDAnimationZoomOut = ADProgressHUDAnimationZoom,
 	ADProgressHUDAnimationZoomIn
-} ADProgressHUDAnimation;
+} ;
 
 
 #ifndef AD_STRONG
@@ -164,7 +164,7 @@ typedef void (^ADProgressHUDCompletionBlock)();
  * @param window The window instance that will provide the bounds for the HUD. Should be the same instance as
  * the HUD's superview (i.e., the window that the HUD will be added to).
  */
-- (id)initWithWindow:(UIWindow *)window;
+- (instancetype)initWithWindow:(UIWindow *)window;
 
 /**
  * A convenience constructor that initializes the HUD with the view's bounds. Calls the designated constructor with
@@ -173,7 +173,7 @@ typedef void (^ADProgressHUDCompletionBlock)();
  * @param view The view instance that will provide the bounds for the HUD. Should be the same instance as
  * the HUD's superview (i.e., the view that the HUD will be added to).
  */
-- (id)initWithView:(UIView *)view;
+- (instancetype)initWithView:(UIView *)view;
 
 /** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so

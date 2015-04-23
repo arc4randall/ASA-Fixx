@@ -41,8 +41,8 @@
 /////////////////////////////////////////////////////////////////////////////
 
 @interface NSAttributedString (OHCommodityConstructors)
-+(id)attributedStringWithString:(NSString*)string;
-+(id)attributedStringWithAttributedString:(NSAttributedString*)attrStr;
++(instancetype)attributedStringWithString:(NSString*)string;
++(instancetype)attributedStringWithAttributedString:(NSAttributedString*)attrStr;
 
 //! Commodity method that call the following sizeConstrainedToSize:fitRange: method with NULL for the fitRange parameter
 -(CGSize)sizeConstrainedToSize:(CGSize)maxSize;

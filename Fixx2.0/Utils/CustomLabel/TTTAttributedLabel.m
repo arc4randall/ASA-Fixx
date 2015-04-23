@@ -59,8 +59,8 @@ static inline NSDictionary * NSAttributedStringAttributesFromLabel(TTTAttributed
     NSMutableDictionary *mutableAttributes = [NSMutableDictionary dictionary]; 
 
     if ([NSMutableParagraphStyle class]) {
-        [mutableAttributes setObject:label.font forKey:(NSString *)kCTFontAttributeName];
-        [mutableAttributes setObject:label.textColor forKey:(NSString *)kCTForegroundColorAttributeName];
+        mutableAttributes[(NSString *)kCTFontAttributeName] = label.font;
+        mutableAttributes[(NSString *)kCTForegroundColorAttributeName] = label.textColor;
 
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.alignment = label.textAlignment;
@@ -78,13 +78,13 @@ static inline NSDictionary * NSAttributedStringAttributesFromLabel(TTTAttributed
             paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         }
 
-        [mutableAttributes setObject:paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
+        mutableAttributes[(NSString *)kCTParagraphStyleAttributeName] = paragraphStyle;
     } else {
         CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)label.font.fontName, label.font.pointSize, NULL);
-        [mutableAttributes setObject:(__bridge id)font forKey:(NSString *)kCTFontAttributeName];
+        mutableAttributes[(NSString *)kCTFontAttributeName] = (__bridge id)font;
         CFRelease(font);
 
-        [mutableAttributes setObject:(id)[label.textColor CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+        mutableAttributes[(NSString *)kCTForegroundColorAttributeName] = (id)[label.textColor CGColor];
 
         CTTextAlignment alignment = CTTextAlignmentFromUITextAlignment(label.textAlignment);
         CGFloat lineSpacing = label.leading;
@@ -118,7 +118,7 @@ static inline NSDictionary * NSAttributedStringAttributesFromLabel(TTTAttributed
 
         CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(paragraphStyles, 10);
         
-        [mutableAttributes setObject:(__bridge id)paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
+        mutableAttributes[(NSString *)kCTParagraphStyleAttributeName] = (__bridge id)paragraphStyle;
         
         CFRelease(paragraphStyle);
     }
@@ -161,7 +161,7 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
     [mutableAttributedString enumerateAttribute:(NSString *)kCTForegroundColorFromContextAttributeName inRange:NSMakeRange(0, [mutableAttributedString length]) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
         BOOL usesColorFromContext = (BOOL)value;
         if (usesColorFromContext) {
-            [mutableAttributedString setAttributes:[NSDictionary dictionaryWithObject:color forKey:(NSString *)kCTForegroundColorAttributeName] range:range];
+            [mutableAttributedString setAttributes:@{(NSString *)kCTForegroundColorAttributeName: color} range:range];
             [mutableAttributedString removeAttribute:(NSString *)kCTForegroundColorFromContextAttributeName range:range];
         }
     }];
@@ -224,7 +224,7 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
 @synthesize truncationTokenString = _truncationTokenString;
 @synthesize activeLink = _activeLink;
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (!self) {
         return nil;
@@ -241,26 +241,26 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
         
     self.textInsets = UIEdgeInsetsZero;
     
-    self.links = [NSArray array];
+    self.links = @[];
 
     NSMutableDictionary *mutableLinkAttributes = [NSMutableDictionary dictionary];
-    [mutableLinkAttributes setObject:[NSNumber numberWithBool:YES] forKey:(NSString *)kCTUnderlineStyleAttributeName];
+    mutableLinkAttributes[(NSString *)kCTUnderlineStyleAttributeName] = @YES;
     
     NSMutableDictionary *mutableActiveLinkAttributes = [NSMutableDictionary dictionary];
-    [mutableActiveLinkAttributes setObject:[NSNumber numberWithBool:NO] forKey:(NSString *)kCTUnderlineStyleAttributeName];
+    mutableActiveLinkAttributes[(NSString *)kCTUnderlineStyleAttributeName] = @NO;
 
     if ([NSMutableParagraphStyle class]) {
-        [mutableLinkAttributes setObject:[UIColor colorWithRed:0/255.0 green:164/255.0 blue:228/255.0 alpha:1] forKey:(NSString *)kCTForegroundColorAttributeName];
-        [mutableActiveLinkAttributes setObject:[UIColor redColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+        mutableLinkAttributes[(NSString *)kCTForegroundColorAttributeName] = [UIColor colorWithRed:0/255.0 green:164/255.0 blue:228/255.0 alpha:1];
+        mutableActiveLinkAttributes[(NSString *)kCTForegroundColorAttributeName] = [UIColor redColor];
 
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         
-        [mutableLinkAttributes setObject:paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
-        [mutableActiveLinkAttributes setObject:paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
+        mutableLinkAttributes[(NSString *)kCTParagraphStyleAttributeName] = paragraphStyle;
+        mutableActiveLinkAttributes[(NSString *)kCTParagraphStyleAttributeName] = paragraphStyle;
     } else {
-        [mutableLinkAttributes setObject:(__bridge id)[[UIColor colorWithRed:0/255.0 green:164/255.0 blue:228/255.0 alpha:1] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
-        [mutableActiveLinkAttributes setObject:(__bridge id)[[UIColor redColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+        mutableLinkAttributes[(NSString *)kCTForegroundColorAttributeName] = (__bridge id)[[UIColor colorWithRed:0/255.0 green:164/255.0 blue:228/255.0 alpha:1] CGColor];
+        mutableActiveLinkAttributes[(NSString *)kCTForegroundColorAttributeName] = (__bridge id)[[UIColor redColor] CGColor];
 
         CTLineBreakMode lineBreakMode = CTLineBreakModeFromUILineBreakMode(UILineBreakModeWordWrap);
         CTParagraphStyleSetting paragraphStyles[1] = {
@@ -268,8 +268,8 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
         };
         CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(paragraphStyles, 1);
         
-        [mutableLinkAttributes setObject:(__bridge id)paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
-        [mutableActiveLinkAttributes setObject:(__bridge id)paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
+        mutableLinkAttributes[(NSString *)kCTParagraphStyleAttributeName] = (__bridge id)paragraphStyle;
+        mutableActiveLinkAttributes[(NSString *)kCTParagraphStyleAttributeName] = (__bridge id)paragraphStyle;
         
         CFRelease(paragraphStyle);
     }
@@ -342,7 +342,7 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
 - (void)addLinkWithTextCheckingResult:(NSTextCheckingResult *)result
                            attributes:(NSDictionary *)attributes
 {
-    [self addLinksWithTextCheckingResults:[NSArray arrayWithObject:result] attributes:attributes];
+    [self addLinksWithTextCheckingResults:@[result] attributes:attributes];
 }
 
 - (void)addLinksWithTextCheckingResults:(NSArray *)results
@@ -635,11 +635,11 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
         
         for (id glyphRun in (__bridge NSArray *)CTLineGetGlyphRuns((__bridge CTLineRef)line)) {
             NSDictionary *attributes = (__bridge NSDictionary *)CTRunGetAttributes((__bridge CTRunRef) glyphRun);
-            CGColorRef strokeColor = (__bridge CGColorRef)[attributes objectForKey:kTTTBackgroundStrokeColorAttributeName];
-            CGColorRef fillColor = (__bridge CGColorRef)[attributes objectForKey:kTTTBackgroundFillColorAttributeName];
-            UIEdgeInsets fillPadding = [[attributes objectForKey:kTTTBackgroundFillPaddingAttributeName] UIEdgeInsetsValue];
-            CGFloat cornerRadius = [[attributes objectForKey:kTTTBackgroundCornerRadiusAttributeName] floatValue];
-            CGFloat lineWidth = [[attributes objectForKey:kTTTBackgroundLineWidthAttributeName] floatValue];
+            CGColorRef strokeColor = (__bridge CGColorRef)attributes[kTTTBackgroundStrokeColorAttributeName];
+            CGColorRef fillColor = (__bridge CGColorRef)attributes[kTTTBackgroundFillColorAttributeName];
+            UIEdgeInsets fillPadding = [attributes[kTTTBackgroundFillPaddingAttributeName] UIEdgeInsetsValue];
+            CGFloat cornerRadius = [attributes[kTTTBackgroundCornerRadiusAttributeName] floatValue];
+            CGFloat lineWidth = [attributes[kTTTBackgroundLineWidthAttributeName] floatValue];
 
             if (strokeColor || fillColor) {
                 CGRect runBounds = CGRectZero;
@@ -699,8 +699,8 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
         
         for (id glyphRun in (__bridge NSArray *)CTLineGetGlyphRuns((__bridge CTLineRef)line)) {
             NSDictionary *attributes = (__bridge NSDictionary *)CTRunGetAttributes((__bridge CTRunRef) glyphRun);
-            BOOL strikeOut = [[attributes objectForKey:kTTTStrikeOutAttributeName] boolValue];
-            NSInteger superscriptStyle = [[attributes objectForKey:(id)kCTSuperscriptAttributeName] integerValue];
+            BOOL strikeOut = [attributes[kTTTStrikeOutAttributeName] boolValue];
+            NSInteger superscriptStyle = [attributes[(id)kCTSuperscriptAttributeName] integerValue];
             
             if (strikeOut) {
                 CGRect runBounds = CGRectZero;
@@ -732,7 +732,7 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
 				}
                 
                 // Use text color, or default to black
-                id color = [attributes objectForKey:(id)kCTForegroundColorAttributeName];
+                id color = attributes[(id)kCTForegroundColorAttributeName];
                 if (color) {
                     if ([color isKindOfClass:[UIColor class]]) {
                         CGContextSetStrokeColorWithColor(c, [color CGColor]);
@@ -768,7 +768,7 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
     self.attributedText = text;
     self.activeLink = nil;
 
-    self.links = [NSArray array];
+    self.links = @[];
     if (self.attributedText && self.dataDetectorTypes) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSArray *results = [self.dataDetector matchesInString:[text string] options:0 range:NSMakeRange(0, [text length])];
@@ -1114,7 +1114,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
     [coder encodeObject:self.attributedText forKey:@"attributedText"];
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (!self) {
         return nil;

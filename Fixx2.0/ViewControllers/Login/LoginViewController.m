@@ -35,7 +35,7 @@
 
 @implementation LoginViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -480,34 +480,34 @@
     NSLog(@"login reponse %@",dicResponse);
     [appLoader stopActivityLoader];
     if ([_btnFreeAccount isSelected]) { //SignIn
-        if ([dicResponse objectForKey:@"Error"]) {
-             [customAlert displayAlertViewWithView:self.view withTitle:@"Sign-In!" withMessage:[[dicResponse objectForKey:@"Error"] objectForKey:@"message"] withButtonTitle:@"OK" withOtherButtonTitle:Nil];
-        } else if ([[dicResponse objectForKey:@"status"] integerValue] == 200) {
-            if ([dicResponse objectForKey:@"token"] == [NSNull null]) {
+        if (dicResponse[@"Error"]) {
+             [customAlert displayAlertViewWithView:self.view withTitle:@"Sign-In!" withMessage:dicResponse[@"Error"][@"message"] withButtonTitle:@"OK" withOtherButtonTitle:Nil];
+        } else if ([dicResponse[@"status"] integerValue] == 200) {
+            if (dicResponse[@"token"] == [NSNull null]) {
                 [customAlert displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:@"Unable to authenticate token for your session." withButtonTitle:@"OK" withOtherButtonTitle:Nil];
             } else {
                 objSharedData.isLoggedin = TRUE;
                 isUserSignUp = NO;
-                objSharedData.str_AccessToken = [dicResponse objectForKey:@"token"];
-                objSharedData.str_LoggedInUserEmail = [[dicResponse objectForKey:@"user"] objectForKey:@"Email"];
+                objSharedData.str_AccessToken = dicResponse[@"token"];
+                objSharedData.str_LoggedInUserEmail = dicResponse[@"user"][@"Email"];
                 objSharedData.str_LoggedInUserPass =
-                [[dicResponse objectForKey:@"user"] objectForKey:@"Password"];
+                dicResponse[@"user"][@"Password"];
                 [objSharedData storeToUserdefaults];
                 [self signInToHomeSuccessfully];
             }
         }
     } else { //SignUp
-        if ([dicResponse objectForKey:@"Error"]) {
-            [customAlert displayAlertViewWithView:self.view withTitle:@"Sign-Up" withMessage:[[dicResponse objectForKey:@"Error"] objectForKey:@"message"] withButtonTitle:@"OK" withOtherButtonTitle:Nil];
-        } else if ([[dicResponse objectForKey:@"status"] integerValue] == 200) {
-            if ([dicResponse objectForKey:@"token"] == [NSNull null]) {
+        if (dicResponse[@"Error"]) {
+            [customAlert displayAlertViewWithView:self.view withTitle:@"Sign-Up" withMessage:dicResponse[@"Error"][@"message"] withButtonTitle:@"OK" withOtherButtonTitle:Nil];
+        } else if ([dicResponse[@"status"] integerValue] == 200) {
+            if (dicResponse[@"token"] == [NSNull null]) {
                 [customAlert displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:@"Unable to authenticate token for your session." withButtonTitle:@"OK" withOtherButtonTitle:Nil];
             } else {
                 objSharedData.isLoggedin = TRUE;
                 isUserSignUp = YES;
-                objSharedData.str_AccessToken = [dicResponse objectForKey:@"token"];
-                objSharedData.str_LoggedInUserEmail = [[dicResponse objectForKey:@"user"] objectForKey:@"Email"];
-                objSharedData.str_LoggedInUserPass = [[dicResponse objectForKey:@"user"] objectForKey:@"Password"];
+                objSharedData.str_AccessToken = dicResponse[@"token"];
+                objSharedData.str_LoggedInUserEmail = dicResponse[@"user"][@"Email"];
+                objSharedData.str_LoggedInUserPass = dicResponse[@"user"][@"Password"];
                 [objSharedData storeToUserdefaults];
                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
                 if ([[userDefault objectForKey:@"isExpenseCreated"] isEqualToString:@"Yes"]) {

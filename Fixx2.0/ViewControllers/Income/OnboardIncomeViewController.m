@@ -11,7 +11,6 @@
 #import "UIViewController+MMDrawerController.h"
 #import "AddNewIncomeViewController.h"
 #import "DeleteIncomeViewController.h"
-#import "HomeDashboardViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "FPPopoverView.h"
 #import "FPPopoverController.h"
@@ -24,24 +23,23 @@
     UIButton *btnSliderLeft;
     AddNewIncomeViewController *objAddNewIncomeViewController;
     DeleteIncomeViewController *objDeleteIncomeViewController;
-    HomeDashboardViewController *objHomeDashboard;
 }
 
 @end
 
 @implementation OnboardIncomeViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
-    }
-    return self;
-}
+//- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        // Custom initialization
+//        
+//    }
+//    return self;
+//}
 
--(id)initAsExpenseController:(BOOL)expenseController
+-(instancetype)initAsExpenseController:(BOOL)expenseController
 {
     self = [super init];
     if (self) {
@@ -60,6 +58,8 @@
     [self prepareLayout];
     [self trackEvent:[WTEvent eventForScreenView:@"Income Onboarding" eventDescr:@"List Of Incomes." eventType:@"" contentGroup:@""]];
     // Do any additional setup after loading the view from its nib.
+    
+    NSLog(@"EXPENSE? %hhd",self.isExpenseController);
     
     self.incomeTableView.delegate = self;
     self.incomeTableView.dataSource = self;
@@ -112,6 +112,7 @@
                                         action:@selector(addIncome:)];
     
     self.navigationItem.rightBarButtonItem = addIncomeButton;
+
     
     [self.incomeTableView reloadData];
     NSLog(@"the array has %lu objects",(unsigned long)self.incomeObjectArray.count);
@@ -172,17 +173,6 @@
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:NO completion:nil];
 }
 
-- (void) pushToHomeViewController {
-    appDelegate.sectionSelect= 1;
-    
-    objHomeDashboard = [[HomeDashboardViewController alloc] initWithNibName:@"HomeDashboardViewController" bundle:Nil];
-    
-    [appDelegate.tabNavController popToRootViewControllerAnimated:NO];
-    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
-    [viewControllers replaceObjectAtIndex:0 withObject:objHomeDashboard];
-    [appDelegate.tabNavController setViewControllers:viewControllers];
-}
-
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
@@ -210,7 +200,15 @@
 {
     return 1;
 }
-
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    int toReturn = 0;
+    if (_isExpenseController) {
+        //None
+    } else {
+        toReturn = [[[DBManager getSharedInstance] returnExistingCategoryAmount:@"income"] count];
+    }
+    return toReturn;
+}
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IETableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"IECell"];
@@ -235,7 +233,7 @@
     SAFE_ARC_RELEASE(popover); popover = nil;
     
     //the controller we want to present as a popover
-    Income* selectedIncome = [self.incomeObjectArray objectAtIndex:indexPath.row];
+    Income* selectedIncome = (self.incomeObjectArray)[indexPath.row];
     objDeleteIncomeViewController = [[DeleteIncomeViewController alloc] initWithIncomeSource:selectedIncome.name value:selectedIncome.amount duration:selectedIncome.duration];
     objDeleteIncomeViewController.title = nil;
     

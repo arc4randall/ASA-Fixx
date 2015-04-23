@@ -25,4 +25,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *saveButton;
 - (IBAction)saveButtonPressed:(id)sender;
 @property (strong,nonatomic) NSMutableArray* incomeObjectArray;
+
+@property (strong,nonatomic) UIPickerView* categoryPicker;
+@property (strong, nonatomic) IBOutlet UITextField *categoryTextField;
 @end

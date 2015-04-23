@@ -19,7 +19,7 @@
 
 @implementation ForgotPasswordViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -143,7 +143,7 @@
 #pragma mark setSelect Counrtycode delegate method
 -(void)setselectedCountryCode:(NSMutableDictionary*)dict
 {
-    [_btnCountryCode setTitle:[NSString stringWithFormat:@"%@",[dict  objectForKey:@"code"]] forState:UIControlStateNormal];
+    [_btnCountryCode setTitle:[NSString stringWithFormat:@"%@",dict[@"code"]] forState:UIControlStateNormal];
     
 }
 

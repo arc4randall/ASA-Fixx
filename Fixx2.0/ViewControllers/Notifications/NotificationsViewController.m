@@ -26,7 +26,7 @@
 
 @implementation NotificationsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -44,11 +44,8 @@
 
 - (void) prepareLayout {
     //set back button color
-//    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor,nil] forState:UIControlStateNormal];
-//    //set back button arrow color
-//    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     
-     [self.navigationItem setHidesBackButton:YES animated:YES];
+    [self.navigationItem setHidesBackButton:YES animated:YES];
     
     btnSliderLeft=[UIButton buttonWithType:UIButtonTypeCustom];
     [btnSliderLeft setFrame:CGRectMake(0, 5, 28, 28)];
@@ -236,10 +233,10 @@
     NSLog(@"login reponse %@",dicResponse);
     [appLoader stopActivityLoader];
     
-    if ([dicResponse objectForKey:@"Error"]) {
-        [alertView displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:[ [dicResponse objectForKey:@"Error" ] objectForKey:@"message"]withButtonTitle:@"OK" withOtherButtonTitle:Nil];
-    } else if ([[dicResponse objectForKey:@"status"] integerValue] == 200 && [dicResponse objectForKey:@"UserMessage"]) {
-        arrAllNotifications = [dicResponse objectForKey:@"UserMessage"];
+    if (dicResponse[@"Error"]) {
+        [alertView displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:dicResponse[@"Error"][@"message"]withButtonTitle:@"OK" withOtherButtonTitle:Nil];
+    } else if ([dicResponse[@"status"] integerValue] == 200 && dicResponse[@"UserMessage"]) {
+        arrAllNotifications = dicResponse[@"UserMessage"];
         
         if ([arrAllNotifications count]==0) {
             [_lblNoData setHidden:NO];
@@ -248,25 +245,25 @@
         }
         
         [_tblNotificatios reloadData];
-    } else if ([[dicResponse objectForKey:@"status"] integerValue] == 200 && [dicResponse objectForKey:@"UserNotification"])  {
-        dicNotificationsValues = [dicResponse objectForKey:@"UserNotification"];
+    } else if ([dicResponse[@"status"] integerValue] == 200 && dicResponse[@"UserNotification"])  {
+        dicNotificationsValues = dicResponse[@"UserNotification"];
         
-        if ([[dicNotificationsValues objectForKey:@"notification1"] integerValue] == 1) {
+        if ([dicNotificationsValues[@"notification1"] integerValue] == 1) {
             [_switchOne setOn:YES];
         } else
             [_switchOne setOn:NO];
         
-        if ([[dicNotificationsValues objectForKey:@"notification2"] integerValue] == 1) {
+        if ([dicNotificationsValues[@"notification2"] integerValue] == 1) {
             [_switchTwo setOn:YES];
         } else
             [_switchTwo setOn:NO];
         
-        if ([[dicNotificationsValues objectForKey:@"notification3"] integerValue] == 1) {
+        if ([dicNotificationsValues[@"notification3"] integerValue] == 1) {
             [_switchThree setOn:YES];
         } else
             [_switchThree setOn:NO];
         
-        if ([[dicNotificationsValues objectForKey:@"notification4"] integerValue] == 1) {
+        if ([dicNotificationsValues[@"notification4"] integerValue] == 1) {
             [_switchFour setOn:YES];
         } else
             [_switchFour setOn:NO];
@@ -312,7 +309,7 @@
     [lblTitle setTextColor:[UIColor whiteColor]];
     [lblTitle setFrame:CGRectMake(25, 10, 250, 25)];
     [lblTitle setTextAlignment:NSTextAlignmentLeft];
-    [lblTitle setText:[[arrAllNotifications objectAtIndex:indexPath.row] objectForKey:@"title"]];
+    [lblTitle setText:arrAllNotifications[indexPath.row][@"title"]];
     [cell addSubview:lblTitle];
     
     UILabel *lblSummary = [[UILabel alloc] init];
@@ -323,7 +320,7 @@
     [lblSummary setTextAlignment:NSTextAlignmentLeft];
     [lblSummary setTag:indexPath.row];
     [lblSummary setNumberOfLines:0];
-    [lblSummary setText:[[arrAllNotifications objectAtIndex:indexPath.row] objectForKey:@"message"]];
+    [lblSummary setText:arrAllNotifications[indexPath.row][@"message"]];
     [cell addSubview:lblSummary];
     
     

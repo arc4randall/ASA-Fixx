@@ -18,6 +18,7 @@
 #import "AppLoader.h"
 #import "WebserviceHandler.h"
 #import "DBManager.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface LeftTabController () <WebServiceHandlerDelegate>
 {
@@ -42,7 +43,7 @@
 
 @implementation LeftTabController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -128,7 +129,7 @@
     else
         [titileviewCopy setTextColor:[UIColor whiteColor]];
 
-    [titileviewCopy setText:[self.arrName objectAtIndex:indexPath.row]];
+    [titileviewCopy setText:(self.arrName)[indexPath.row]];
     return cell;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -258,7 +259,7 @@
     
     [appDelegate.tabNavController popToRootViewControllerAnimated:NO];
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
-    [viewControllers replaceObjectAtIndex:0 withObject:objHomeDashboardViewController];
+    viewControllers[0] = objHomeDashboardViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
 }
 
@@ -271,7 +272,7 @@
    
     [appDelegate.tabNavController popToRootViewControllerAnimated:NO];
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
-    [viewControllers replaceObjectAtIndex:0 withObject:objIncomeViewController];
+    viewControllers[0] = objIncomeViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
     objIncomeViewController.incomeObjectArray = [[DBManager getSharedInstance]getAllIncome];
 }
@@ -285,7 +286,7 @@
     
     [appDelegate.tabNavController popToRootViewControllerAnimated:NO];
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
-    [viewControllers replaceObjectAtIndex:0 withObject:objIncomeViewController];
+    viewControllers[0] = objIncomeViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
     objIncomeViewController.incomeObjectArray = [[DBManager getSharedInstance]getAllExpense];
 }
@@ -298,7 +299,7 @@
     
     [appDelegate.tabNavController popToRootViewControllerAnimated:NO];
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
-    [viewControllers replaceObjectAtIndex:0 withObject:objSettingsViewController];
+    viewControllers[0] = objSettingsViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
 }
 
@@ -309,6 +310,7 @@
     
     NSString *strURL = [HOST_URL stringByAppendingString:[NSString stringWithFormat:Logout_User,API_KEY, objSharedData.str_AccessToken]];
     [requestOnWeb callThePassedURLASynchronouslyWithRequest:strURL RequestString:nil];
+    [FBSDKAccessToken setCurrentAccessToken:nil];
     
 }
 
@@ -318,7 +320,7 @@
     
     NSLog(@"logout reponse %@",dicResponse);
     [appLoader stopActivityLoader];
-    if ([[dicResponse objectForKey:@"status"] integerValue] == 200) {
+    if ([dicResponse[@"status"] integerValue] == 200) {
         appDelegate.sectionSelect= 10;
         
         objSharedData.isLoggedin = NO;

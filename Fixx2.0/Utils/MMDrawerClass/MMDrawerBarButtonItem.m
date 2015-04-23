@@ -38,7 +38,7 @@
 
 @implementation MMDrawerMenuButtonView
 
--(id)initWithFrame:(CGRect)frame{
+-(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if(self){
         [self setMenuButtonNormalColor:[[UIColor whiteColor] colorWithAlphaComponent:0.9f]];
@@ -190,7 +190,7 @@
 
 @implementation MMDrawerBarButtonItem
 
--(id)initWithTarget:(id)target action:(SEL)action{
+-(instancetype)initWithTarget:(id)target action:(SEL)action{
     MMDrawerMenuButtonView * buttonView = [[MMDrawerMenuButtonView alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
     [buttonView addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     self = [self initWithCustomView:buttonView];

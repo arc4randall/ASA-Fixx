@@ -43,7 +43,7 @@ float flSpacer = 45.0;
     [self setNeedsDisplay];
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame]))
     {

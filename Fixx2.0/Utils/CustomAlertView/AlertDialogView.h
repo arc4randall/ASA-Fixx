@@ -21,15 +21,15 @@
 #define TIME_INTERVAL_AUTO_HIDE 4.0f
 #define Title_Height 44
 
-typedef enum {
+typedef NS_ENUM(NSInteger, AlertDialogButtonStyle) {
     
     AlertDialogButtonStyleDefault,
     AlertDialogButtonStyleWhite,
     AlertDialogButtonStylePurple
     
-}AlertDialogButtonStyle;
+};
 
-enum {
+typedef NS_ENUM(NSInteger, UFDialogStyle) {
 	UFDialogStyleDefault = 0,
 	UFDialogStyleIndeterminate,
 	UFDialogStyleDeterminate,
@@ -37,7 +37,6 @@ enum {
 	UFDialogStyleError,
 	UFDialogStyleCustomView
 };
-typedef NSInteger UFDialogStyle;
 
 @protocol AlertDialogViewDelegate <NSObject>
 
@@ -61,7 +60,7 @@ typedef NSInteger UFDialogStyle;
 
 + (instancetype)dialogWithView:(UIView *)hostView;
 
-- (id)initWithView:(UIView *)hostView;
+- (instancetype)initWithView:(UIView *)hostView NS_DESIGNATED_INITIALIZER;
 
 /** @name Configuration */
 

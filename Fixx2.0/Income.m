@@ -9,14 +9,15 @@
 #import "Income.h"
 
 @implementation Income;
-@synthesize incomeID;
--(id)initWithName:(NSString*)itemName andAmount:(double)itemAmount andDuration:(NSString*)timeFrame
+@synthesize incomeID, category, name, duration;
+-(instancetype)initWithName:(NSString*)itemName andAmount:(double)itemAmount andDuration:(NSString*)timeFrame andCategory:(NSString*)categoryType
 {
     if (!self) {
         self = [super init];
         self.name = itemName;
         self.amount = itemAmount;
         self.duration = timeFrame;
+        self.category = categoryType;
     }
     return self;
 }

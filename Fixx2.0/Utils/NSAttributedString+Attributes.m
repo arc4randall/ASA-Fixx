@@ -39,10 +39,10 @@
 /////////////////////////////////////////////////////////////////////////////
 
 @implementation NSAttributedString (OHCommodityConstructors)
-+(id)attributedStringWithString:(NSString*)string {
++(instancetype)attributedStringWithString:(NSString*)string {
 	return string ? [[self alloc] initWithString:string] : nil;
 }
-+(id)attributedStringWithAttributedString:(NSAttributedString*)attrStr {
++(instancetype)attributedStringWithAttributedString:(NSAttributedString*)attrStr {
 	return attrStr ? [[self alloc] initWithAttributedString:attrStr]  : nil;
 }
 
@@ -84,10 +84,9 @@
 -(void)setFontFamily:(NSString*)fontFamily size:(CGFloat)size bold:(BOOL)isBold italic:(BOOL)isItalic range:(NSRange)range {
 	// kCTFontFamilyNameAttribute + kCTFontTraitsAttribute
 	CTFontSymbolicTraits symTrait = (isBold?kCTFontBoldTrait:0) | (isItalic?kCTFontItalicTrait:0);
-	NSDictionary* trait = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:symTrait] forKey:(NSString*)kCTFontSymbolicTrait];
-	NSDictionary* attr = [NSDictionary dictionaryWithObjectsAndKeys:
-						  fontFamily,kCTFontFamilyNameAttribute,
-						  trait,kCTFontTraitsAttribute,nil];
+	NSDictionary* trait = @{(NSString*)kCTFontSymbolicTrait: [NSNumber numberWithInt:symTrait]};
+	NSDictionary* attr = @{(id)kCTFontFamilyNameAttribute: fontFamily,
+						  (id)kCTFontTraitsAttribute: trait};
 	
 	CTFontDescriptorRef desc = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)attr);
 	if (!desc) return;
@@ -118,7 +117,7 @@
 }
 -(void)setTextUnderlineStyle:(int32_t)style range:(NSRange)range {
 	[self removeAttribute:(NSString*)kCTUnderlineStyleAttributeName range:range]; // Work around for Apple leak
-	[self addAttribute:(NSString*)kCTUnderlineStyleAttributeName value:[NSNumber numberWithInt:style] range:range];
+	[self addAttribute:(NSString*)kCTUnderlineStyleAttributeName value:@(style) range:range];
 }
 
 -(void)setTextBold:(BOOL)isBold range:(NSRange)range {

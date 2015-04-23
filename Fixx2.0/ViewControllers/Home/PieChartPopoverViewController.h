@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@class HomeDashboardViewController;
+@class XYPieChart;
 
 @interface PieChartPopoverViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UIView *piechartView;
-@property (strong, nonatomic) IBOutlet UIScrollView *summaryScrollview;
+{
+    NSArray *sliceColors;
+}
+@property (strong, nonatomic) HomeDashboardViewController *incomeBoardController;
+@property (strong, nonatomic) FPPopoverKeyboardResponsiveController *popover;
+@property (strong, nonatomic) IBOutlet UITableView *legendTableView;
+@property (strong, nonatomic) NSArray *sliceColors;
 
+- (instancetype)initWithType:(NSString*)viewType;
 @end

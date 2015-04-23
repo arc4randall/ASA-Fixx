@@ -28,5 +28,7 @@
 - (IBAction)saveButtonPressed:(id)sender;
 @property (strong, nonatomic) NSMutableArray* incomeObjectArray;
 @property (nonatomic, strong) Income *incomeObj;
--(id)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration;
+-(instancetype)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration NS_DESIGNATED_INITIALIZER;
+@property (strong, nonatomic) IBOutlet UIButton *categoryButton;
+- (IBAction)categoryButtonPressed:(id)sender;
 @end
