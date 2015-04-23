@@ -49,7 +49,7 @@
 -(void)updateUserProfileImage:(NSString *)strUrl;
 -(void)deleteUserInfo;
 -(void)saveUserInfo : (NSMutableDictionary *) dicUserInfo;
--(NSMutableDictionary *)getUserInfo;
+@property (NS_NONATOMIC_IOSONLY, getter=getUserInfo, readonly, copy) NSMutableDictionary *userInfo;
 -(BOOL)uploadProfileImage :(NSMutableDictionary *)dict;
 #pragma mark - Other Class methods
 -(NSString *)sha1EncodedFromString:(NSString *)str;

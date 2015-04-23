@@ -13,6 +13,9 @@
 #import "AlertDialogView.h"
 #import "LoginViewController.h"
 #import "DBManager.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+
 AppDelegate *appDelegate;
 SharedData *objSharedData;
 
@@ -57,8 +60,10 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
     }
     
     [self.window makeKeyAndVisible];
+    self.window.tintColor = [UIColor whiteColor];
     [DBManager getSharedInstance];
-    return YES;
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                           didFinishLaunchingWithOptions:launchOptions];;
 }
 
 -(void)nowShow
@@ -87,12 +92,6 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
     [self trackEvent:[WTEvent eventForAppForeground]];
     
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -133,21 +132,21 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
     NSString *badge;
     NSString *sound;
 	
-    if( [[userInfo objectForKey:@"aps"] objectForKey:@"alert"] != NULL) {
-        alertMsg = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    if( userInfo[@"aps"][@"alert"] != NULL) {
+        alertMsg = userInfo[@"aps"][@"alert"];
     } else {
 		alertMsg = @"{no alert message in dictionary}";
     }
 	
-    if( [[userInfo objectForKey:@"aps"] objectForKey:@"badge"] != NULL) {
-        badge = [[userInfo objectForKey:@"aps"] objectForKey:@"badge"];
+    if( userInfo[@"aps"][@"badge"] != NULL) {
+        badge = userInfo[@"aps"][@"badge"];
     } else {
 		badge = @"{no badge number in dictionary}";
     }
 	
-    if( [[userInfo objectForKey:@"aps"] objectForKey:@"sound"] != NULL)
+    if( userInfo[@"aps"][@"sound"] != NULL)
     {
-        sound = [[userInfo objectForKey:@"aps"] objectForKey:@"sound"];
+        sound = userInfo[@"aps"][@"sound"];
     }
     else
     {    sound = @"{no sound in dictionary}";
@@ -199,54 +198,7 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
         }
     }];
     
-   
     NSLog(@"Start Sign In Process...");
-
-    
-    
-    
-    //old code start
-//    objSharedData.isLoggedin = TRUE;
-//    
-//    _objHomeDashboardViewController = [[HomeDashboardViewController alloc] initWithNibName:@"HomeDashboardViewController" bundle:nil];
-//    
-//    
-//    
-//    _objLeftTabController = [[LeftTabController alloc] initWithNibName:@"LeftTabController" bundle:nil];
-//    
-//    
-//    appDelegate.sectionSelect = 1;
-//    appDelegate.tabNavController = [[NavigationController alloc] initWithRootViewController:_objHomeDashboardViewController];
-//    
-//    
-//    _drawerController = [[MMDrawerController alloc]
-//                             initWithCenterViewController:self.tabNavController
-//                             leftDrawerViewController:_objLeftTabController
-//                             rightDrawerViewController:nil];
-//
-//    
-//    //change value of right side view appearence
-//    [_drawerController setMaximumLeftDrawerWidth:240.0];
-//    
-//    //change value of animation type
-//    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:MMDrawerAnimationTypeSlide];
-//    
-//  //For find touch gesture
-//    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-//    
-//    [_drawerController
-//     setDrawerVisualStateBlock:^(MMDrawerController *drawerController1, MMDrawerSide drawerSide, CGFloat percentVisible) {
-//         MMDrawerControllerDrawerVisualStateBlock block;
-//         block = [[MMExampleDrawerVisualStateManager sharedManager]
-//                  drawerVisualStateBlockForDrawerSide:drawerSide];
-//         if(block){
-//             block(drawerController1, drawerSide, percentVisible);
-//         }
-//     }];
-//    
-//    
-//    [self.objNavController presentViewController:_drawerController animated:YES completion:nil];
-//    NSLog(@"Start Login process");
 }
 
 - (void) SignUpLoginScreen {
@@ -322,12 +274,11 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
 
 -(void)startActivityIndicator:(UIView *)view withText:(NSString *)text{
     
-    // if(_alertDialogProgressView == nil){
     if(view)
         objalertDialogProgressView = [[AlertDialogProgressView alloc] initWithView:view];
     else
         objalertDialogProgressView = [[AlertDialogProgressView alloc] initWithView:appDelegate.window];
-    //}
+    
     if(view)
         [view addSubview:objalertDialogProgressView];
     else
@@ -415,18 +366,20 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
 	[self updateInterfaceWithReachability: wifiReach];
     //use for all type of Reachability
 }
-@end
 
-//#pragma mark UITextField overwrite methods to move place holder and text position
-////@implementation UITextField(UITextFieldCatagory)
-////// placeholder position
-////- (CGRect)textRectForBounds:(CGRect)bounds {
-////    return CGRectInset( bounds , 15 , 10 );
-////}
-////
-////// text position
-////- (CGRect)editingRectForBounds:(CGRect)bounds {
-////    return CGRectInset( bounds , 15 , 10 );
-////}
-//
-//@end
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [FBSDKAppEvents activateApp];
+}
+
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
+}
+
+@end

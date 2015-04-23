@@ -41,7 +41,7 @@ static sqlite3_stmt *statement = nil;
         if (sqlite3_open(dbpath, &database) == SQLITE_OK)
         {
             char *errMsg;
-            const char *sql_stmt ="create table if not exists IncomeDataTable (ID integer primary key AUTOINCREMENT  NOT NULL  UNIQUE, Name text, Amount double, Duration text)";
+            const char *sql_stmt ="create table if not exists IncomeDataTable (ID integer primary key AUTOINCREMENT  NOT NULL  UNIQUE, Name text, Amount double, Duration text, Category text)";
             if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)
                 != SQLITE_OK)
             {
@@ -59,7 +59,7 @@ static sqlite3_stmt *statement = nil;
     return isSuccess;
 }
 
--(BOOL) saveDataWithName:(NSString*)name Amount:(double)amount Duration:(NSString*)duration
+-(BOOL) saveDataWithName:(NSString*)name Amount:(double)amount Duration:(NSString*)duration Category:(NSString*)category
 {
     const char *dbpath = [databasePath UTF8String];
     const char *errorMsg;
@@ -68,9 +68,9 @@ static sqlite3_stmt *statement = nil;
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         if (amount > 0) {
-            insertSQL = [NSString stringWithFormat:@"INSERT INTO IncomeDataTable(Name, Amount, Duration) SELECT \"%@\", \"%f\", \"%@\" WHERE NOT EXISTS(SELECT * FROM IncomeDataTable WHERE Name = \"%@\" AND Amount > 0)", name, amount, duration, name];
+            insertSQL = [NSString stringWithFormat:@"INSERT INTO IncomeDataTable(Name, Amount, Duration, Category) SELECT \"%@\", \"%f\", \"%@\", \"%@\" WHERE NOT EXISTS(SELECT * FROM IncomeDataTable WHERE Name = \"%@\" AND Amount > 0)", name, amount, duration, category, name];
         } else {
-            insertSQL = [NSString stringWithFormat:@"INSERT INTO IncomeDataTable(Name, Amount, Duration) SELECT \"%@\", \"%f\", \"%@\" WHERE NOT EXISTS(SELECT * FROM IncomeDataTable WHERE Name = \"%@\" AND Amount < 0)", name, amount, duration, name];
+            insertSQL = [NSString stringWithFormat:@"INSERT INTO IncomeDataTable(Name, Amount, Duration, Category) SELECT \"%@\", \"%f\", \"%@\", \"%@\" WHERE NOT EXISTS(SELECT * FROM IncomeDataTable WHERE Name = \"%@\" AND Amount < 0)", name, amount, duration, category, name];
         }
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, &errorMsg);
@@ -111,6 +111,8 @@ static sqlite3_stmt *statement = nil;
                                   (const char *) sqlite3_column_text(statement, 2)] doubleValue];
                 income.duration = [[NSString alloc]initWithUTF8String:
                                    (const char *) sqlite3_column_text(statement, 3)];
+                income.category =[[NSString alloc]initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 4)];
                 [resultArray addObject:income];
             }
             sqlite3_reset(statement);
@@ -141,6 +143,8 @@ static sqlite3_stmt *statement = nil;
                                   (const char *) sqlite3_column_text(statement, 2)] doubleValue];
                 income.duration = [[NSString alloc]initWithUTF8String:
                                    (const char *) sqlite3_column_text(statement, 3)];
+                income.category =[[NSString alloc]initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 4)];
                 [resultArray addObject:income];
             }
             sqlite3_reset(statement);
@@ -158,7 +162,7 @@ static sqlite3_stmt *statement = nil;
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         //NSString *querySQL = [NSString stringWithFormat:@"update  from IncomeDataTable where ID=\"%d\"", pkey];
-        NSString *updateSQL = [NSString stringWithFormat:@"UPDATE IncomeDataTable SET Name = \"%@\", Amount = %0.2f, Duration = \"%@\" WHERE ID = \"%d\";", incomeObj.name, incomeObj.amount, incomeObj.duration, incomeObj.incomeID];
+        NSString *updateSQL = [NSString stringWithFormat:@"UPDATE IncomeDataTable SET Name = \"%@\", Amount = %0.2f, Duration = \"%@\", Category = \"%@\" WHERE ID = \"%d\";", incomeObj.name, incomeObj.amount, incomeObj.duration, incomeObj.category, incomeObj.incomeID];
         const char *query_stmt = [updateSQL UTF8String];
         char * errMsg;
         
@@ -194,6 +198,33 @@ static sqlite3_stmt *statement = nil;
     }
     sqlite3_reset(statement);
     return toReturn;
+}
+-(NSMutableArray *)returnExistingCategoryAmount: (NSString *) type {
+    NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *querySQL;
+        if ([type isEqualToString:@"income"]) {
+            querySQL= [NSString stringWithFormat:@"select Category from IncomeDataTable where Amount > 0 group by Category"];
+        } else if([type isEqualToString:@"expense"]){
+            querySQL= [NSString stringWithFormat:@"select Category from IncomeDataTable where Amount < 0 group by Category"];
+        }
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSDictionary *dictionary = [[NSDictionary alloc] init];
+                [dictionary setValue:nil forKey:[[NSString alloc] initWithUTF8String:
+                                                 (const char *) sqlite3_column_text(statement, 0)]];
+                [dataArray addObject:dictionary];
+            }
+        }
+        
+    }
+    sqlite3_reset(statement);
+    return dataArray;
 }
 
 @end

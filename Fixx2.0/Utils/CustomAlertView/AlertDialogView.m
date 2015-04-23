@@ -71,7 +71,7 @@ UFDialogSynth(highlightedIndex)
     return [[self alloc] initWithView:hostView];
 }
 
-- (id)initWithView:(UIView *)hostView {
+- (instancetype)initWithView:(UIView *)hostView {
     self = [super initWithFrame:[self defaultDialogFrame]];
     if (self) {
         self.batchDelay = 0;
@@ -116,7 +116,7 @@ UFDialogSynth(highlightedIndex)
 }
 
 - (void)keyboardWillShow:(NSNotification *)note {
-    NSValue *value = [[note userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
+    NSValue *value = [note userInfo][UIKeyboardFrameEndUserInfoKey];
     CGRect frame = [value CGRectValue];
     
     [self adjustToKeyboardBounds:frame];
@@ -327,7 +327,7 @@ UFDialogSynth(highlightedIndex)
                                            layoutWidth,
                                            kUFDialogTextFieldHeight-7);
             
-            UITextField *field = [self.textFields objectAtIndex:i];
+            UITextField *field = (self.textFields)[i];
             field.frame = fieldFrame;
             field.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
             field.layer.shadowColor=[UIColor blackColor].CGColor;
@@ -363,7 +363,7 @@ UFDialogSynth(highlightedIndex)
 			//            CGFloat left = (kUFDialogPadding + buttonWidth) * (CGFloat)i;
             CGFloat left = buttonWidth * (CGFloat)i;
             
-            UIButton *button = [self.buttons objectAtIndex:i];
+            UIButton *button = (self.buttons)[i];
             CGRect buttonFrame = CGRectIntegral(CGRectMake(left, CGRectGetMinY(layout.buttonRect), buttonWidth, CGRectGetHeight(layout.buttonRect)));
             button.frame = buttonFrame;
             button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
@@ -578,7 +578,7 @@ UFDialogSynth(highlightedIndex)
     [self.buttons addObject:button];
 }
 - (NSString *)textForTextFieldAtIndex:(NSUInteger)index {
-    UITextField *field = [self.textFields objectAtIndex:index];
+    UITextField *field = (self.textFields)[index];
     return [field text];
 }
 
@@ -635,13 +635,13 @@ UFDialogSynth(highlightedIndex)
     //UFDialogAssertMQ();
     SEL selector = @selector(showOrUpdateAnimatedInternal:);
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:selector object:nil];
-    [self performSelector:selector withObject:[NSNumber numberWithBool:flag] afterDelay:self.batchDelay];
+    [self performSelector:selector withObject:@(flag) afterDelay:self.batchDelay];
 }
 - (void)showOrUpdateAnimated:(BOOL)flag autoHide:(BOOL)autoHidden {
     //UFDialogAssertMQ();
     SEL selector = @selector(showOrUpdateAnimatedInternal:);
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:selector object:nil];
-    [self performSelector:selector withObject:[NSNumber numberWithBool:flag] afterDelay:self.batchDelay];
+    [self performSelector:selector withObject:@(flag) afterDelay:self.batchDelay];
     
     [self hideAnimated:YES afterDelay:TIME_INTERVAL_AUTO_HIDE];
 }
@@ -674,7 +674,7 @@ UFDialogSynth(highlightedIndex)
     
     SEL selector = @selector(hideAnimated:);
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:selector object:nil];
-    [self performSelector:selector withObject:[NSNumber numberWithBool:flag] afterDelay:delay];
+    [self performSelector:selector withObject:@(flag) afterDelay:delay];
 }
 - (void)drawDialogBackgroundInRect:(CGRect)rect {
     CGRect boxRect = CGRectInset(CGRectIntegral(self.bounds), kUFDialogFrameInset+kUFDialogPadding, kUFDialogFrameInset+kUFDialogPadding);
@@ -714,11 +714,10 @@ UFDialogSynth(highlightedIndex)
     UIColor* whiteBottom = [UIColor colorWithWhite:1.0 alpha:0.0];
     
     // Gradient declarations
-    NSArray* gradientColors = [NSArray arrayWithObjects:
-                               (id)whiteTop.CGColor,
+    NSArray* gradientColors = @[(id)whiteTop.CGColor,
                                (id)whiteMiddle.CGColor,
                                (id)whiteBottom.CGColor,
-                               (id)whiteBottom.CGColor, nil];
+                               (id)whiteBottom.CGColor];
     CGFloat gradientLocations[] = {0, 0.5, 0.5, 1};
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -855,9 +854,8 @@ UFDialogSynth(highlightedIndex)
     UIColor *black50 = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
     
     // Gradient Declarations
-    NSArray *gradientColors = [NSArray arrayWithObjects:
-                               (id)[UIColor whiteColor].CGColor,
-                               (id)grey.CGColor, nil];
+    NSArray *gradientColors = @[(id)[UIColor whiteColor].CGColor,
+                               (id)grey.CGColor];
     CGFloat gradientLocations[] = {0, 1};
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
     
@@ -987,10 +985,7 @@ UFDialogSynth(highlightedIndex)
     //    UIColor *greyOuter = [UIColor colorWithWhite:0.0 alpha:0.2];
     
     // Gradient Declarations
-    NSArray* gradientColors = [NSArray arrayWithObjects:
-                               //(id)greyOuter.CGColor,
-                               (id)greyInner.CGColor,
-                               nil];
+    NSArray* gradientColors = @[(id)greyInner.CGColor];
     CGFloat gradientLocations[] = {0, 1};
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
     
@@ -1054,7 +1049,7 @@ UFDialogSynth(highlightedIndex)
     int count=[self.textFields count];
     if(count>0 && [self.title isEqualToString:@"Forgot Password"])
     {
-        UITextField *field=[self.textFields objectAtIndex:0];
+        UITextField *field=(self.textFields)[0];
         [field becomeFirstResponder];
     }
     
@@ -1101,7 +1096,7 @@ UFDialogSynth(highlightedIndex)
     NSUInteger count = self.textFields.count;
     
     if (index < (count - 1)) {
-        UITextField *nextField = [self.textFields objectAtIndex:index + 1];
+        UITextField *nextField = (self.textFields)[index + 1];
         [nextField becomeFirstResponder];
     } else {
 		// [textField resignFirstResponder];
@@ -1111,7 +1106,7 @@ UFDialogSynth(highlightedIndex)
     int c1=[self.textFields count];
     if(c1>0 && [self.title isEqualToString:@"Forgot Password"])
     {
-        UITextField *field=[self.textFields objectAtIndex:0];
+        UITextField *field=(self.textFields)[0];
         if([_delegate respondsToSelector:@selector(alertDialogTextFieldShouldReturn:)])
             [_delegate performSelector:@selector(alertDialogTextFieldShouldReturn:) withObject:field];
     }

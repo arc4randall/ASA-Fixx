@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceHandler.h"
 #import "XYPieChart.h"
+#import "FPPopoverKeyboardResponsiveController.h"
 
-@interface HomeDashboardViewController : UIViewController <WebServiceHandlerDelegate, XYPieChartDelegate, XYPieChartDataSource>
+@interface HomeDashboardViewController : UIViewController <WebServiceHandlerDelegate, XYPieChartDelegate, XYPieChartDataSource> {
+    FPPopoverKeyboardResponsiveController *popover;
+    CGFloat _keyboardHeight;
+}
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *timeFrameSegmentedControl;
 

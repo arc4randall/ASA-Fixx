@@ -9,15 +9,16 @@
 #import "AddNewIncomeViewController.h"
 #import "OnboardIncomeViewController.h"
 #import "DBManager.h"
+#import "GlobalManager.h"
 
-@interface AddNewIncomeViewController () <UITextFieldDelegate>{
-    
+@interface AddNewIncomeViewController () <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
+
 }
+@property(nonatomic, strong) UIToolbar *pickerToolBar;
 @end
-
 @implementation AddNewIncomeViewController
 @synthesize incomeBoardController, popover;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -27,7 +28,7 @@
     return self;
 }
 
--(id)initWithFrame:(CGRect)frame{
+-(instancetype)initWithFrame:(CGRect)frame{
     self = [super init];
     if (self) {
         self.view.frame = frame;
@@ -40,20 +41,47 @@
     [super viewDidLoad];
     
     //LAYOUT ARRANGEMENT
-    self.timeFrameSegmentedControl.frame = CGRectMake(self.view.frame.size.width / 12, self.view.frame.size.height / 12, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.timeFrameSegmentedControl.frame = CGRectMake(-5,0,self.view.frame.size.width * 0.81, self.view.frame.size.height * 0.10);
     self.timeFrameSegmentedControl.tintColor = [UIColor blackColor];
     
-    self.earningAmountTextField.frame = CGRectMake(self.view.frame.size.width / 12,(self.view.frame.size.height /12) * 3, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.earningAmountTextField.frame = CGRectMake(self.view.frame.size.width / 12 + 15,(self.view.frame.size.height /12 - 10) * 3, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
     [self.earningAmountTextField setKeyboardType:UIKeyboardTypeNumberPad];
     
-    self.nameOfFixxTextField.frame = CGRectMake(self.view.frame.size.width / 12,(self.view.frame.size.height / 12) * 4, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.nameOfFixxTextField.frame = CGRectMake(self.view.frame.size.width / 12 + 15,(self.view.frame.size.height / 12) * 4, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
     
-    self.saveButton.frame = CGRectMake(self.view.frame.size.width / 12,(self.view.frame.size.height / 12) * 6, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.saveButton.frame = CGRectMake(self.view.frame.size.width / 12 + 15,(self.view.frame.size.height / 12) * 6, self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+    self.saveButton.tintColor = [UIColor blackColor];
     
+    if (self.incomeBoardController.isExpenseController) {
+        self.nameOfFixxTextField.placeholder = @"Expense Source";
+    }
+    
+    self.categoryTextField.frame = CGRectMake(-5,50,self.view.frame.size.width * 0.70, self.view.frame.size.height * 0.08);
+
+    //initialize pickerview
+    [self createPickerView];
     NSLog(@"The income popover is about to load...");
     // Do any additional setup after loading the view from its nib.
 }
-
+-(void) createPickerView {
+    _categoryPicker = [[UIPickerView alloc] init];
+    _categoryPicker.delegate = self;
+    _categoryPicker.dataSource = self;
+    
+    _pickerToolBar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,320,44)];
+    [_pickerToolBar setBarStyle:UIBarStyleBlackOpaque];
+    UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(changeFromLabel)];
+    UIBarButtonItem *flexiblePlaceHolder = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    barButtonDone.tintColor=[UIColor blackColor];
+    [_pickerToolBar setItems:[NSArray arrayWithObjects:flexiblePlaceHolder, barButtonDone, nil]];
+    self.categoryTextField.inputAccessoryView = _pickerToolBar;
+    
+}
+-(void)changeFromLabel{
+    // do dismiss here.
+    NSLog(@"done clicked");
+    [self.categoryTextField resignFirstResponder];
+}
 #pragma mark IBAction Method
 - (IBAction)segmentedControlValueChanged:(id)sender {
     if(self.timeFrameSegmentedControl.selectedSegmentIndex == 0){
@@ -66,10 +94,8 @@
         NSLog(@"Yearly Selected");
         //Yearly cashflow formula
     }
-
 }
 - (IBAction)saveButtonPressed:(id)sender {
-
     NSString* durationString = [[NSString alloc] init];
     switch (self.timeFrameSegmentedControl.selectedSegmentIndex) {
         case 0:
@@ -94,19 +120,57 @@
     }
     savedIncome.amount = amount;
     savedIncome.duration = durationString;
-    
-    if ([[DBManager getSharedInstance]saveDataWithName:savedIncome.name Amount:savedIncome.amount Duration:savedIncome.duration]) {
+    savedIncome.category = self.categoryTextField.text;
+    if ([[DBManager getSharedInstance]saveDataWithName:savedIncome.name Amount:savedIncome.amount Duration:savedIncome.duration Category:savedIncome.category]) {
         [self.incomeBoardController.incomeObjectArray addObject:savedIncome];
         [self.popover dismissPopoverAnimated:YES];
         [self.incomeBoardController viewWillAppear:YES];
     } else {
         NSLog(@"adding is not successful.");
     }
-    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.earningAmountTextField resignFirstResponder];
     [self.nameOfFixxTextField resignFirstResponder];
+}
+
+#pragma mark UITextField Methods
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField == self.categoryTextField){
+        self.categoryTextField.inputView = _categoryPicker;
+        
+    }
+    textField.placeholder = nil;
+}
+
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    textField.placeholder = @"Your Placeholdertext";
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [[[GlobalManager sharedManager]incomeCategoryArray] count];
+}
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [[[GlobalManager sharedManager]incomeCategoryArray] objectAtIndex:row];
+}
+
+//-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+//{
+//    return 100;
+//}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    self.categoryTextField.text = [[GlobalManager sharedManager]incomeCategoryArray][row];
 }
 @end

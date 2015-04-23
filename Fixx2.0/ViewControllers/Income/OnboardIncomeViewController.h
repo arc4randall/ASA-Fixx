@@ -14,7 +14,7 @@
     FPPopoverKeyboardResponsiveController *popover;
     CGFloat _keyboardHeight;
 }
--(id)initAsExpenseController:(BOOL)expenseController;
+-(instancetype)initAsExpenseController:(BOOL)expenseController NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic,retain) IBOutlet UILabel *lblUpperText,*lblLowerText;
 @property (nonatomic, retain) IBOutlet UITableView *incomeTableView;

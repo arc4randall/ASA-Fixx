@@ -242,7 +242,7 @@
 //    else if ([urlStr rangeOfString:@"be/"].location!= NSNotFound){
 //        videoURLSplit = [urlStr componentsSeparatedByString:@"be/"];
 //    }
-    NSString *videoID = [[videoURLSplit objectAtIndex:1] substringToIndex:11];
+    NSString *videoID = [videoURLSplit[1] substringToIndex:11];
     
     NSString * youTubeVideoFrameUrl = [NSString stringWithFormat:@"http://i.ytimg.com/vi/%@/1.jpg",videoID];
     return youTubeVideoFrameUrl;

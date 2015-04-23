@@ -35,7 +35,7 @@ static SharedData * objAppSharedData;
 @synthesize str_IsComingFrmAttachGPlusTrue = _str_ISComingFrmAttachGPlusTrue;
 @synthesize strTakeTheTourOn = _strTakeTheTourOn;
 @synthesize str_DeviceId = _str_DeviceId;
--(id)init
+-(instancetype)init
 {
     if (objAppSharedData) {
         return objAppSharedData;
@@ -112,20 +112,20 @@ static SharedData * objAppSharedData;
         dic=[NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)[userdefaults objectForKey:@"USER_DATA"]];
     if(dic)
     {
-        NSString *profileImage=[dic objectForKey:@"PROFILE_IMAGE"];
+        NSString *profileImage=dic[@"PROFILE_IMAGE"];
         if ([strUrl isEqualToString:profileImage]) {
         }
         else
         {
             //update url and save image into directory.
-            [dic setObject:strUrl forKey:@"PROFILE_IMAGE"];
+            dic[@"PROFILE_IMAGE"] = strUrl;
             [self saveFileWithUrl:strUrl];
         }
     }
     else
     {
         dic=[[NSMutableDictionary alloc]init];
-        [dic setObject:strUrl forKey:@"PROFILE_IMAGE"];
+        dic[@"PROFILE_IMAGE"] = strUrl;
         [self saveFileWithUrl:strUrl];
         
     }
@@ -135,7 +135,7 @@ static SharedData * objAppSharedData;
 -(void)saveFileWithUrl:(NSString *)strUrl
 {
     NSArray* path = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
-    NSString* docPath = [path objectAtIndex:0];
+    NSString* docPath = path[0];
     docPath = [docPath stringByAppendingPathComponent:@"ProfileImage.png"];
     UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL fileURLWithPath:strUrl]]];
     NSData* imgData = UIImagePNGRepresentation(image);
@@ -189,11 +189,11 @@ static SharedData * objAppSharedData;
 -(void)webServiceHandler:(WebserviceHandler *)webHandler recievedResponse:(NSDictionary *)dicResponse
 {
     NSLog(@"dicResponse:-%@",dicResponse );
-    if([[[dicResponse allKeys] objectAtIndex:0] isEqualToString:@"UploadImage"])
+    if([[dicResponse allKeys][0] isEqualToString:@"UploadImage"])
     {
-        if([[[dicResponse objectForKey:@"UploadImage"] objectForKey:@"Status"] integerValue] != 0)
+        if([dicResponse[@"UploadImage"][@"Status"] integerValue] != 0)
         {
-            NSLog(@"image:-%@",[[dicResponse objectForKey:@"UploadImage"] objectForKey:@"Data"]);
+            NSLog(@"image:-%@",dicResponse[@"UploadImage"][@"Data"]);
             [[NSNotificationCenter defaultCenter]postNotification:[NSNotification notificationWithName:@"ImageUploadedSuccessfully" object:nil]];
 
         }

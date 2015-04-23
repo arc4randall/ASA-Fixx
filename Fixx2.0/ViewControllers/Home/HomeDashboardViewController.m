@@ -9,14 +9,15 @@
 #import "HomeDashboardViewController.h"
 #import "MMDrawerBarButtonItem.h"
 #import "UIViewController+MMDrawerController.h"
-#import "CustomAlertView.h"
 #import "AppLoader.h"
 #import "XYPieChart.h"
 #import "DBManager.h"
 #import "Income.h"
+#import "PieChartPopoverViewController.h"
+#import "FPPopoverKeyboardResponsiveController.h"
 
 @interface HomeDashboardViewController () {
-    CustomAlertView *alertView;
+    PieChartPopoverViewController *objPieChartPopoverViewController;
     AppLoader *appLoader;
     UIButton *btnSliderLeft;
     NSMutableArray* incomeObjectArray;
@@ -29,7 +30,7 @@
 @synthesize incomeObjectArray;
 @synthesize expenseObjectArray;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -40,6 +41,7 @@
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
     [self prepareLayout];
     [self trackEvent:[WTEvent eventForScreenView:@"Home Dashboard" eventDescr:@"Landing On screen" eventType:@"" contentGroup:@""]];
@@ -49,11 +51,11 @@
     CGFloat screenHeight = screenRect.size.height;
     self.slices = [[NSMutableArray alloc] init];
     self.timeFrameSegmentedControl.tintColor = [UIColor blackColor];
+    self.timeFrameSegmentedControl.frame = CGRectMake(0, 0, screenWidth, screenHeight / 10);
     
     // XYPieChart Setup
     
-    self.sliceColors =[NSArray arrayWithObjects:
-                       [UIColor redColor],
+    self.sliceColors =@[[UIColor redColor],
                        [UIColor colorWithRed:246/255.0 green:155/255.0 blue:0/255.0 alpha:1],
                        [UIColor blueColor],
                        [UIColor colorWithRed:129/255.0 green:195/255.0 blue:29/255.0 alpha:1],
@@ -62,7 +64,7 @@
                        [UIColor purpleColor],
                        [UIColor colorWithRed:229/255.0 green:66/255.0 blue:115/255.0 alpha:1],
                        [UIColor orangeColor],
-                       [UIColor colorWithRed:148/255.0 green:141/255.0 blue:139/255.0 alpha:1],nil];
+                       [UIColor colorWithRed:148/255.0 green:141/255.0 blue:139/255.0 alpha:1]];
     
     if (!_incomePieChart)
     {
@@ -75,11 +77,18 @@
         
         self.incomeObjectArray = [[DBManager getSharedInstance] getAllIncome];
         self.slices = [[NSMutableArray alloc] init];
-        
+
         for(Income* income in self.incomeObjectArray)
         {
-            NSNumber *one = [NSNumber numberWithInt:income.amount];
+            float multiplier = 1;
+            if ([income.duration isEqualToString:@"Weekly"]) {
+                multiplier = 52.0;
+            } else if ([income.duration isEqualToString:@"Monthly"]) {
+                multiplier = 12;
+            }
+            NSNumber* one = @(income.amount * multiplier);
             [_slices addObject:one];
+            
         }
         [self.incomePieChart reloadData];
     }
@@ -109,10 +118,7 @@
     self.expensePieChart.userInteractionEnabled = YES;
     self.incomePieChartView.userInteractionEnabled = YES;
     self.expensePieChartView.userInteractionEnabled = YES;
-    
-//    UITapGestureRecognizer *genericGraphTap = [[UITapGestureRecognizer alloc]
-//                                               initWithTarget:self action:@selector(handleGesture:)];
-//    [self.navigationController.view addGestureRecognizer:genericGraphTap];
+
     
     appDelegate.sectionSelect = 0;
     
@@ -140,7 +146,7 @@
         totalIncome += income.amount * multiplier;
     }
     self.lblEarnValue.text = [NSString stringWithFormat:@"$%.2f",totalIncome];
-    
+
     double totalExpense = 0.0;
     for (Income* expense in self.expenseObjectArray) {
         float multiplier = 1;
@@ -198,8 +204,6 @@
     [titleLogo setImage:[UIImage imageNamed:@"top_logo.png"]];
     [self.navigationItem setTitleView:titleLogo];
     
-    alertView = [CustomAlertView initAlertView];
-    
     appLoader = [AppLoader initLoaderView];
     
 }
@@ -236,55 +240,6 @@
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:NO completion:nil];
 }
 
-#pragma mark - Webservice
-- (void)webServiceHandler:(WebserviceHandler *)webHandler recievedResponse:(NSDictionary *)dicResponse
-{
-    //NSLog(@"login reponse %@",dicResponse);
-    [appLoader stopActivityLoader];
-    
-    if ([dicResponse objectForKey:@"Error"]) {
-        [alertView displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:[ [dicResponse objectForKey:@"Error" ] objectForKey:@"message"]withButtonTitle:@"OK" withOtherButtonTitle:Nil];
-    } else if ([[dicResponse objectForKey:@"status"] integerValue] == 200 && [dicResponse objectForKey:@"Informational"]) {
-        NSMutableArray *arrAllTipsNotifications = [[NSMutableArray alloc] init];
-        NSMutableArray *arrActionable = [dicResponse objectForKey:@"Actionable"];
-        NSMutableArray *arrInformational = [dicResponse objectForKey:@"Informational"];
-        //Add all Actionable and Informational
-        for (int i=0; i<[arrActionable count]; i++) {
-            NSMutableDictionary *tmp = [arrActionable objectAtIndex:i];
-            [tmp setValue:@"Actionable" forKey:@"type"];
-            [arrActionable replaceObjectAtIndex:i withObject:tmp];
-            [arrAllTipsNotifications addObject:[arrActionable objectAtIndex:i]];
-        }
-        for (int i=0; i<[arrInformational count]; i++) {
-            NSMutableDictionary *tmp = [arrInformational objectAtIndex:i];
-            [tmp setValue:@"Informational" forKey:@"type"];
-            [arrInformational replaceObjectAtIndex:i withObject:tmp];
-            [arrAllTipsNotifications addObject:[arrInformational objectAtIndex:i]];
-        }
-        
-        if ([arrAllTipsNotifications count]!=0) {
-            //Display Highest Tips
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"priority"
-                                                         ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            NSArray *sortedArray;
-            sortedArray = [arrAllTipsNotifications sortedArrayUsingDescriptors:sortDescriptors];
-            arrAllTipsNotifications = [NSMutableArray arrayWithArray:sortedArray];
-        }
-            if ([[dicResponse objectForKey:@"status"] integerValue] == 200 && [dicResponse objectForKey:@"summary"]) {
-          [self performSelector:@selector(callWebService_GetHighestPriorityTip) withObject:nil afterDelay:0.0];
-            }
-        if (![[dicResponse objectForKey:@"summary"] isEqual:[NSNull null]] && [[dicResponse objectForKey:@"summary"] count]!=0) {
-    
-            
-        } else {
-            [alertView displayAlertViewWithView:self.view withTitle:@"Fixx" withMessage:@"Summary not available for this period" withButtonTitle:@"OK" withOtherButtonTitle:@""];
-           //ShowAlert(@"Fixx", @"Summary not available for this period")
-        }
-    }
-}
-
 #pragma mark - XYPieChart Data Source
 
 - (NSUInteger)numberOfSlicesInPieChart:(XYPieChart *)pieChart
@@ -294,12 +249,12 @@
 
 - (CGFloat)pieChart:(XYPieChart *)pieChart valueForSliceAtIndex:(NSUInteger)index
 {
-    return [[self.slices objectAtIndex:index] intValue];
+    return [(self.slices)[index] intValue];
 }
 
 - (UIColor *)pieChart:(XYPieChart *)pieChart colorForSliceAtIndex:(NSUInteger)index
 {
-    return [self.sliceColors objectAtIndex:(index % self.sliceColors.count)];
+    return (self.sliceColors)[(index % self.sliceColors.count)];
 }
 
 #pragma mark - XYPieChart Delegate
@@ -318,32 +273,42 @@
 - (void)pieChart:(XYPieChart *)pieChart didSelectSliceAtIndex:(NSUInteger)index
 {
     NSLog(@"did select slice at index %lu",(unsigned long)index);
-    //self.selectedSliceLabel.text = [NSString stringWithFormat:@"$%@",[self.slices objectAtIndex:index]];
 
 }
 
-#pragma mark - UIGestureRecognizers
-
-- (void)handleGesture:(UITapGestureRecognizer *)gestureRecognizer
+-(void)didSelectPieChart:(NSString*)pieChartType
 {
-    CGPoint p = [gestureRecognizer locationInView:self.navigationController.view];
-    NSLog(@"Selected point at: %@",NSStringFromCGPoint(p));
-    
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    CGFloat screenHeight = screenRect.size.height;
-    
-    //CGRect incomeRect = CGRectMake(0, screenHeight - (screenWidth / 2), screenWidth / 2, screenWidth/2);
-    CGRect incomeRect = CGRectMake(0, screenHeight - (screenWidth / 2), screenWidth / 2, screenWidth/2);
-    CGRect expenseRect = CGRectMake(screenWidth / 2,screenHeight - (screenWidth / 2), screenWidth / 2, screenWidth/2);
-   
-    if (CGRectContainsPoint(incomeRect, p)) {
-        NSLog(@"Did select Income Pie Chart");
-    } else if (CGRectContainsPoint(expenseRect, p)) {
-        NSLog(@"Did select Expense Pie Chart");
-    }
-}
+    NSLog(@"Did select Expense Pie Chart");
+    SAFE_ARC_RELEASE(popover); popover = nil;
 
+    //the controller we want to present as a popover
+    if ([pieChartType isEqualToString:@"Expense"]) {
+        objPieChartPopoverViewController = [[PieChartPopoverViewController alloc] initWithType:@"Expense"];
+        objPieChartPopoverViewController.title = @"Expense Summary";
+            } else {
+        objPieChartPopoverViewController = [[PieChartPopoverViewController alloc] initWithType:@"Income"];
+        objPieChartPopoverViewController.title = @"Income Summary";
+    }
+    
+    popover = [[FPPopoverKeyboardResponsiveController alloc] initWithViewController:objPieChartPopoverViewController];
+    popover.tint = FPPopoverDefaultTint;
+    popover.keyboardHeight = _keyboardHeight;
+
+    popover.border = NO;
+
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+    popover.contentSize = CGSizeMake(self.view.frame.size.width * 0.85, self.view.frame.size.height * 0.80);
+    } else {
+    popover.contentSize = CGSizeMake(self.view.frame.size.width * 0.85, self.view.frame.size.height * 0.80);
+    }
+    popover.arrowDirection = FPPopoverNoArrow;
+
+    [popover presentPopoverFromPoint: CGPointMake(self.view.center.x, self.view.center.y - popover.contentSize.height * 0.9)];
+    objPieChartPopoverViewController.incomeBoardController = self;
+    objPieChartPopoverViewController.popover = popover;
+    objPieChartPopoverViewController.sliceColors = self.sliceColors;
+}
 
 -(void)didReceiveMemoryWarning
 {
@@ -396,5 +361,24 @@
     
     self.lblAvgBalance.text = [NSString stringWithFormat:@"$%.2f",avgBalance];
 }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"TOUCHES BEGAN!");
+    UITouch* touch = [touches anyObject];
+    
+    CGPoint point = [touch locationInView:self.graphContainer];
+    NSLog(@"point: (%f,%f)",point.x,point.y);
+
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
+    if (point.x > 0 && point.x < (screenWidth / 2) && point.y > 0 && point.y < screenHeight - (screenWidth / 2)) {
+        [self didSelectPieChart:@"Income"];
+    } else if (point.x > screenWidth / 2 && point.x < screenWidth && point.y > 0 && point.y < screenHeight - (screenWidth / 2)) {
+        [self didSelectPieChart:@"Expense"];
+    }
+}
+
 @end
 

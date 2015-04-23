@@ -31,12 +31,12 @@
 // You can turn on ARC for only AFNetworking files by adding -fobjc-arc to the build phase for each of its files.
 #endif
 
-typedef enum {
+typedef NS_ENUM(NSInteger, _AFOperationState) {
     AFOperationPausedState      = -1,
     AFOperationReadyState       = 1,
     AFOperationExecutingState   = 2,
     AFOperationFinishedState    = 3,
-} _AFOperationState;
+} ;
 
 typedef signed short AFOperationState;
 
@@ -194,7 +194,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     return _pinnedCertificates;
 }
 
-- (id)initWithRequest:(NSURLRequest *)urlRequest {
+- (instancetype)initWithRequest:(NSURLRequest *)urlRequest {
     self = [super init];
     if (!self) {
 		return nil;
@@ -487,7 +487,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 - (void)cancelConnection {
     NSDictionary *userInfo = nil;
     if ([self.request URL]) {
-        userInfo = [NSDictionary dictionaryWithObject:[self.request URL] forKey:NSURLErrorFailingURLErrorKey];
+        userInfo = @{NSURLErrorFailingURLErrorKey: [self.request URL]};
     }
     self.error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:userInfo];
 
@@ -560,7 +560,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
             if (user && password) {
                 credential = [NSURLCredential credentialWithUser:user password:password persistence:NSURLCredentialPersistenceNone];
             } else if (user) {
-                credential = [[[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:[challenge protectionSpace]] objectForKey:user];
+                credential = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:[challenge protectionSpace]][user];
             } else {
                 credential = [[NSURLCredentialStorage sharedCredentialStorage] defaultCredentialForProtectionSpace:[challenge protectionSpace]];
             }
@@ -680,7 +680,7 @@ didReceiveResponse:(NSURLResponse *)response
 
 #pragma mark - NSCoding
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSURLRequest *request = [aDecoder decodeObjectForKey:@"request"];
 
     self = [self initWithRequest:request];
@@ -717,7 +717,7 @@ didReceiveResponse:(NSURLResponse *)response
     [aCoder encodeObject:self.response forKey:@"response"];
     [aCoder encodeObject:self.error forKey:@"error"];
     [aCoder encodeObject:self.responseData forKey:@"responseData"];
-    [aCoder encodeObject:[NSNumber numberWithLongLong:self.totalBytesRead] forKey:@"totalBytesRead"];
+    [aCoder encodeObject:@(self.totalBytesRead) forKey:@"totalBytesRead"];
 }
 
 #pragma mark - NSCopying

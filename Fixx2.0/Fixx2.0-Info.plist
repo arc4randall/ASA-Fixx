@@ -17,7 +17,7 @@
 		<string>icon-120.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>org.asa.fixx</string>
+	<string>org.saltmoney.fixx3</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -28,8 +28,21 @@
 	<string>4.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb689509451158970</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>4.1</string>
+	<key>FacebookAppID</key>
+	<string>689509451158970</string>
+	<key>FacebookDisplayName</key>
+	<string>Fixx 3.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

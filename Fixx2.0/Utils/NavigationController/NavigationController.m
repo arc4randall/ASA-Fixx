@@ -27,7 +27,7 @@
 
 @implementation NavigationController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -40,7 +40,7 @@
 {
     [super viewDidLoad];
     NSArray *ver = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
-    if ([[ver objectAtIndex:0] intValue] >= 7) {
+    if ([ver[0] intValue] >= 7) {
         self.navigationBar.barTintColor = [UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:0.3f];
         self.navigationBar.translucent = NO;
         [self.navigationBar setFrame:CGRectMake(0, 0, 320, 50)];

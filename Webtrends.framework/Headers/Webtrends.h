@@ -138,57 +138,57 @@
 
 //Programmatic config
 - (BOOL) set_WT_DC_DCSID: (NSString*) dcsid andPersist: (BOOL) persist;
-- (NSString*) WT_DC_DCSID;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *WT_DC_DCSID;
 
 - (BOOL) set_WT_DC_URL: (NSString*) dcurl andPersist: (BOOL) persist;
-- (NSString*) WT_DC_URL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *WT_DC_URL;
 
 - (BOOL) set_WT_DC_QUEUE_PAUSED_ONSTARTUP:(BOOL) paused andPersist: (BOOL) persist;
-- (BOOL) WT_DC_QUEUE_PAUSED_ONSTARTUP;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL WT_DC_QUEUE_PAUSED_ONSTARTUP;
 
 - (BOOL) set_WT_DC_USE_UNCAUGHT_EXCEPTION_HANDLER:(BOOL) useHandler andPersist: (BOOL) persist;
-- (BOOL) WT_DC_USE_UNCAUGHT_EXCEPTION_HANDLER;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL WT_DC_USE_UNCAUGHT_EXCEPTION_HANDLER;
 
 - (BOOL) set_WT_DC_SESSION_TIMEOUT:(int) timeout andPersist: (BOOL) persist;
-- (BOOL) WT_DC_SESSION_TIMEOUT;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL WT_DC_SESSION_TIMEOUT;
 
 - (BOOL) set_WT_DC_SESSION_MAXIMUM:(int) max andPersist: (BOOL) persist;
-- (int) WT_DC_SESSION_MAXIMUM;
+@property (NS_NONATOMIC_IOSONLY, readonly) int WT_DC_SESSION_MAXIMUM;
 
 - (BOOL) set_WT_DC_TIMEZONE:(int) tz andPersist: (BOOL) persist;
-- (int) WT_DC_TIMEZONE;
+@property (NS_NONATOMIC_IOSONLY, readonly) int WT_DC_TIMEZONE;
 
 - (BOOL) set_WT_DC_APP_CATEGORY: (NSString*) appCat andPersist: (BOOL) persist;
-- (NSString*) WT_DC_APP_CATEGORY;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *WT_DC_APP_CATEGORY;
 
 - (BOOL) set_WT_DC_APP_NAME: (NSString*) appName andPersist: (BOOL) persist;
-- (NSString*) WT_DC_APP_NAME;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *WT_DC_APP_NAME;
 
 - (BOOL) set_WT_DC_APP_PUBLISHER: (NSString*) appPub andPersist: (BOOL) persist;
-- (NSString*) WT_DC_APP_PUBLISHER;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *WT_DC_APP_PUBLISHER;
 
 - (BOOL) set_WT_DC_APP_VERSION: (NSString*) appVersion andPersist: (BOOL) persist;
-- (NSString*) WT_DC_APP_VERSION;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *WT_DC_APP_VERSION;
 
 - (BOOL) set_WT_DC_EVENT_TABLE_SIZE_MAXIMUM:(int) size andPersist: (BOOL) persist;
-- (int) WT_DC_EVENT_TABLE_SIZE_MAXIMUM;
+@property (NS_NONATOMIC_IOSONLY, readonly) int WT_DC_EVENT_TABLE_SIZE_MAXIMUM;
 
 - (BOOL) set_WT_DC_EVENT_RETRY_MAXIMUM:(int) count andPersist: (BOOL) persist;
-- (int) WT_DC_EVENT_RETRY_MAXIMUM;
+@property (NS_NONATOMIC_IOSONLY, readonly) int WT_DC_EVENT_RETRY_MAXIMUM;
 
 - (BOOL) set_WT_DC_CHARGE_THRESHOLD_MINIMUM:(int) threshold andPersist: (BOOL) persist;
-- (int) WT_DC_CHARGE_THRESHOLD_MINIMUM;
+@property (NS_NONATOMIC_IOSONLY, readonly) int WT_DC_CHARGE_THRESHOLD_MINIMUM;
 
 - (BOOL) set_WT_DC_ENABLE_BACKGROUND_SEND:(BOOL) bgsend andPersist: (BOOL) persist;
-- (BOOL) WT_DC_ENABLE_BACKGROUND_SEND;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL WT_DC_ENABLE_BACKGROUND_SEND;
 
 - (BOOL) set_WT_DC_DEBUG:(BOOL) debug andPersist: (BOOL) persist;
-- (BOOL) WT_DC_DEBUG;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL WT_DC_DEBUG;
 
 - (BOOL) set_WT_DC_ENABLED:(BOOL) enable andPersist: (BOOL) persist;
-- (BOOL) WT_DC_ENABLED;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL WT_DC_ENABLED;
 
-- (NSString*) WT_DC_ID_METHOD;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *WT_DC_ID_METHOD;
 
 @end // WTEvent
 
@@ -223,7 +223,7 @@
  WTEvent's setValue:forCustomParameter: method.
  
 */
-typedef enum {
+typedef NS_ENUM(NSInteger, WTParameter) {
 	WTParameterApplicationVersion = 0,
 	WTParameterApplicationCategory,
 	WTParameterApplicationName,	
@@ -250,7 +250,7 @@ typedef enum {
 	WTParameterAdImpression,
 	WTParameterSearchPhrase,
 	WTParameterSearchResult
-} WTParameter;
+} ;
 
 /*
  
@@ -258,18 +258,18 @@ typedef enum {
  method. 
  
 */
-typedef enum {
+typedef NS_ENUM(NSInteger, WTLaunchStyle) {
 	WTLaunchStyleFromURL,
 	WTLaunchStyleFromNotification,
 	WTLaunchStyleFromHomeScreen
-} WTLaunchStyle;
+} ;
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, WTVisitorType) {
 	WTUseCustomId,
 	WTUseWebtrendsId,
 	WTUseSystemId
-} WTVisitorType;
+} ;
 
 
 extern NSString *WTDCEventSentNotification; 
@@ -291,8 +291,8 @@ extern NSString *WTDCEventSentNotification;
  NSInternalInconsistencyException will be thrown. The event type is optional.
  
 */
-- (id) initWithEventPath:(NSString*) eventPath eventDescr:(NSString*) eventDescr;
-- (id) initWithEventPath:(NSString*) eventPath eventDescr:(NSString*) eventDescr eventType: (NSString*) eventType;
+- (instancetype) initWithEventPath:(NSString*) eventPath eventDescr:(NSString*) eventDescr;
+- (instancetype) initWithEventPath:(NSString*) eventPath eventDescr:(NSString*) eventDescr eventType: (NSString*) eventType;
 
 #pragma mark -
 #pragma mark WTEvent - Parameter Methods
@@ -484,7 +484,7 @@ DEPRECATED: use eventForScreenView instead
 
 /*
  */
-- (int) descriptionLength;
+@property (NS_NONATOMIC_IOSONLY, readonly) int descriptionLength;
 
 
 #pragma mark -

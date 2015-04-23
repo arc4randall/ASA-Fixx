@@ -57,8 +57,8 @@
 
 /** @brief Initialize the popover with the content view controller
  **/
--(id)initWithViewController:(UIViewController*)viewController;
--(id)initWithViewController:(UIViewController*)viewController
+-(instancetype)initWithViewController:(UIViewController*)viewController;
+-(instancetype)initWithViewController:(UIViewController*)viewController
 				   delegate:(id<FPPopoverControllerDelegate>)delegate;
 
 /** @brief Presenting the popover from a specified view **/

@@ -33,14 +33,14 @@ typedef enum FPPopoverArrowDirection: NSUInteger {
 #define FPPopoverArrowDirectionIsHorizontal(direction)    ((direction) == FPPopoverArrowDirectionHorizontal || (direction) == FPPopoverArrowDirectionLeft || (direction) == FPPopoverArrowDirectionRight)
 #endif
 
-typedef enum {
+typedef NS_ENUM(NSInteger, FPPopoverTint) {
     FPPopoverWhiteTint,
     FPPopoverBlackTint,
     FPPopoverLightGrayTint,
     FPPopoverGreenTint,
     FPPopoverRedTint,
     FPPopoverDefaultTint = FPPopoverBlackTint
-} FPPopoverTint;
+} ;
 
 @interface FPPopoverView : UIView
 
@@ -50,8 +50,7 @@ typedef enum {
 @property(nonatomic,assign) BOOL draw3dBorder;
 @property(nonatomic,assign) BOOL border; //default YES
 
--(void)setArrowDirection:(FPPopoverArrowDirection)arrowDirection;
--(FPPopoverArrowDirection)arrowDirection;
+@property (NS_NONATOMIC_IOSONLY) FPPopoverArrowDirection arrowDirection;
 
 -(void)addContentView:(UIView*)contentView;
 

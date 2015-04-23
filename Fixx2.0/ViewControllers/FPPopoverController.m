@@ -30,8 +30,8 @@
 -(CGPoint)originFromView:(UIView*)fromView;
 
 
--(CGFloat)parentWidth;
--(CGFloat)parentHeight;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGFloat parentWidth;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGFloat parentHeight;
 
 #pragma mark Space management
 /* This methods help the controller to found a proper way to display the view.
@@ -99,11 +99,11 @@
     SAFE_ARC_SUPER_DEALLOC();
 }
 
--(id)initWithViewController:(UIViewController*)viewController {
+-(instancetype)initWithViewController:(UIViewController*)viewController {
 	return [self initWithViewController:viewController delegate:nil];
 }
 
--(id)initWithViewController:(UIViewController*)viewController
+-(instancetype)initWithViewController:(UIViewController*)viewController
 				   delegate:(id<FPPopoverControllerDelegate>)delegate
 {
     self = [super init];
@@ -239,11 +239,11 @@
     if(windows.count > 0)
     {
           _parentView=nil;
-        _window = [windows objectAtIndex:0];
+        _window = windows[0];
         //keep the first subview
         if(_window.subviews.count > 0)
         {
-            _parentView = [_window.subviews objectAtIndex:0];
+            _parentView = (_window.subviews)[0];
             [_parentView addSubview:self.view];
             [_viewController viewDidAppear:YES];
         }

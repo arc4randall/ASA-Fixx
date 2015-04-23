@@ -15,10 +15,11 @@
 }
 
 +(DBManager*)getSharedInstance;
--(BOOL)createDB;
--(BOOL) saveDataWithName:(NSString*)name Amount:(double)amount Duration:(NSString*)duration;
--(NSMutableArray *)getAllIncome;
--(NSMutableArray *)getAllExpense;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL createDB;
+-(BOOL) saveDataWithName:(NSString*)name Amount:(double)amount Duration:(NSString*)duration  Category:(NSString*)category;
+@property (NS_NONATOMIC_IOSONLY, getter=getAllIncome, readonly, copy) NSMutableArray *allIncome;
+@property (NS_NONATOMIC_IOSONLY, getter=getAllExpense, readonly, copy) NSMutableArray *allExpense;
 -(BOOL) updateByID:(Income *) incomeObj;
 -(BOOL) deleteByID: (Income *) incomeObj;
+-(NSMutableArray*)returnExistingCategoryAmount: (NSString *) type;
 @end

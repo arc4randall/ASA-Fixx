@@ -9,14 +9,14 @@
 #import "User.h"
 
 @implementation User
--(id)init
+-(instancetype)init
 {
     self=[super init];
     if(self)
     {
         self.accessToken=@"";
         self.faceBookUser=@"";
-        self.UserId = @"";
+        self.userId = @"";
         self.userFaceBookID=@"";
         self.gplusUser = @"";
         self.IsPasswordExist =@"";
@@ -36,7 +36,7 @@
     [encoder encodeObject:self.IsPasswordExist forKey:UserIsPasswordExistKey];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
+- (instancetype)initWithCoder:(NSCoder *)decoder {
     if((self = [super init])) {
         //decode properties, other class vars
         
@@ -62,14 +62,12 @@
 -(id)proxyForJson
 {
     NSDictionary *d=nil;
-    d=[NSDictionary dictionaryWithObjectsAndKeys:
-       ((self.accessToken)?self.accessToken:@""),UserAccessTokenKey,
-       ((self.faceBookUser)?self.faceBookUser:@""),UserFBKey,
-       ((self.userId)?self.userId:@""),UserIdKey,
-       ((self.userFaceBookID)?self.userFaceBookID:@""),UserFaceBookIDKey,
-       ((self.gplusUser)?self.gplusUser:@""),UserGPlusKey,
-        ((self.IsPasswordExist)?self.gplusUser:@""),UserIsPasswordExistKey,
-      nil];
+    d=@{UserAccessTokenKey: ((self.accessToken)?self.accessToken:@""),
+       UserFBKey: ((self.faceBookUser)?self.faceBookUser:@""),
+       UserIdKey: ((self.userId)?self.userId:@""),
+       UserFaceBookIDKey: ((self.userFaceBookID)?self.userFaceBookID:@""),
+       UserGPlusKey: ((self.gplusUser)?self.gplusUser:@""),
+        UserIsPasswordExistKey: ((self.IsPasswordExist)?self.gplusUser:@"")};
     return d;
 }
 @end

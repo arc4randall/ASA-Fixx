@@ -35,7 +35,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)setupLabels;
 - (void)registerForKVO;
 - (void)unregisterFromKVO;
-- (NSArray *)observableKeypaths;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *observableKeypaths;
 - (void)registerForNotifications;
 - (void)unregisterFromNotifications;
 - (void)updateUIForKeypath:(NSString *)keyPath;
@@ -174,7 +174,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Lifecycle
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
     
 	if (self) {
@@ -226,7 +226,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return self;
 }
 
-- (id)initWithView:(UIView *)view {
+- (instancetype)initWithView:(UIView *)view {
 	NSAssert(view, @"View must not be nil.");
 	id me = [self initWithFrame:view.bounds];
 	// We need to take care of rotation ourselfs if we're adding the HUD to a window
@@ -238,7 +238,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return me;
 }
 
-- (id)initWithWindow:(UIWindow *)window {
+- (instancetype)initWithWindow:(UIWindow *)window {
 	return [self initWithView:window];
 }
 
@@ -307,7 +307,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
-	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
+	[self performSelector:@selector(hideDelayed:) withObject:@(animated) afterDelay:delay];
 }
 
 - (void)hideDelayed:(NSNumber *)animated {
@@ -373,11 +373,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         
         [self.indicatorImageView setAnimationDuration:1.8f];
         [self.indicatorImageView setAnimationRepeatCount:NSIntegerMax];
-        [self.indicatorImageView setAnimationImages:[NSArray arrayWithObjects:
-                                                     [UIImage imageNamed:@"step-1.png"],
+        [self.indicatorImageView setAnimationImages:@[[UIImage imageNamed:@"step-1.png"],
                                                      [UIImage imageNamed:@"step-2.png"],
                                                      [UIImage imageNamed:@"step-3.png"],
-                                                     [UIImage imageNamed:@"step-4.png"], nil]];
+                                                     [UIImage imageNamed:@"step-4.png"]]];
         [self addSubview:self.indicatorImageView];
         
         CGRect frm=self.indicator.frame;
@@ -831,8 +830,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont",
-			@"detailsLabelText", @"detailsLabelFont", @"progress", nil];
+	return @[@"mode", @"customView", @"labelText", @"labelFont",
+			@"detailsLabelText", @"detailsLabelFont", @"progress"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -947,12 +946,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Lifecycle
 
-- (id)init {
+- (instancetype)init {
 	//return [self initWithFrame:CGRectMake(0.f, 0.f, 37.f, 37.f)];
     return [self initWithFrame:CGRectMake(0.f, 0.f, 37.f, 37.f)];
 }
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
     
 	if (self) {

@@ -15,4 +15,5 @@
 @property (strong, nonatomic) IBOutlet UIButton *btn_header;
 
 -(IBAction)btn_sliderClickedAction:(id)sender;
+- (void) BtnLogout_ButtonAction:(id)sender;
 @end

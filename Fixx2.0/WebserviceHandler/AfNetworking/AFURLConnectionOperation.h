@@ -188,7 +188,7 @@ NSCoding, NSCopying>
 
  @discussion This is the designated initializer.
  */
-- (id)initWithRequest:(NSURLRequest *)urlRequest;
+- (instancetype)initWithRequest:(NSURLRequest *)urlRequest NS_DESIGNATED_INITIALIZER;
 
 ///----------------------------------
 /// @name Pausing / Resuming Requests
@@ -206,7 +206,7 @@ NSCoding, NSCopying>
 
  @return `YES` if the operation is currently paused, otherwise `NO`.
  */
-- (BOOL)isPaused;
+@property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
 
 /**
  Resumes the execution of the paused request operation.

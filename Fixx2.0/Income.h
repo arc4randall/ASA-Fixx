@@ -13,6 +13,7 @@
 @property (nonatomic,strong) NSString* name;
 @property double amount;
 @property (nonatomic,strong) NSString* duration;
+@property (nonatomic, strong) NSString *category;
 
--(id)initWithName:(NSString*)itemName andAmount:(double)itemAmount andDuration:(NSString*)timeFrame;
+-(instancetype)initWithName:(NSString*)itemName andAmount:(double)itemAmount andDuration:(NSString*)timeFrame andCategory:(NSString*)category;
 @end

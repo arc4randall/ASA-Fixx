@@ -61,7 +61,7 @@ static dispatch_queue_t property_list_request_operation_processing_queue() {
     return requestOperation;
 }
 
-- (id)initWithRequest:(NSURLRequest *)urlRequest {
+- (instancetype)initWithRequest:(NSURLRequest *)urlRequest {
     self = [super initWithRequest:urlRequest];
     if (!self) {
         return nil;

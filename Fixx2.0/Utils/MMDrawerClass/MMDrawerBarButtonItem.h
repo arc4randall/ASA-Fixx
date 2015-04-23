@@ -38,7 +38,7 @@
  
  @return The newly-initialized bar button item.
  */
--(id)initWithTarget:(id)target action:(SEL)action;
+-(instancetype)initWithTarget:(id)target action:(SEL)action;
 
 /**
  Returns the current color of the menu button for the state requested.

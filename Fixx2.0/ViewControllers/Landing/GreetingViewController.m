@@ -15,8 +15,10 @@
 #import "ValidationManager.h"
 #import "HomeDashboardViewController.h"
 #import "NavigationController.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
-@interface GreetingViewController () <UIGestureRecognizerDelegate> {
+@interface GreetingViewController () <UIGestureRecognizerDelegate, FBSDKLoginButtonDelegate> {
     HomeDashboardViewController* objHomeDashboardViewController;
     CustomAlertView* alertView;
     LeftTabController* objLeftTabController;
@@ -28,7 +30,7 @@
 
 @implementation GreetingViewController
 
--(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -37,23 +39,32 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad{
     [super viewDidLoad];
     //Prepare Layout
+    self.button = [[FBSDKLoginButton alloc] init];
+    _button.center = self.view.center;
+    _button.delegate = self;
+    [self.view addSubview:_button];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    UIImage* logo = [[UIImage alloc] init];
+    logo = [UIImage imageNamed:@"Signin_Logo"];
+    self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(screenWidth * 0.25, screenHeight / 8, screenWidth / 2, screenHeight * 0.25)];
+    self.logoImageView.image = logo;
+    
+    [self.logoImageView setImage:[UIImage imageNamed:@"Fixx5"]];
+    self.logoImageView.opaque = NO;
+    self.logoImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.logoImageView];
+    
+    self.txtEmailID.frame = CGRectMake(screenWidth * 0.25, ((screenHeight / 16) * 7), screenWidth / 2, screenHeight / 16);
+    self.txtPassword.frame= CGRectMake(screenWidth * 0.25, ((screenHeight / 16) * 8), screenWidth / 2, screenHeight / 16);
+    
+    NSLog(@"IMAGE: %@",self.logoImageView);
     alertView = [CustomAlertView initAlertView];
     self.navigationController.navigationBar.hidden = YES;
-    //Sign In Fields
-    NSAttributedString* strEmail = [[NSAttributedString alloc] initWithString:@"Email" attributes:@{NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0 alpha:0.5],NSFontAttributeName:[UIFont fontWithName:ProximaNovaRegular size:14.0f]}];
-    [self.txtEmailID setAttributedPlaceholder:strEmail];
-    
-    [self.txtEmailID setFont:[UIFont fontWithName:ProximaNovaRegular size:16.0f]];
-    [self.txtEmailID setTextColor:[UIColor whiteColor]];
-    
-    NSAttributedString* strPassword = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0 alpha:0.5],NSFontAttributeName:[UIFont fontWithName:ProximaNovaRegular size:14.0f]}];
-    
-    [self.txtPassword setAttributedPlaceholder:strPassword];
-    [self.txtPassword setFont:[UIFont fontWithName:ProximaNovaRegular size:16.0f]];
-    [self.txtPassword setTextColor:[UIColor whiteColor]];
     
     appLoader = [AppLoader initLoaderView];
     
@@ -68,7 +79,8 @@
     [appDelegate.tabNavController setNavigationBarHidden:YES animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -137,6 +149,9 @@
     NSString* getEmail = [self.txtEmailID.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString* getPassword = [self.txtPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
+    //[self loginButton:self->loginButton didCompleteWithResult:result error:error];
+    
+    
     BOOL isError = NO;
     
     if ([getEmail length] == 0 || ![ValidationManager validateEmailID:getEmail]) {
@@ -170,19 +185,19 @@
 {
     NSLog(@"Login Response: %@",dicResponse);
     [appLoader stopActivityLoader];
-    if ([[dicResponse objectForKey:@"status"] integerValue] == 200) {
-        if ([dicResponse objectForKey:@"token"] == [NSNull null]) {
+    if ([dicResponse[@"status"] integerValue] == 200) {
+        if (dicResponse[@"token"] == [NSNull null]) {
             [alertView displayAlertViewWithView:self.view withTitle:@"Failed!" withMessage:@"Unable to authenticate token for your session." withButtonTitle:@"OK" withOtherButtonTitle:Nil];
         } else {
-        objSharedData.str_AccessToken = [dicResponse objectForKey:@"token"];
+        objSharedData.str_AccessToken = dicResponse[@"token"];
             objSharedData.isLoggedin = TRUE;
             isUserSignUp = NO;
-            objSharedData.str_AccessToken = [dicResponse objectForKey:@"token"];
-            objSharedData.str_LoggedInUserEmail = [[dicResponse objectForKey:@"user"] objectForKey:@"Email"];
-            objSharedData.str_LoggedInUserPass = [[dicResponse objectForKey:@"user"] objectForKey:@"Password"];
+            objSharedData.str_AccessToken = dicResponse[@"token"];
+            objSharedData.str_LoggedInUserEmail = dicResponse[@"user"][@"Email"];
+            objSharedData.str_LoggedInUserPass = dicResponse[@"user"][@"Password"];
             [objSharedData storeToUserdefaults];
         
-        [objSharedData saveUserInfo:[dicResponse objectForKey:@"user"]];
+        [objSharedData saveUserInfo:dicResponse[@"user"]];
         [self signInToHomeSuccessfully];
         }
     }
@@ -193,6 +208,18 @@
     [self.txtPassword resignFirstResponder];
 }
 
+- (void)loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error
+{
+    NSLog(@"Result: %@",result);
+    if (!error){
+        NSLog(@"FB LOGIN COMPLETED");
+        [self signInToHomeSuccessfully];
+    }
+}
+
+- (void) loginButtonDidLogOut:(FBSDKLoginButton *)loginButton{
+    NSLog(@"YOU ARE OUT");
+}
 /*
 #pragma mark - Navigation
 
