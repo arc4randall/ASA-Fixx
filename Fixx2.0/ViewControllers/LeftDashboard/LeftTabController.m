@@ -274,7 +274,7 @@
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
     viewControllers[0] = objIncomeViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
-    objIncomeViewController.incomeObjectArray = [[DBManager getSharedInstance]getAllIncome];
+    objIncomeViewController.incomeExpanseDictionary = [[DBManager getSharedInstance]returnAllByType:@"income"];
 }
 
 - (void)BtnExpense_ButtonAction:(id)sender
@@ -288,7 +288,7 @@
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
     viewControllers[0] = objIncomeViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
-    objIncomeViewController.incomeObjectArray = [[DBManager getSharedInstance]getAllExpense];
+    objIncomeViewController.incomeExpanseDictionary = [[DBManager getSharedInstance]returnAllByType:@"expense"];
 }
 
 - (void) btnSettings_ButtonAction:(id)sender {

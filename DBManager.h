@@ -21,5 +21,5 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getAllExpense, readonly, copy) NSMutableArray *allExpense;
 -(BOOL) updateByID:(Income *) incomeObj;
 -(BOOL) deleteByID: (Income *) incomeObj;
--(NSMutableArray*)returnExistingCategoryAmount: (NSString *) type;
+-(NSMutableDictionary*)returnAllByType: (NSString *) type;
 @end
