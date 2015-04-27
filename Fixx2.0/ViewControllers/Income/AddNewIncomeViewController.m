@@ -122,8 +122,12 @@
     savedIncome.duration = durationString;
     savedIncome.category = self.categoryTextField.text;
     if ([[DBManager getSharedInstance]saveDataWithName:savedIncome.name Amount:savedIncome.amount Duration:savedIncome.duration Category:savedIncome.category]) {
-        [self.incomeBoardController.incomeObjectArray addObject:savedIncome];
         [self.popover dismissPopoverAnimated:YES];
+        if (self.incomeBoardController.isExpenseController) {
+            self.incomeBoardController.incomeExpanseDictionary = [[DBManager getSharedInstance] returnAllByType:@"expense"];
+        }else {
+            self.incomeBoardController.incomeExpanseDictionary = [[DBManager getSharedInstance] returnAllByType:@"income"];
+        }
         [self.incomeBoardController viewWillAppear:YES];
     } else {
         NSLog(@"adding is not successful.");
@@ -139,15 +143,13 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (textField == self.categoryTextField){
         self.categoryTextField.inputView = _categoryPicker;
+        self.categoryTextField.text = @"Rent";
         
     }
     textField.placeholder = nil;
 }
 
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    textField.placeholder = @"Your Placeholdertext";
-}
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {

@@ -102,18 +102,7 @@ static sqlite3_stmt *statement = nil;
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                Income *income = [[Income alloc] init];
-                income.incomeID = [[[NSString alloc] initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 0)] intValue];
-                income.name = [[NSString alloc] initWithUTF8String:
-                               (const char *) sqlite3_column_text(statement, 1)];
-                income.amount = [[[NSString alloc] initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 2)] doubleValue];
-                income.duration = [[NSString alloc]initWithUTF8String:
-                                   (const char *) sqlite3_column_text(statement, 3)];
-                income.category =[[NSString alloc]initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 4)];
-                [resultArray addObject:income];
+                [resultArray addObject:[self getAnIncomeFromDB]];
             }
             sqlite3_reset(statement);
             return resultArray;
@@ -134,18 +123,7 @@ static sqlite3_stmt *statement = nil;
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                Income *income = [[Income alloc] init];
-                income.incomeID = [[[NSString alloc] initWithUTF8String:
-                                    (const char *) sqlite3_column_text(statement, 0)] intValue];
-                income.name = [[NSString alloc] initWithUTF8String:
-                               (const char *) sqlite3_column_text(statement, 1)];
-                income.amount = [[[NSString alloc] initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 2)] doubleValue];
-                income.duration = [[NSString alloc]initWithUTF8String:
-                                   (const char *) sqlite3_column_text(statement, 3)];
-                income.category =[[NSString alloc]initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 4)];
-                [resultArray addObject:income];
+                [resultArray addObject:[self getAnIncomeFromDB]];
             }
             sqlite3_reset(statement);
             
@@ -199,32 +177,47 @@ static sqlite3_stmt *statement = nil;
     sqlite3_reset(statement);
     return toReturn;
 }
--(NSMutableArray *)returnExistingCategoryAmount: (NSString *) type {
-    NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+-(NSMutableDictionary *)returnAllByType: (NSString *) type {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         NSString *querySQL;
         if ([type isEqualToString:@"income"]) {
-            querySQL= [NSString stringWithFormat:@"select Category from IncomeDataTable where Amount > 0 group by Category"];
+            querySQL= [NSString stringWithFormat:@"select * from IncomeDataTable where Amount > 0 ORDER by Category"];
         } else if([type isEqualToString:@"expense"]){
-            querySQL= [NSString stringWithFormat:@"select Category from IncomeDataTable where Amount < 0 group by Category"];
+            querySQL= [NSString stringWithFormat:@"select * from IncomeDataTable where Amount < 0 ORDER by Category"];
         }
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                NSDictionary *dictionary = [[NSDictionary alloc] init];
-                [dictionary setValue:nil forKey:[[NSString alloc] initWithUTF8String:
-                                                 (const char *) sqlite3_column_text(statement, 0)]];
-                [dataArray addObject:dictionary];
+                Income *income = [self getAnIncomeFromDB];
+                NSMutableArray *itemsArray = [dictionary objectForKey:income.category];
+                if (!itemsArray){
+                    itemsArray = [[NSMutableArray alloc]init];
+                }
+                [itemsArray addObject:income];
+                [dictionary setObject:itemsArray forKey:income.category];
             }
         }
-        
     }
     sqlite3_reset(statement);
-    return dataArray;
+    return dictionary;
 }
-
+-(Income *)getAnIncomeFromDB {
+    Income *income = [[Income alloc] init];
+    income.incomeID = [[[NSString alloc] initWithUTF8String:
+                        (const char *) sqlite3_column_text(statement, 0)] intValue];
+    income.name = [[NSString alloc] initWithUTF8String:
+                   (const char *) sqlite3_column_text(statement, 1)];
+    income.amount = [[[NSString alloc] initWithUTF8String:
+                      (const char *) sqlite3_column_text(statement, 2)] doubleValue];
+    income.duration = [[NSString alloc]initWithUTF8String:
+                       (const char *) sqlite3_column_text(statement, 3)];
+    income.category =[[NSString alloc]initWithUTF8String:
+                      (const char *) sqlite3_column_text(statement, 4)];
+    return income;
+}
 @end

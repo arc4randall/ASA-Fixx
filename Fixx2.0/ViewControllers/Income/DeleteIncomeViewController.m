@@ -125,9 +125,10 @@
 }
 -(void) reloadTableDismissCurrent {
     if (self.incomeBoardController.isExpenseController) {
-        self.incomeBoardController.incomeObjectArray = [[DBManager getSharedInstance] getAllExpense];
+        self.incomeBoardController.incomeExpanseDictionary = [[DBManager getSharedInstance] returnAllByType:@"expense"];
+
     } else {
-        self.incomeBoardController.incomeObjectArray = [[DBManager getSharedInstance]getAllIncome];
+        self.incomeBoardController.incomeExpanseDictionary = [[DBManager getSharedInstance] returnAllByType:@"income"];
     }
     [self.incomeBoardController viewWillAppear:YES];
     [self.popover dismissPopoverAnimated:YES];

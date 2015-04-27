@@ -26,15 +26,15 @@
 		44A583961ADD937400609E7C /* LegendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A583941ADD937400609E7C /* LegendTableViewCell.m */; };
 		44A583971ADD937400609E7C /* LegendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44A583951ADD937400609E7C /* LegendTableViewCell.xib */; };
 		44B01CE51AB8B86000B99713 /* top_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 44B01CE41AB8B86000B99713 /* top_logo.png */; };
-		44B59EC71AE80F8800971E30 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B59EC41AE80F8800971E30 /* FBSDKCoreKit.framework */; };
-		44B59EC81AE80F8800971E30 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B59EC51AE80F8800971E30 /* FBSDKLoginKit.framework */; };
-		44B59EC91AE80F8800971E30 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B59EC61AE80F8800971E30 /* FBSDKShareKit.framework */; };
 		44BA9EB71AC98E9000D10292 /* DeleteIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BA9EB51AC98E9000D10292 /* DeleteIncomeViewController.m */; };
 		44BA9EB81AC98E9000D10292 /* DeleteIncomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BA9EB61AC98E9000D10292 /* DeleteIncomeViewController.xib */; };
 		44BEB9E51A9B8FEB00DF42E4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BEB9E41A9B8FEB00DF42E4 /* QuartzCore.framework */; };
 		44D49A1C1AA62F7200DAFBDF /* GreetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D49A1A1AA62F7200DAFBDF /* GreetingViewController.m */; };
 		44D49A1D1AA62F7200DAFBDF /* GreetingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D49A1B1AA62F7200DAFBDF /* GreetingViewController.xib */; };
 		44DFEC061AD4280C004DC231 /* Signin_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DFEC051AD4280C004DC231 /* Signin_Logo.png */; };
+		CF4296481AEB3CF800FEC750 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4296451AEB3CF800FEC750 /* FBSDKCoreKit.framework */; };
+		CF4296491AEB3CF800FEC750 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4296461AEB3CF800FEC750 /* FBSDKLoginKit.framework */; };
+		CF42964A1AEB3CF800FEC750 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4296471AEB3CF800FEC750 /* FBSDKShareKit.framework */; };
 		E200F68A1997E1670062463F /* icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = E200F6861997E1670062463F /* icon-512.png */; };
 		E200F68B1997E1670062463F /* icon-512@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E200F6871997E1670062463F /* icon-512@2x.png */; };
 		E200F68C1997E1670062463F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E200F6881997E1670062463F /* icon.png */; };
@@ -241,9 +241,6 @@
 		44A583941ADD937400609E7C /* LegendTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LegendTableViewCell.m; path = Home/LegendTableViewCell.m; sourceTree = "<group>"; };
 		44A583951ADD937400609E7C /* LegendTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LegendTableViewCell.xib; path = Home/LegendTableViewCell.xib; sourceTree = "<group>"; };
 		44B01CE41AB8B86000B99713 /* top_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top_logo.png; sourceTree = "<group>"; };
-		44B59EC41AE80F8800971E30 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		44B59EC51AE80F8800971E30 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		44B59EC61AE80F8800971E30 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		44BA9EB41AC98E8F00D10292 /* DeleteIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteIncomeViewController.h; path = Income/DeleteIncomeViewController.h; sourceTree = "<group>"; };
 		44BA9EB51AC98E9000D10292 /* DeleteIncomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteIncomeViewController.m; path = Income/DeleteIncomeViewController.m; sourceTree = "<group>"; };
 		44BA9EB61AC98E9000D10292 /* DeleteIncomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeleteIncomeViewController.xib; path = Income/DeleteIncomeViewController.xib; sourceTree = "<group>"; };
@@ -252,6 +249,9 @@
 		44D49A1A1AA62F7200DAFBDF /* GreetingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreetingViewController.m; sourceTree = "<group>"; };
 		44D49A1B1AA62F7200DAFBDF /* GreetingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GreetingViewController.xib; sourceTree = "<group>"; };
 		44DFEC051AD4280C004DC231 /* Signin_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Signin_Logo.png; sourceTree = "<group>"; };
+		CF4296451AEB3CF800FEC750 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		CF4296461AEB3CF800FEC750 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		CF4296471AEB3CF800FEC750 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		E200F6861997E1670062463F /* icon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-512.png"; sourceTree = "<group>"; };
 		E200F6871997E1670062463F /* icon-512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-512@2x.png"; sourceTree = "<group>"; };
 		E200F6881997E1670062463F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -479,6 +479,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF4296481AEB3CF800FEC750 /* FBSDKCoreKit.framework in Frameworks */,
+				CF4296491AEB3CF800FEC750 /* FBSDKLoginKit.framework in Frameworks */,
+				CF42964A1AEB3CF800FEC750 /* FBSDKShareKit.framework in Frameworks */,
 				4497FE7D1AC494D100E5833D /* libsqlite3.dylib in Frameworks */,
 				44BEB9E51A9B8FEB00DF42E4 /* QuartzCore.framework in Frameworks */,
 				E2FAF38A1988275000FFABA6 /* CoreData.framework in Frameworks */,
@@ -486,9 +489,6 @@
 				E2935C311925E9B10030205D /* CoreGraphics.framework in Frameworks */,
 				E2935C331925E9B10030205D /* UIKit.framework in Frameworks */,
 				E2935C2F1925E9B10030205D /* Foundation.framework in Frameworks */,
-				44B59EC71AE80F8800971E30 /* FBSDKCoreKit.framework in Frameworks */,
-				44B59EC81AE80F8800971E30 /* FBSDKLoginKit.framework in Frameworks */,
-				44B59EC91AE80F8800971E30 /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,9 +994,9 @@
 		E2935C2D1925E9B10030205D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				44B59EC41AE80F8800971E30 /* FBSDKCoreKit.framework */,
-				44B59EC51AE80F8800971E30 /* FBSDKLoginKit.framework */,
-				44B59EC61AE80F8800971E30 /* FBSDKShareKit.framework */,
+				CF4296451AEB3CF800FEC750 /* FBSDKCoreKit.framework */,
+				CF4296461AEB3CF800FEC750 /* FBSDKLoginKit.framework */,
+				CF4296471AEB3CF800FEC750 /* FBSDKShareKit.framework */,
 				4497FE7C1AC494D100E5833D /* libsqlite3.dylib */,
 				44BEB9E41A9B8FEB00DF42E4 /* QuartzCore.framework */,
 				E2FAF3891988275000FFABA6 /* CoreData.framework */,
@@ -1527,6 +1527,7 @@
 					"/Users/vivek/Desktop/TechCatalyzer-SVN/Fixx2/iOS",
 					"$(PROJECT_DIR)",
 					/Users/RDSpence/Documents/FacebookSDK,
+					/Users/OliverWeng/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fixx2.0/Fixx2.0-Prefix.pch";
@@ -1554,6 +1555,7 @@
 					"/Users/vivek/Desktop/TechCatalyzer-SVN/Fixx2/iOS",
 					"$(PROJECT_DIR)",
 					/Users/RDSpence/Documents/FacebookSDK,
+					/Users/OliverWeng/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fixx2.0/Fixx2.0-Prefix.pch";
