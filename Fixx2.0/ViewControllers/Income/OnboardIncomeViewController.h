@@ -18,7 +18,7 @@
 
 @property (nonatomic,retain) IBOutlet UILabel *lblUpperText,*lblLowerText;
 @property (nonatomic, retain) IBOutlet UITableView *incomeTableView;
-@property (nonatomic,strong) NSMutableArray* incomeObjectArray;
+@property (nonatomic,strong) NSMutableDictionary* incomeExpenseDictionary;
 @property  BOOL isExpenseController;
 
 @end

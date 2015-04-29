@@ -33,11 +33,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    // Do any additional setup after loading the view from its nib.
-    //self.legendTableView.layer.borderWidth = 2.0;
-    //self.legendTableView.layer.borderColor = [UIColor blackColor].CGColor;
-    //self.legendTableView.frame = CGRectMake(-5,0,self.view.frame.size.width * 0.85,(self.view.frame.size.height * 0.80));
     
     [self.view addSubview:self.legendTableView];
 }

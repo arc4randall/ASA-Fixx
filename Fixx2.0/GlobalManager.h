@@ -13,6 +13,7 @@
 }
 
 @property (strong,nonatomic) NSArray* incomeCategoryArray;
+@property (strong,nonatomic) NSArray* expenseCategoryArray;
 + (id)sharedManager;
 
 @end

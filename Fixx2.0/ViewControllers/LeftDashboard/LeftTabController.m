@@ -13,7 +13,6 @@
 #import "OnboardIncomeViewController.h"
 #import "HomeDashboardViewController.h"
 #import "GreetingViewController.h"
-#import "LoginViewController.h"
 #import "SettingsViewController.h"
 #import "AppLoader.h"
 #import "WebserviceHandler.h"
@@ -25,7 +24,6 @@
     OnboardIncomeViewController *objIncomeViewController;
     HomeDashboardViewController *objHomeDashboardViewController;
     GreetingViewController *objGreetingViewController;
-    LoginViewController *objLoginViewController;
     SettingsViewController *objSettingsViewController;
     AppLoader *appLoader;
     WebserviceHandler *requestOnWeb;
@@ -274,7 +272,7 @@
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
     viewControllers[0] = objIncomeViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
-    objIncomeViewController.incomeObjectArray = [[DBManager getSharedInstance]getAllIncome];
+    objIncomeViewController.incomeExpenseDictionary = [[DBManager getSharedInstance]returnAllByType:@"income"];
 }
 
 - (void)BtnExpense_ButtonAction:(id)sender
@@ -288,7 +286,7 @@
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[appDelegate.tabNavController viewControllers]];
     viewControllers[0] = objIncomeViewController;
     [appDelegate.tabNavController setViewControllers:viewControllers];
-    objIncomeViewController.incomeObjectArray = [[DBManager getSharedInstance]getAllExpense];
+    objIncomeViewController.incomeExpenseDictionary = [[DBManager getSharedInstance]returnAllByType:@"expense"];
 }
 
 - (void) btnSettings_ButtonAction:(id)sender {

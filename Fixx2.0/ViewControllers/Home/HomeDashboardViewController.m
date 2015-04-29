@@ -45,6 +45,19 @@
     [super viewDidLoad];
     [self prepareLayout];
     [self trackEvent:[WTEvent eventForScreenView:@"Home Dashboard" eventDescr:@"Landing On screen" eventType:@"" contentGroup:@""]];
+    
+    self.numberFormatter = [[NSNumberFormatter alloc] init];
+    [self.numberFormatter setUsesGroupingSeparator:YES];
+    [self.numberFormatter setGroupingSeparator:@","];
+    [self.numberFormatter setGroupingSize:3];
+    [self.numberFormatter setMinimumFractionDigits:2];
+    [self.numberFormatter setMaximumFractionDigits:2];
+    
+    UIFont* futuraMedium = [UIFont boldSystemFontOfSize:18.0];
+    
+    NSDictionary* attributes = [NSDictionary dictionaryWithObject:futuraMedium forKey:NSFontAttributeName];
+    [self.timeFrameSegmentedControl setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    
     // Do any additional setup after loading the view from its nib.
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
@@ -52,6 +65,20 @@
     self.slices = [[NSMutableArray alloc] init];
     self.timeFrameSegmentedControl.tintColor = [UIColor blackColor];
     self.timeFrameSegmentedControl.frame = CGRectMake(0, 0, screenWidth, screenHeight / 10);
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    switch ([defaults integerForKey:@"homeSelectedSegment"]) {
+        case 0:
+            self.timeFrameSegmentedControl.selectedSegmentIndex = 0;
+            break;
+        case 1:
+            self.timeFrameSegmentedControl.selectedSegmentIndex = 1;
+            break;
+        case 2:
+            self.timeFrameSegmentedControl.selectedSegmentIndex = 2;
+            break;
+        default:
+            break;
+    }
     
     // XYPieChart Setup
     
@@ -145,7 +172,9 @@
         }
         totalIncome += income.amount * multiplier;
     }
-    self.lblEarnValue.text = [NSString stringWithFormat:@"$%.2f",totalIncome];
+    NSNumber* incomeNumber = [NSNumber numberWithDouble:totalIncome];
+    
+    self.lblEarnValue.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:incomeNumber]];
 
     double totalExpense = 0.0;
     for (Income* expense in self.expenseObjectArray) {
@@ -165,10 +194,12 @@
         }
         totalExpense += expense.amount * multiplier;
     }
+    NSNumber* expenseNumber = [NSNumber numberWithDouble:fabs(totalExpense)];
     double avgBalance = totalIncome + totalExpense;
-    self.lblSpendValue.text = [NSString stringWithFormat:@"$%.2f",fabs(totalExpense)];
     
-    self.lblAvgBalance.text = [NSString stringWithFormat:@"$%.2f",avgBalance];
+    self.lblSpendValue.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:expenseNumber]];
+    NSNumber *avgNumber = [NSNumber numberWithDouble:avgBalance];
+    self.lblAvgBalance.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:avgNumber]];
 }
 
 - (void) prepareLayout {
@@ -211,6 +242,23 @@
 -(void)viewDidDisappear:(BOOL)animated{
     animated = NO;
     [_slices removeAllObjects];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    switch (self.timeFrameSegmentedControl.selectedSegmentIndex) {
+        case 0:
+            [defaults setInteger:0 forKey:@"homeSelectedSegment"];
+            NSLog(@"0");
+            break;
+        case 1:
+            [defaults setInteger:1 forKey:@"homeSelectedSegment"];
+            NSLog(@"1");
+            break;
+        case 2:
+            [defaults setInteger:2 forKey:@"homeSelectedSegment"];
+            NSLog(@"2");
+            break;
+        default:
+            break;
+    }
     [self.incomePieChart reloadData];
     [self.expensePieChart reloadData];
     [self.incomePieChartView removeFromSuperview];
@@ -285,9 +333,11 @@
     if ([pieChartType isEqualToString:@"Expense"]) {
         objPieChartPopoverViewController = [[PieChartPopoverViewController alloc] initWithType:@"Expense"];
         objPieChartPopoverViewController.title = @"Expense Summary";
+        
             } else {
         objPieChartPopoverViewController = [[PieChartPopoverViewController alloc] initWithType:@"Income"];
         objPieChartPopoverViewController.title = @"Income Summary";
+    
     }
     
     popover = [[FPPopoverKeyboardResponsiveController alloc] initWithViewController:objPieChartPopoverViewController];
@@ -335,7 +385,8 @@
             }
             totalIncome += income.amount * multiplier;
         }
-        self.lblEarnValue.text = [NSString stringWithFormat:@"$%.2f",totalIncome];
+        NSNumber* totalNumber = [NSNumber numberWithDouble:totalIncome];
+        self.lblEarnValue.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:totalNumber]];
     
     self.expenseObjectArray = [[DBManager getSharedInstance] getAllExpense];
     double totalExpense = 0.0;
@@ -357,9 +408,10 @@
         totalExpense += expense.amount * multiplier;
     }
     double avgBalance = totalIncome + totalExpense;
-    self.lblSpendValue.text = [NSString stringWithFormat:@"$%.2f",fabs(totalExpense)];
-    
-    self.lblAvgBalance.text = [NSString stringWithFormat:@"$%.2f",avgBalance];
+    NSNumber *expenseNumber = [NSNumber numberWithDouble:fabs(totalExpense)];
+    self.lblSpendValue.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:expenseNumber]];
+    NSNumber *avgNumber = [NSNumber numberWithDouble:avgBalance];
+    self.lblAvgBalance.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:avgNumber]];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

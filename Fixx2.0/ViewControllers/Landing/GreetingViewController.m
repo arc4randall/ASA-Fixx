@@ -43,7 +43,6 @@
     [super viewDidLoad];
     //Prepare Layout
     self.button = [[FBSDKLoginButton alloc] init];
-    _button.center = self.view.center;
     _button.delegate = self;
     [self.view addSubview:_button];
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -61,7 +60,7 @@
     
     self.txtEmailID.frame = CGRectMake(screenWidth * 0.25, ((screenHeight / 16) * 7), screenWidth / 2, screenHeight / 16);
     self.txtPassword.frame= CGRectMake(screenWidth * 0.25, ((screenHeight / 16) * 8), screenWidth / 2, screenHeight / 16);
-    
+    self.button.frame = CGRectMake(screenWidth * 0.25, ((screenHeight / 16) * 10), screenWidth / 2, screenHeight / 16);
     NSLog(@"IMAGE: %@",self.logoImageView);
     alertView = [CustomAlertView initAlertView];
     self.navigationController.navigationBar.hidden = YES;

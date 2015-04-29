@@ -28,7 +28,7 @@
 - (IBAction)saveButtonPressed:(id)sender;
 @property (strong, nonatomic) NSMutableArray* incomeObjectArray;
 @property (nonatomic, strong) Income *incomeObj;
--(instancetype)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration NS_DESIGNATED_INITIALIZER;
-@property (strong, nonatomic) IBOutlet UIButton *categoryButton;
-- (IBAction)categoryButtonPressed:(id)sender;
+-(instancetype)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration category:(NSString*)category NS_DESIGNATED_INITIALIZER;
+@property (strong, nonatomic) IBOutlet UITextField *categoryTextField;
+@property (strong,nonatomic) UIPickerView* categoryPicker;
 @end

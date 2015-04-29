@@ -9,9 +9,12 @@
 #import "DeleteIncomeViewController.h"
 #import "Income.h"
 #import "DBManager.h"
+#import "GlobalManager.h"
 
-@interface DeleteIncomeViewController () <UITextFieldDelegate>
-
+@interface DeleteIncomeViewController () <UITextFieldDelegate,  UIPickerViewDelegate, UIPickerViewDataSource> {
+    
+}
+@property(nonatomic, strong) UIToolbar *pickerToolBar;
 @end
 
 @implementation DeleteIncomeViewController
@@ -27,14 +30,14 @@
     return self;
 }
 
--(instancetype)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration
+-(instancetype)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration category:(NSString*)category
 {
     self = [super init];
     if (self) {
         [self viewDidLoad];
         self.incomeSourceTextField.text = source;
         self.incomeValueTextField.text = [NSString stringWithFormat:@"%.2f",fabs(value)];
-        
+        self.categoryTextField.text = category;
         if ([duration  isEqual: @"Weekly"]) {
             self.timeFrameSegmentedControl.selectedSegmentIndex = 0;
         } else if ([duration isEqualToString:@"Monthly"]){
@@ -67,12 +70,36 @@
     
     self.deleteButton.tintColor = [UIColor blackColor];
     
+    self.categoryTextField.frame = CGRectMake(self.view.frame.size.width / 12 + 15,70,self.view.frame.size.width / 2, self.view.frame.size.height / 15);
+
+    [self createPickerView];
     if (self.incomeBoardController.isExpenseController) {
         [self.incomeSourceTextField setPlaceholder:@"Expense Source"];
     }
    
     NSLog(@"save x: %f del x: %f",self.saveButton.frame.origin.x,self.deleteButton.frame.origin.x);
 
+}
+
+-(void) createPickerView {
+    _categoryPicker = [[UIPickerView alloc] init];
+    _categoryPicker.delegate = self;
+    _categoryPicker.dataSource = self;
+    
+    _pickerToolBar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,320,44)];
+    [_pickerToolBar setBarStyle:UIBarStyleBlackOpaque];
+    UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(changeFromLabel)];
+    UIBarButtonItem *flexiblePlaceHolder = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    barButtonDone.tintColor=[UIColor blackColor];
+    [_pickerToolBar setItems:[NSArray arrayWithObjects:flexiblePlaceHolder, barButtonDone, nil]];
+    self.categoryTextField.inputAccessoryView = _pickerToolBar;
+    
+}
+
+-(void)changeFromLabel{
+    // do dismiss here.
+    NSLog(@"done clicked");
+    [self.categoryTextField resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,15 +146,17 @@
             break;
     }
     self.incomeObj.duration = durationString;
+    self.incomeObj.category = self.categoryTextField.text;
     if ([[DBManager getSharedInstance]updateByID:self.incomeObj]) {
         [self reloadTableDismissCurrent];
     }
 }
 -(void) reloadTableDismissCurrent {
     if (self.incomeBoardController.isExpenseController) {
-        self.incomeBoardController.incomeObjectArray = [[DBManager getSharedInstance] getAllExpense];
+        self.incomeBoardController.incomeExpenseDictionary = [[DBManager getSharedInstance] returnAllByType:@"expense"];
+
     } else {
-        self.incomeBoardController.incomeObjectArray = [[DBManager getSharedInstance]getAllIncome];
+        self.incomeBoardController.incomeExpenseDictionary = [[DBManager getSharedInstance] returnAllByType:@"income"];
     }
     [self.incomeBoardController viewWillAppear:YES];
     [self.popover dismissPopoverAnimated:YES];
@@ -139,12 +168,42 @@
 }
 #pragma mark UITextField Methods
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField == self.categoryTextField){
+        self.categoryTextField.inputView = _categoryPicker;
+        self.categoryTextField.text = @"Rent";
+        
+    }
     textField.placeholder = nil;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     textField.placeholder = @"";
 }
-- (IBAction)categoryButtonPressed:(id)sender {
+
+#pragma mark Pickerview Methods
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [[[GlobalManager sharedManager]incomeCategoryArray] count];
 }
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [[[GlobalManager sharedManager]incomeCategoryArray] objectAtIndex:row];
+}
+
+//-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+//{
+//    return 100;
+//}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    self.categoryTextField.text = [[GlobalManager sharedManager]incomeCategoryArray][row];
+}
+
 @end

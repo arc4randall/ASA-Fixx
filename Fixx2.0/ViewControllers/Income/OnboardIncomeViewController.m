@@ -16,7 +16,6 @@
 #import "FPPopoverController.h"
 #import "Income.h"
 #import "IETableViewCell.h"
-#import "DBManager.h"
 
 @interface OnboardIncomeViewController () <UITableViewDelegate, UITableViewDataSource, FPPopoverControllerDelegate> {
     NSMutableArray *arrIncome;
@@ -51,7 +50,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"INCOME TABLE ARRAY: %@",self.incomeObjectArray);
     
     self.incomeTableView.layer.borderWidth = 2.0;
     
@@ -59,7 +57,6 @@
     [self trackEvent:[WTEvent eventForScreenView:@"Income Onboarding" eventDescr:@"List Of Incomes." eventType:@"" contentGroup:@""]];
     // Do any additional setup after loading the view from its nib.
     
-    NSLog(@"EXPENSE? %hhd",self.isExpenseController);
     
     self.incomeTableView.delegate = self;
     self.incomeTableView.dataSource = self;
@@ -115,7 +112,6 @@
 
     
     [self.incomeTableView reloadData];
-    NSLog(@"the array has %lu objects",(unsigned long)self.incomeObjectArray.count);
     NSLog(@"Tableview should have loaded");
 }
 
@@ -193,21 +189,11 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.incomeObjectArray.count;
+    return [[self getCurrentItemsArrayFromIndexPath:section] count];
 }
 
--(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-    return 1;
-}
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    int toReturn = 0;
-    if (_isExpenseController) {
-        //None
-    } else {
-        toReturn = [[[DBManager getSharedInstance] returnExistingCategoryAmount:@"income"] count];
-    }
-    return toReturn;
+    return (int)[[self.incomeExpenseDictionary allKeys] count];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -216,16 +202,16 @@
         cell = [[IETableViewCell alloc]  initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"IECell"];
     }
     
-    Income *income = (Income *)self.incomeObjectArray[indexPath.row];
+    Income *income = (Income *)[self getCurrentItemsArrayFromIndexPath:indexPath.section][indexPath.row];
     cell.nameLabel.text = income.name;
     cell.valueLabel.text = [NSString stringWithFormat:@"%.2f", fabs(income.amount)];
     cell.durationLabel.text = income.duration;
     
-    NSLog(@"Array has %lu objects",(unsigned long)self.incomeObjectArray.count);
-    
     return cell;
 }
-
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    return [[self.incomeExpenseDictionary allKeys] objectAtIndex:section];
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Selected cell at position %ld",(long)indexPath.row);
@@ -233,8 +219,9 @@
     SAFE_ARC_RELEASE(popover); popover = nil;
     
     //the controller we want to present as a popover
-    Income* selectedIncome = (self.incomeObjectArray)[indexPath.row];
-    objDeleteIncomeViewController = [[DeleteIncomeViewController alloc] initWithIncomeSource:selectedIncome.name value:selectedIncome.amount duration:selectedIncome.duration];
+    
+    Income* selectedIncome = [self getCurrentItemsArrayFromIndexPath:indexPath.section][indexPath.row];
+    objDeleteIncomeViewController = [[DeleteIncomeViewController alloc] initWithIncomeSource:selectedIncome.name value:selectedIncome.amount duration:selectedIncome.duration category:selectedIncome.category];
     objDeleteIncomeViewController.title = nil;
     
     NSLog(@"%@ has value of %f for time period %@",selectedIncome.name,selectedIncome.amount,selectedIncome.duration);
@@ -261,14 +248,14 @@
     [popover presentPopoverFromPoint: CGPointMake(self.view.center.x, self.view.center.y - popover.contentSize.height * 0.9)];
     objDeleteIncomeViewController.incomeBoardController = self;
     objDeleteIncomeViewController.popover = popover;
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSLog(@"Popover should appear here...");
     
 }
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"TOUCHES BEGAN!");
+-(NSMutableArray *)getCurrentItemsArrayFromIndexPath:(NSInteger)section {
+    NSString *currentKey = [[self.incomeExpenseDictionary allKeys] objectAtIndex:section];
+    NSMutableArray *itemsArray = [self.incomeExpenseDictionary objectForKey:currentKey];
+    return itemsArray;
 }
 
 @end
