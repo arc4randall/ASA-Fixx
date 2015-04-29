@@ -184,9 +184,9 @@ static sqlite3_stmt *statement = nil;
     {
         NSString *querySQL;
         if ([type isEqualToString:@"income"]) {
-            querySQL= [NSString stringWithFormat:@"select * from IncomeDataTable where Amount > 0 ORDER by Category"];
+            querySQL= [NSString stringWithFormat:@"select * from IncomeDataTable where Amount > 0 ORDER by Category DESC"];
         } else if([type isEqualToString:@"expense"]){
-            querySQL= [NSString stringWithFormat:@"select * from IncomeDataTable where Amount < 0 ORDER by Category"];
+            querySQL= [NSString stringWithFormat:@"select * from IncomeDataTable where Amount < 0 ORDER by Category DESC"];
         }
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)

@@ -27,4 +27,5 @@
     NSString* descriptionString = [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@ brings in income of %f per %@ period",self.name,self.amount,self.duration]];
     return descriptionString;
 }
+
 @end
