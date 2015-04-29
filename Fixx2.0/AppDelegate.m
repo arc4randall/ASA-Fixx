@@ -11,7 +11,6 @@
 #import "AlertDialogProgressView.h"
 #import "GreetingViewController.h"
 #import "AlertDialogView.h"
-#import "LoginViewController.h"
 #import "DBManager.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -23,7 +22,6 @@ SharedData *objSharedData;
 {
     AlertDialogProgressView *objalertDialogProgressView;
     GreetingViewController *objGreetingViewController;
-    LoginViewController *objLoginViewController;
 }
 
 @property(nonatomic,retain) AlertDialogView *alertDialogView;

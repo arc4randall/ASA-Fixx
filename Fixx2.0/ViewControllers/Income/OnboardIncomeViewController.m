@@ -193,7 +193,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return (int)[[self.incomeExpanseDictionary allKeys] count];
+    return (int)[[self.incomeExpenseDictionary allKeys] count];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -210,7 +210,7 @@
     return cell;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return [[self.incomeExpanseDictionary allKeys] objectAtIndex:section];
+    return [[self.incomeExpenseDictionary allKeys] objectAtIndex:section];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -221,7 +221,7 @@
     //the controller we want to present as a popover
     
     Income* selectedIncome = [self getCurrentItemsArrayFromIndexPath:indexPath.section][indexPath.row];
-    objDeleteIncomeViewController = [[DeleteIncomeViewController alloc] initWithIncomeSource:selectedIncome.name value:selectedIncome.amount duration:selectedIncome.duration];
+    objDeleteIncomeViewController = [[DeleteIncomeViewController alloc] initWithIncomeSource:selectedIncome.name value:selectedIncome.amount duration:selectedIncome.duration category:selectedIncome.category];
     objDeleteIncomeViewController.title = nil;
     
     NSLog(@"%@ has value of %f for time period %@",selectedIncome.name,selectedIncome.amount,selectedIncome.duration);
@@ -253,8 +253,8 @@
     
 }
 -(NSMutableArray *)getCurrentItemsArrayFromIndexPath:(NSInteger)section {
-    NSString *currentKey = [[self.incomeExpanseDictionary allKeys] objectAtIndex:section];
-    NSMutableArray *itemsArray = [self.incomeExpanseDictionary objectForKey:currentKey];
+    NSString *currentKey = [[self.incomeExpenseDictionary allKeys] objectAtIndex:section];
+    NSMutableArray *itemsArray = [self.incomeExpenseDictionary objectForKey:currentKey];
     return itemsArray;
 }
 

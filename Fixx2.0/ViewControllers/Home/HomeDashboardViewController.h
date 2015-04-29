@@ -38,4 +38,6 @@
 @property (nonatomic,strong) NSMutableArray* incomeObjectArray;
 @property (nonatomic,strong) NSMutableArray* expenseObjectArray;
 
+@property (nonatomic,strong) NSNumberFormatter* numberFormatter;
+
 @end

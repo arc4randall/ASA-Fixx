@@ -25,7 +25,8 @@
 
 - (id)init {
     if (self = [super init]) {
-        self.incomeCategoryArray = @[@"Rent",@"Food",@"Transportation", @"Utilities", @"Other"];
+        self.expenseCategoryArray = @[@"Rent",@"Food",@"Transportation",@"Utilities",@"Other"];
+        self.incomeCategoryArray = @[@"Job",@"Internship",@"Grant",@"Stipend",@"Gifts",@"Investments",@"Other"];
     }
     return self;
 }

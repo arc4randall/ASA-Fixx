@@ -80,10 +80,6 @@
 		E2310E851930D35400799AA5 /* big-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = E2310E831930D35400799AA5 /* big-picture.png */; };
 		E2310E871930D44900799AA5 /* spinner-small.png in Resources */ = {isa = PBXBuildFile; fileRef = E2310E861930D44900799AA5 /* spinner-small.png */; };
 		E2310E891930DDA800799AA5 /* small-arrow-up.png in Resources */ = {isa = PBXBuildFile; fileRef = E2310E881930DDA800799AA5 /* small-arrow-up.png */; };
-		E236D3031A065C250089E2E6 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E236D2FE1A065C250089E2E6 /* ForgotPasswordViewController.m */; };
-		E236D3041A065C250089E2E6 /* ForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E236D2FF1A065C250089E2E6 /* ForgotPasswordViewController.xib */; };
-		E236D3051A065C250089E2E6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E236D3011A065C250089E2E6 /* LoginViewController.m */; };
-		E236D3061A065C250089E2E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E236D3021A065C250089E2E6 /* LoginViewController.xib */; };
 		E23FDA121926B92300ADA815 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = E23FD9A41926B92300ADA815 /* SharedData.m */; };
 		E23FDA131926B92300ADA815 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E23FD9A61926B92300ADA815 /* User.m */; };
 		E23FDA141926B92300ADA815 /* bg_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = E23FD9A81926B92300ADA815 /* bg_cover.png */; };
@@ -305,12 +301,6 @@
 		E2310E831930D35400799AA5 /* big-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-picture.png"; sourceTree = "<group>"; };
 		E2310E861930D44900799AA5 /* spinner-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner-small.png"; sourceTree = "<group>"; };
 		E2310E881930DDA800799AA5 /* small-arrow-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-arrow-up.png"; sourceTree = "<group>"; };
-		E236D2FD1A065C250089E2E6 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
-		E236D2FE1A065C250089E2E6 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
-		E236D2FF1A065C250089E2E6 /* ForgotPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotPasswordViewController.xib; sourceTree = "<group>"; };
-		E236D3001A065C250089E2E6 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		E236D3011A065C250089E2E6 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		E236D3021A065C250089E2E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		E23FD9A01926B92300ADA815 /* ApplicationAlertMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationAlertMessages.h; sourceTree = "<group>"; };
 		E23FD9A11926B92300ADA815 /* ApplicationRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationRequest.h; sourceTree = "<group>"; };
 		E23FD9A31926B92300ADA815 /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedData.h; sourceTree = "<group>"; };
@@ -672,19 +662,6 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		E236D2FC1A065C250089E2E6 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				E236D2FD1A065C250089E2E6 /* ForgotPasswordViewController.h */,
-				E236D2FE1A065C250089E2E6 /* ForgotPasswordViewController.m */,
-				E236D2FF1A065C250089E2E6 /* ForgotPasswordViewController.xib */,
-				E236D3001A065C250089E2E6 /* LoginViewController.h */,
-				E236D3011A065C250089E2E6 /* LoginViewController.m */,
-				E236D3021A065C250089E2E6 /* LoginViewController.xib */,
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
 		E23FD99D1926B92300ADA815 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -840,7 +817,6 @@
 			isa = PBXGroup;
 			children = (
 				440BEF091AAF6F2B00DA5511 /* FPPopover */,
-				E236D2FC1A065C250089E2E6 /* Login */,
 				E2303E33197165060005F817 /* Profile */,
 				E2303E2A197150560005F817 /* Notifications */,
 				E2303E2419714BFB0005F817 /* Settings */,
@@ -1264,7 +1240,6 @@
 				E2310E791930B69D00799AA5 /* uncheck-icon.png in Resources */,
 				E23FDA211926B92300ADA815 /* PROXIMANOVA-SEMIBOLD.ttf in Resources */,
 				E2FE289819292F6600C9300B /* calendar-icon.png in Resources */,
-				E236D3061A065C250089E2E6 /* LoginViewController.xib in Resources */,
 				E2169BD7194C5CFE0095A8B6 /* small-arrow-down.png in Resources */,
 				E28E54791954D0CD0012AAA6 /* tab-income-active.png in Resources */,
 				E2E9EA92192D35AE005CD764 /* input-bg.png in Resources */,
@@ -1311,7 +1286,6 @@
 				E21D47CA194D932000BD9589 /* spinner-large.png in Resources */,
 				E2FE288B1929230A00C9300B /* add-new-expense.png in Resources */,
 				E2FEB1FB1931B38800C9F879 /* arrow-next.png in Resources */,
-				E236D3041A065C250089E2E6 /* ForgotPasswordViewController.xib in Resources */,
 				E20F40EE19EC49DC000F25DF /* down-arrow-inverted.png in Resources */,
 				E2303E32197152AC0005F817 /* notification-setting-icon.png in Resources */,
 				4400D1841AE92CF6002EBA36 /* AddNewIncomeViewController.xib in Resources */,
@@ -1355,14 +1329,12 @@
 				E23FDA271926B92300ADA815 /* UIViewController+MMDrawerController.m in Sources */,
 				E23FDA541926BE2200ADA815 /* AlertDialogProgressView.m in Sources */,
 				E2935C3F1925E9B10030205D /* AppDelegate.m in Sources */,
-				E236D3051A065C250089E2E6 /* LoginViewController.m in Sources */,
 				E23FDA2B1926B92300ADA815 /* UIImage+scale_resize.m in Sources */,
 				440BEF0E1AAF703D00DA5511 /* FPPopoverView.m in Sources */,
 				E23FDA3B1926B92300ADA815 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				4402C4DD1AD2E0AB009B2E0C /* PieChartPopoverViewController.m in Sources */,
 				E23FDA401926B92300ADA815 /* NSObject+SBJSON.m in Sources */,
 				E23FDA121926B92300ADA815 /* SharedData.m in Sources */,
-				E236D3031A065C250089E2E6 /* ForgotPasswordViewController.m in Sources */,
 				E23FDA311926B92300ADA815 /* LeftTabController.m in Sources */,
 				44A583961ADD937400609E7C /* LegendTableViewCell.m in Sources */,
 				E2E9EA86192D25ED005CD764 /* AddNewIncomeViewController.m in Sources */,

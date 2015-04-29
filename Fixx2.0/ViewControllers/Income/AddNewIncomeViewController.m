@@ -39,7 +39,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     //LAYOUT ARRANGEMENT
     self.timeFrameSegmentedControl.frame = CGRectMake(-5,0,self.view.frame.size.width * 0.81, self.view.frame.size.height * 0.10);
     self.timeFrameSegmentedControl.tintColor = [UIColor blackColor];
@@ -56,7 +55,7 @@
         self.nameOfFixxTextField.placeholder = @"Expense Source";
     }
     
-    self.categoryTextField.frame = CGRectMake(-5,50,self.view.frame.size.width * 0.70, self.view.frame.size.height * 0.08);
+    self.categoryTextField.frame = CGRectMake(self.view.frame.size.width / 12 + 15,70,self.view.frame.size.width / 2, self.view.frame.size.height / 15);
 
     //initialize pickerview
     [self createPickerView];
@@ -124,9 +123,9 @@
     if ([[DBManager getSharedInstance]saveDataWithName:savedIncome.name Amount:savedIncome.amount Duration:savedIncome.duration Category:savedIncome.category]) {
         [self.popover dismissPopoverAnimated:YES];
         if (self.incomeBoardController.isExpenseController) {
-            self.incomeBoardController.incomeExpanseDictionary = [[DBManager getSharedInstance] returnAllByType:@"expense"];
+            self.incomeBoardController.incomeExpenseDictionary = [[DBManager getSharedInstance] returnAllByType:@"expense"];
         }else {
-            self.incomeBoardController.incomeExpanseDictionary = [[DBManager getSharedInstance] returnAllByType:@"income"];
+            self.incomeBoardController.incomeExpenseDictionary = [[DBManager getSharedInstance] returnAllByType:@"income"];
         }
         [self.incomeBoardController viewWillAppear:YES];
     } else {
@@ -143,18 +142,21 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (textField == self.categoryTextField){
         self.categoryTextField.inputView = _categoryPicker;
-        self.categoryTextField.text = @"Rent";
+        self.categoryTextField.text = nil;
         
     }
     textField.placeholder = nil;
 }
 
 
-
+#pragma mark Pickerview Methods
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [[[GlobalManager sharedManager]incomeCategoryArray] count];
-}
+    if (self.incomeBoardController.isExpenseController) {
+        return [[[GlobalManager sharedManager]expenseCategoryArray] count];
+    } else {
+        return [[[GlobalManager sharedManager]incomeCategoryArray] count];    }
+    }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
@@ -163,7 +165,11 @@
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [[[GlobalManager sharedManager]incomeCategoryArray] objectAtIndex:row];
+    if (self.incomeBoardController.isExpenseController) {
+        return [[[GlobalManager sharedManager]expenseCategoryArray] objectAtIndex:row];
+    } else {
+        return [[[GlobalManager sharedManager]incomeCategoryArray] objectAtIndex:row];
+    }
 }
 
 //-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
@@ -173,6 +179,10 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    self.categoryTextField.text = [[GlobalManager sharedManager]incomeCategoryArray][row];
+    if (self.incomeBoardController.isExpenseController){
+        self.categoryTextField.text = [[GlobalManager sharedManager] expenseCategoryArray][row];
+    } else {
+        self.categoryTextField.text = [[GlobalManager sharedManager]incomeCategoryArray][row];
+    }
 }
 @end

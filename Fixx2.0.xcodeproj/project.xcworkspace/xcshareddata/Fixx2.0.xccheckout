@@ -7,23 +7,34 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>2FC5F921-ACAC-473C-996C-23CECBA96D8A</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Fixx2.0</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>26d969a2-e29a-4f51-bbd3-a42b13133c06</key>
 		<string>https://xp-dev.com/svn/Fixx2.0</string>
+		<key>C423228E557B58089240E9215C03FE4D0AFCF45F</key>
+		<string>https://github.com/RDSpinz/ASA-Fixx.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>trunk/iOS/Fixx2.0.xcodeproj</string>
+	<string>Fixx2.0.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>26d969a2-e29a-4f51-bbd3-a42b13133c06</key>
 		<string>../../../..</string>
+		<key>C423228E557B58089240E9215C03FE4D0AFCF45F</key>
+		<string>../..</string>
 	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>C423228E557B58089240E9215C03FE4D0AFCF45F</key>
+		<string>https://xp-dev.com/svn/Fixx2.0</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://xp-dev.com/svn/Fixx2.0/trunk/iOS/Fixx2.0.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>26d969a2-e29a-4f51-bbd3-a42b13133c06</string>
+	<string>C423228E557B58089240E9215C03FE4D0AFCF45F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -32,7 +43,23 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>26d969a2-e29a-4f51-bbd3-a42b13133c06</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Fixx2.0</string>
+			<string>..</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C423228E557B58089240E9215C03FE4D0AFCF45F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iOS</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C423228E557B58089240E9215C03FE4D0AFCF45F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iOS</string>
 		</dict>
 	</array>
 </dict>

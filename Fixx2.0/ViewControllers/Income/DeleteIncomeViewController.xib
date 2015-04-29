@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeleteIncomeViewController">
             <connections>
-                <outlet property="categoryButton" destination="RgW-s7-tF4" id="C8J-lL-7xt"/>
+                <outlet property="categoryTextField" destination="Eq0-mm-Bfl" id="2fe-Lg-Un4"/>
                 <outlet property="deleteButton" destination="wJ1-el-zpB" id="BMo-RS-AZe"/>
                 <outlet property="incomeSourceTextField" destination="Uyi-XR-3tW" id="ezF-b0-9qf"/>
                 <outlet property="incomeValueTextField" destination="uBv-5l-5q7" id="t4z-Dl-7uj"/>
@@ -35,13 +35,13 @@
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Income Source" minimumFontSize="17" id="Uyi-XR-3tW">
                     <rect key="frame" x="66" y="331" width="189" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="$00.00" minimumFontSize="17" id="uBv-5l-5q7">
                     <rect key="frame" x="66" y="219" width="189" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                 </textField>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="Fbc-e5-1Wi">
@@ -64,16 +64,15 @@
                         <action selector="saveButtonPressed:" destination="-1" eventType="touchUpInside" id="Or4-6g-IfJ"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RgW-s7-tF4">
-                    <rect key="frame" x="129" y="161" width="63" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Category" minimumFontSize="17" id="Eq0-mm-Bfl">
+                    <rect key="frame" x="66" y="156" width="189" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Category">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
                     <connections>
-                        <action selector="categoryButtonPressed:" destination="-1" eventType="touchUpInside" id="O6e-Ps-FTS"/>
+                        <outlet property="delegate" destination="-1" id="xBZ-Aj-2F5"/>
                     </connections>
-                </button>
+                </textField>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
