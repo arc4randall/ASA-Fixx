@@ -179,7 +179,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(NSMutableDictionary *)sortDictionary:(NSMutableDictionary *)originalDictionary{
+    NSMutableDictionary *sortedDictionary = [[NSMutableDictionary alloc]init];
+    NSArray* sortedKeys = [[originalDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    for (NSString* currentKey in sortedKeys) {
+        NSMutableArray *currentArray = (NSMutableArray *)[originalDictionary objectForKey:currentKey];
+        [sortedDictionary setObject: [currentArray sortedArrayUsingSelector:@selector(compare:)] forKey:currentKey];
+    }
+    return sortedDictionary;
+}
 #pragma mark UITableView Delegate Methods
 
 -(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -210,7 +218,9 @@
     return cell;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return [[self.incomeExpenseDictionary allKeys] objectAtIndex:section];
+    NSArray* sectionArray = [self.incomeExpenseDictionary allKeys];
+    return [sectionArray objectAtIndex:section];
+
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
