@@ -184,7 +184,16 @@
     NSArray* sortedKeys = [[originalDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     for (NSString* currentKey in sortedKeys) {
         NSMutableArray *currentArray = (NSMutableArray *)[originalDictionary objectForKey:currentKey];
-        [sortedDictionary setObject: [currentArray sortedArrayUsingSelector:@selector(compare:)] forKey:currentKey];
+        
+        NSArray *sortedArray;
+        sortedArray = [currentArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+            NSString *first = [(Income*)a name];
+            NSString *second = [(Income*)b name];
+            return [first compare:second];
+        }];
+        
+        [sortedDictionary setObject:sortedArray forKey:currentKey];
+        //[sortedDictionary setObject: [currentArray sortedArrayUsingSelector:@selector(compare:)] forKey:currentKey];
     }
     return sortedDictionary;
 }
