@@ -45,7 +45,14 @@
     [super viewDidLoad];
     [self prepareLayout];
     [self trackEvent:[WTEvent eventForScreenView:@"Home Dashboard" eventDescr:@"Landing On screen" eventType:@"" contentGroup:@""]];
-    
+    if (!self.incomeDictionary) {
+        self.incomeDictionary = [[DBManager getSharedInstance]returnAllByType:@"income"];
+    }
+    if (!self.expenseDictionary) {
+        self.expenseDictionary = [[DBManager getSharedInstance]returnAllByType:@"expense"];
+    }
+    NSLog(@"INCOME DICTIONARY: %@",self.incomeDictionary);
+    NSLog(@"EXPENSE DICTIONARY: %@",self.expenseDictionary);
     self.numberFormatter = [[NSNumberFormatter alloc] init];
     [self.numberFormatter setUsesGroupingSeparator:YES];
     [self.numberFormatter setGroupingSeparator:@","];
@@ -83,15 +90,17 @@
     // XYPieChart Setup
     
     self.sliceColors =@[[UIColor redColor],
-                       [UIColor colorWithRed:246/255.0 green:155/255.0 blue:0/255.0 alpha:1],
-                       [UIColor blueColor],
+                        [UIColor orangeColor],
+                        [UIColor yellowColor],
+                        [UIColor greenColor],
+                        [UIColor blueColor],
+                        [UIColor purpleColor],
                        [UIColor colorWithRed:129/255.0 green:195/255.0 blue:29/255.0 alpha:1],
-                       [UIColor greenColor],
                        [UIColor colorWithRed:62/255.0 green:173/255.0 blue:219/255.0 alpha:1],
-                       [UIColor purpleColor],
                        [UIColor colorWithRed:229/255.0 green:66/255.0 blue:115/255.0 alpha:1],
-                       [UIColor orangeColor],
-                       [UIColor colorWithRed:148/255.0 green:141/255.0 blue:139/255.0 alpha:1]];
+                       [UIColor grayColor],
+                       [UIColor magentaColor],
+                       [UIColor brownColor]];
     
     if (!_incomePieChart)
     {
@@ -104,18 +113,21 @@
         
         self.incomeObjectArray = [[DBManager getSharedInstance] getAllIncome];
         self.slices = [[NSMutableArray alloc] init];
-
-        for(Income* income in self.incomeObjectArray)
+        NSArray *allIncomeKeys =  [[self.incomeDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        for(NSString* categoryKey in allIncomeKeys)
         {
-            float multiplier = 1;
-            if ([income.duration isEqualToString:@"Weekly"]) {
-                multiplier = 52.0;
-            } else if ([income.duration isEqualToString:@"Monthly"]) {
-                multiplier = 12;
+            int categoryAmount = 0;
+            for (Income *income in [self.incomeDictionary objectForKey:categoryKey]) {
+                float multiplier = 1;
+                if ([income.duration isEqualToString:@"Weekly"]) {
+                    multiplier = 52.0;
+                } else if ([income.duration isEqualToString:@"Monthly"]) {
+                    multiplier = 12;
+                }
+                categoryAmount += fabs(income.amount) * multiplier;
             }
-            NSNumber* one = @(income.amount * multiplier);
-            [_slices addObject:one];
-            
+            NSNumber* categoryNumber = [NSNumber numberWithInt:categoryAmount];
+            [_slices addObject:categoryNumber];
         }
         [self.incomePieChart reloadData];
     }
@@ -130,12 +142,23 @@
         
         self.expenseObjectArray = [[DBManager getSharedInstance] getAllExpense];
         self.slices = [[NSMutableArray alloc] init];
-        
-        for(Income* income in self.expenseObjectArray)
+        NSArray *allIncomeKeys =  [[self.expenseDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        for(NSString* categoryKey in allIncomeKeys)
         {
-            NSNumber *one = [NSNumber numberWithInt:income.amount];
-            [_slices addObject:one];
+            int categoryAmount = 0;
+            for (Income *income in [self.expenseDictionary objectForKey:categoryKey]) {
+                float multiplier = 1;
+                if ([income.duration isEqualToString:@"Weekly"]) {
+                    multiplier = 52.0;
+                } else if ([income.duration isEqualToString:@"Monthly"]) {
+                    multiplier = 12;
+                }
+                categoryAmount += fabs(income.amount) * multiplier;
+            }
+            NSNumber *categoryNumber = [NSNumber numberWithInt:categoryAmount];
+            [_slices addObject:categoryNumber];
         }
+
         [self.expensePieChart reloadData];
     }
     [self.navigationController.view addSubview:_incomePieChart];

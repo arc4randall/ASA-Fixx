@@ -18,6 +18,5 @@
 @property (strong, nonatomic) FPPopoverKeyboardResponsiveController *popover;
 @property (strong, nonatomic) IBOutlet UITableView *legendTableView;
 @property (strong, nonatomic) NSArray *sliceColors;
-
 - (instancetype)initWithType:(NSString*)viewType;
 @end

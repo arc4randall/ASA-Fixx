@@ -40,4 +40,7 @@
 
 @property (nonatomic,strong) NSNumberFormatter* numberFormatter;
 
+@property (nonatomic,strong) NSMutableDictionary* incomeDictionary;
+@property (nonatomic,strong) NSMutableDictionary* expenseDictionary;
+
 @end
