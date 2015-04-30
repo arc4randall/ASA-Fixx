@@ -204,6 +204,13 @@ static sqlite3_stmt *statement = nil;
         }
     }
     sqlite3_reset(statement);
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
+                                                                   ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    for (NSString* currentKey in [dictionary allKeys]) {
+        NSMutableArray *currentArray = (NSMutableArray *)[dictionary objectForKey:currentKey];
+        [dictionary setObject: [currentArray sortedArrayUsingDescriptors:sortDescriptors] forKey:currentKey];
+    }
     return dictionary;
 }
 -(Income *)getAnIncomeFromDB {

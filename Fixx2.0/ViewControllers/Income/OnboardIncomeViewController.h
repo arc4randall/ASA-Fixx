@@ -20,6 +20,5 @@
 @property (nonatomic, retain) IBOutlet UITableView *incomeTableView;
 @property (nonatomic,strong) NSMutableDictionary* incomeExpenseDictionary;
 @property  BOOL isExpenseController;
--(NSMutableDictionary *)sortDictionary:(NSMutableDictionary *)originalDictionary;
 
 @end

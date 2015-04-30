@@ -22,12 +22,13 @@
     UIButton *btnSliderLeft;
     AddNewIncomeViewController *objAddNewIncomeViewController;
     DeleteIncomeViewController *objDeleteIncomeViewController;
+    NSArray *sortedKeys;
 }
-
+@property(nonatomic, strong) NSArray *sortedKeys;
 @end
 
 @implementation OnboardIncomeViewController
-
+@synthesize sortedKeys;
 //- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 //{
 //    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -50,7 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.sortedKeys = [[NSArray alloc]init];
     self.incomeTableView.layer.borderWidth = 2.0;
     
     [self prepareLayout];
@@ -109,7 +110,7 @@
                                         action:@selector(addIncome:)];
     
     self.navigationItem.rightBarButtonItem = addIncomeButton;
-
+    self.sortedKeys = [[self.incomeExpenseDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
     [self.incomeTableView reloadData];
     NSLog(@"Tableview should have loaded");
@@ -179,6 +180,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+<<<<<<< HEAD
 -(NSMutableDictionary *)sortDictionary:(NSMutableDictionary *)originalDictionary{
     NSMutableDictionary *sortedDictionary = [[NSMutableDictionary alloc]init];
     NSArray* sortedKeys = [[originalDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
@@ -197,6 +199,8 @@
     }
     return sortedDictionary;
 }
+=======
+>>>>>>> master
 #pragma mark UITableView Delegate Methods
 
 -(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -210,7 +214,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return (int)[[self.incomeExpenseDictionary allKeys] count];
+    return [self.sortedKeys count];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -227,8 +231,7 @@
     return cell;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    NSArray* sectionArray = [self.incomeExpenseDictionary allKeys];
-    return [sectionArray objectAtIndex:section];
+    return [self.sortedKeys objectAtIndex:section];
 
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -272,7 +275,7 @@
     
 }
 -(NSMutableArray *)getCurrentItemsArrayFromIndexPath:(NSInteger)section {
-    NSString *currentKey = [[self.incomeExpenseDictionary allKeys] objectAtIndex:section];
+    NSString *currentKey = [self.sortedKeys objectAtIndex:section];
     NSMutableArray *itemsArray = [self.incomeExpenseDictionary objectForKey:currentKey];
     return itemsArray;
 }
