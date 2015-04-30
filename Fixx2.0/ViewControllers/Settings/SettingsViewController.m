@@ -92,11 +92,6 @@
 }
 
 #pragma mark - IBAction Button
-- (IBAction)btnUpdateProfile_ButtonPressed:(id)sender {
-    UpdateProfileViewController *objUpdateProfileViewController = [[UpdateProfileViewController alloc] initWithNibName:@"UpdateProfileViewController" bundle:Nil];
-    [self.navigationController pushViewController:objUpdateProfileViewController animated:YES];
-}
-
 - (IBAction)btnNotifications_ButtonPressed:(id)sender {
     NotificationsViewController *objNotificationViewController = [[NotificationsViewController alloc] initWithNibName:@"NotificationsViewController" bundle:Nil];
     [self.navigationController pushViewController:objNotificationViewController animated:YES];

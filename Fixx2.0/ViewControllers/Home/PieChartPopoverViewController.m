@@ -50,44 +50,63 @@
     if (cell == nil) {
         cell = [[LegendTableViewCell alloc]  initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LegendCell"];
     }
-    if ([type isEqualToString:@"Income"]){
-        Income *income = (Income *)self.incomeBoardController.incomeObjectArray[indexPath.row];
-        cell.incomeNameLabel.text = income.name;
-    } else {
-        Income *income = (Income *)self.incomeBoardController.expenseObjectArray[indexPath.row];
-        cell.incomeNameLabel.text = income.name;
-    }
+    
+    Income *income = (Income *)[self getCurrentItemsArrayFromIndexPath:indexPath.section][indexPath.row];
+    cell.incomeNameLabel.text = income.name;
     cell.userInteractionEnabled = NO;
 
-    cell.colorView.backgroundColor = [self.sliceColors objectAtIndex:indexPath.row];
+    cell.colorView.backgroundColor = [self.sliceColors objectAtIndex:indexPath.section];
     return cell;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([type isEqualToString:@"Income"]) {
-        return self.incomeBoardController.incomeObjectArray.count;
-    } else {
-        return self.incomeBoardController.expenseObjectArray.count;
-    }
+    NSLog(@"SECTION %ld has %lu items",(long)section,(unsigned long)[[self getCurrentItemsArrayFromIndexPath:section] count]);
+    return [[self getCurrentItemsArrayFromIndexPath:section] count];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    if ([type isEqualToString:@"Income"]) {
+        return [self.incomeBoardController.incomeDictionary.allKeys count];
+    } else {
+        return [self.incomeBoardController.expenseDictionary.allKeys count];
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 45;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    if ([type isEqualToString:@"Income"]) {
+        return [[[self.incomeBoardController.incomeDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
+    } else {
+        return [[[self.incomeBoardController.expenseDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
+    }
+    
 }
-*/
+
+-(NSMutableArray *)getCurrentItemsArrayFromIndexPath:(NSInteger)section {
+    NSMutableArray *itemsArray = [[NSMutableArray alloc] init];
+    NSString *currentKey;
+    if ([type isEqualToString:@"Income"]) {
+        currentKey = [[[self.incomeBoardController.incomeDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
+        itemsArray = [self.incomeBoardController.incomeDictionary objectForKey:currentKey];
+    } else {
+        currentKey = [[[self.incomeBoardController.expenseDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectAtIndex:section];
+        itemsArray = [self.incomeBoardController.expenseDictionary objectForKey:currentKey];
+    }
+    return itemsArray;
+}
+
+//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+//    UILabel* labelView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+//    labelView.text = [self tableView:tableView titleForHeaderInSection:section];
+//    [headerView addSubview:labelView];
+//    [headerView setBackgroundColor:[self.sliceColors objectAtIndex:section]];
+//    return headerView;
+//}
 
 @end

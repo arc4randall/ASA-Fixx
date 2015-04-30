@@ -180,27 +180,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-<<<<<<< HEAD
--(NSMutableDictionary *)sortDictionary:(NSMutableDictionary *)originalDictionary{
-    NSMutableDictionary *sortedDictionary = [[NSMutableDictionary alloc]init];
-    NSArray* sortedKeys = [[originalDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    for (NSString* currentKey in sortedKeys) {
-        NSMutableArray *currentArray = (NSMutableArray *)[originalDictionary objectForKey:currentKey];
-        
-        NSArray *sortedArray;
-        sortedArray = [currentArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-            NSString *first = [(Income*)a name];
-            NSString *second = [(Income*)b name];
-            return [first compare:second];
-        }];
-        
-        [sortedDictionary setObject:sortedArray forKey:currentKey];
-        //[sortedDictionary setObject: [currentArray sortedArrayUsingSelector:@selector(compare:)] forKey:currentKey];
-    }
-    return sortedDictionary;
-}
-=======
->>>>>>> master
+
 #pragma mark UITableView Delegate Methods
 
 -(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
