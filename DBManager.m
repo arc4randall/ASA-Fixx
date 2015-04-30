@@ -205,7 +205,7 @@ static sqlite3_stmt *statement = nil;
     }
     sqlite3_reset(statement);
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-                                                                   ascending:YES];
+                                                                   ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     for (NSString* currentKey in [dictionary allKeys]) {
         NSMutableArray *currentArray = (NSMutableArray *)[dictionary objectForKey:currentKey];
