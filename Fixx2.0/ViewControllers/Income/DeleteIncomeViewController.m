@@ -20,16 +20,6 @@
 @implementation DeleteIncomeViewController
 @synthesize incomeBoardController, incomeObj, popover;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        self.incomeObjectArray = [[NSMutableArray alloc] init];
-    }
-    return self;
-}
-
 -(instancetype)initWithIncomeSource:(NSString*)source value:(double)value duration:(NSString*)duration category:(NSString*)category
 {
     self = [super init];
@@ -76,7 +66,7 @@
     if (self.incomeBoardController.isExpenseController) {
         [self.incomeSourceTextField setPlaceholder:@"Expense Source"];
     }
-   
+    
     NSLog(@"save x: %f del x: %f",self.saveButton.frame.origin.x,self.deleteButton.frame.origin.x);
 
 }

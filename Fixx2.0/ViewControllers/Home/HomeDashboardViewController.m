@@ -94,6 +94,7 @@
                         [UIColor yellowColor],
                         [UIColor greenColor],
                         [UIColor blueColor],
+                        [UIColor colorWithRed:0.365 green:0.463 blue:0.796 alpha:1],
                         [UIColor purpleColor],
                        [UIColor colorWithRed:129/255.0 green:195/255.0 blue:29/255.0 alpha:1],
                        [UIColor colorWithRed:62/255.0 green:173/255.0 blue:219/255.0 alpha:1],
@@ -390,26 +391,26 @@
 }
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
-        double totalIncome = 0.0;
-        for (Income* income in self.incomeObjectArray) {
-            float multiplier = 1;
-            if ([income.duration isEqualToString:@"Weekly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 1) {
-                multiplier = 4;
-            } else if ([income.duration isEqualToString:@"Weekly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 2) {
-                multiplier = 52;
-            } else if ([income.duration isEqualToString:@"Monthly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 0) {
-                multiplier = 0.25;
-            } else if ([income.duration isEqualToString:@"Monthly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 2) {
-                multiplier = 12;
-            } else if ([income.duration isEqualToString:@"Yearly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 0) {
-                multiplier = (1.0/52.0);
-            } else if ([income.duration isEqualToString:@"Yearly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 1) {
-                multiplier = (1.0 / 12.0);
-            }
+    double totalIncome = 0.0;
+    for (Income* income in self.incomeObjectArray) {
+        float multiplier = 1;
+        if ([income.duration isEqualToString:@"Weekly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 1) {
+            multiplier = 4;
+        } else if ([income.duration isEqualToString:@"Weekly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 2) {
+            multiplier = 52;
+        } else if ([income.duration isEqualToString:@"Monthly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 0) {
+            multiplier = 0.25;
+        } else if ([income.duration isEqualToString:@"Monthly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 2) {
+            multiplier = 12;
+        } else if ([income.duration isEqualToString:@"Yearly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 0) {
+            multiplier = (1.0/52.0);
+        } else if ([income.duration isEqualToString:@"Yearly"] && self.timeFrameSegmentedControl.selectedSegmentIndex == 1) {
+            multiplier = (1.0 / 12.0);
+        }
             totalIncome += income.amount * multiplier;
         }
-        NSNumber* totalNumber = [NSNumber numberWithDouble:totalIncome];
-        self.lblEarnValue.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:totalNumber]];
+    NSNumber* totalNumber = [NSNumber numberWithDouble:totalIncome];
+    self.lblEarnValue.text = [NSString stringWithFormat:@"$%@",[self.numberFormatter stringFromNumber:totalNumber]];
     
     self.expenseObjectArray = [[DBManager getSharedInstance] getAllExpense];
     double totalExpense = 0.0;
