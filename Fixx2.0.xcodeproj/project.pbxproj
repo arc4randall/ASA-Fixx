@@ -1504,7 +1504,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fixx2.0/Fixx2.0-Prefix.pch";
 				INFOPLIST_FILE = "Fixx2.0/Fixx2.0-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-licucore",
 					"-ObjC",
@@ -1532,7 +1532,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fixx2.0/Fixx2.0-Prefix.pch";
 				INFOPLIST_FILE = "Fixx2.0/Fixx2.0-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-licucore",
 					"-ObjC",
