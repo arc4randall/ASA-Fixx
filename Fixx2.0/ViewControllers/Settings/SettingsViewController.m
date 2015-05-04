@@ -9,7 +9,7 @@
 #import "SettingsViewController.h"
 #import "MMDrawerBarButtonItem.h"
 #import "UIViewController+MMDrawerController.h"
-#import "NotificationsViewController.h"
+#import "ReminderViewController.h"
 #import "UpdateProfileViewController.h"
 
 @interface SettingsViewController () {
@@ -93,13 +93,12 @@
 
 #pragma mark - IBAction Button
 - (IBAction)btnNotifications_ButtonPressed:(id)sender {
-    NotificationsViewController *objNotificationViewController = [[NotificationsViewController alloc] initWithNibName:@"NotificationsViewController" bundle:Nil];
-    [self.navigationController pushViewController:objNotificationViewController animated:YES];
+    ReminderViewController *objReminderViewController = [[ReminderViewController alloc] initWithNibName:@"ReminderViewController" bundle:Nil];
+    [self.navigationController pushViewController:objReminderViewController animated:YES];
 }
 
 - (IBAction)btnAboutSALT_ButtonPressed:(id)sender {
-//    objUpdateProfileViewController = [[UpdateProfileViewController alloc] initWithNibName:@"UpdateProfileViewController" bundle:Nil];
-//    [self.navigationController pushViewController:objUpdateProfileViewController animated:YES];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.saltmoney.org"]];
 }
 
 - (void)didReceiveMemoryWarning

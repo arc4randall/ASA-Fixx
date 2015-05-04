@@ -116,10 +116,39 @@
 }
 
 - (IBAction)saveButtonPressed:(id)sender {
+    
+    if ([self.incomeSourceTextField.text isEqualToString:@""]) {
+        CABasicAnimation *animationOnLoginEmail = [CABasicAnimation animationWithKeyPath:@"position"];
+        [animationOnLoginEmail setDuration:0.15];
+        [animationOnLoginEmail setRepeatCount:3];
+        [animationOnLoginEmail setAutoreverses:YES];
+        [animationOnLoginEmail setFromValue:[NSValue valueWithCGPoint: CGPointMake([self.incomeSourceTextField center].x - 7.0f, [self.incomeSourceTextField center].y)]];
+        [[self.incomeSourceTextField layer] addAnimation:animationOnLoginEmail forKey:@"position"];
+    }
+    if ([self.incomeValueTextField.text isEqualToString:@""]) {
+        CABasicAnimation *animationOnLoginEmail = [CABasicAnimation animationWithKeyPath:@"position"];
+        [animationOnLoginEmail setDuration:0.15];
+        [animationOnLoginEmail setRepeatCount:3];
+        [animationOnLoginEmail setAutoreverses:YES];
+        [animationOnLoginEmail setFromValue:[NSValue valueWithCGPoint: CGPointMake([self.incomeValueTextField center].x - 7.0f, [self.incomeValueTextField center].y)]];
+        [[self.incomeValueTextField layer] addAnimation:animationOnLoginEmail forKey:@"position"];
+    }
+    if ([self.categoryTextField.text isEqualToString:@""]) {
+        CABasicAnimation *animationOnLoginEmail = [CABasicAnimation animationWithKeyPath:@"position"];
+        [animationOnLoginEmail setDuration:0.15];
+        [animationOnLoginEmail setRepeatCount:3];
+        [animationOnLoginEmail setAutoreverses:YES];
+        [animationOnLoginEmail setFromValue:[NSValue valueWithCGPoint: CGPointMake([self.categoryTextField center].x - 7.0f, [self.categoryTextField center].y)]];
+        [[self.categoryTextField layer] addAnimation:animationOnLoginEmail forKey:@"position"];
+    }
+    if (![self.incomeSourceTextField.text isEqualToString:@""] && ![self.incomeValueTextField.text isEqualToString:@""] && ![self.categoryTextField.text isEqualToString:@""]) {
+    
     self.incomeObj.name = self.incomeSourceTextField.text;
     if (self.incomeBoardController.isExpenseController) {
         self.incomeObj.amount = fabs([self.incomeValueTextField.text doubleValue]) * -1.0;
-    } else {
+    }
+        
+    {
         self.incomeObj.amount = fabs([self.incomeValueTextField.text doubleValue]);
     }
     
@@ -139,6 +168,7 @@
     self.incomeObj.category = self.categoryTextField.text;
     if ([[DBManager getSharedInstance]updateByID:self.incomeObj]) {
         [self reloadTableDismissCurrent];
+        }
     }
 }
 -(void) reloadTableDismissCurrent {
@@ -160,7 +190,11 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (textField == self.categoryTextField){
         self.categoryTextField.inputView = _categoryPicker;
+        if ([self.incomeBoardController isExpenseController]){
         self.categoryTextField.text = @"Rent";
+        } else {
+        self.categoryTextField.text = @"Job";
+        }
         
     }
     textField.placeholder = nil;
