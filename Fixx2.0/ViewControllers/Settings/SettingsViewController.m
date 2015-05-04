@@ -103,8 +103,7 @@
 }
 
 - (IBAction)btnAboutSALT_ButtonPressed:(id)sender {
-//    objUpdateProfileViewController = [[UpdateProfileViewController alloc] initWithNibName:@"UpdateProfileViewController" bundle:Nil];
-//    [self.navigationController pushViewController:objUpdateProfileViewController animated:YES];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.saltmoney.org"]];
 }
 
 - (void)didReceiveMemoryWarning
