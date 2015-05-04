@@ -18,7 +18,6 @@
 #import "IETableViewCell.h"
 
 @interface OnboardIncomeViewController () <UITableViewDelegate, UITableViewDataSource, FPPopoverControllerDelegate> {
-    NSMutableArray *arrIncome;
     UIButton *btnSliderLeft;
     AddNewIncomeViewController *objAddNewIncomeViewController;
     DeleteIncomeViewController *objDeleteIncomeViewController;
@@ -29,15 +28,6 @@
 
 @implementation OnboardIncomeViewController
 @synthesize sortedKeys;
-//- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//        
-//    }
-//    return self;
-//}
 
 -(instancetype)initAsExpenseController:(BOOL)expenseController
 {
@@ -250,8 +240,12 @@
     [popover presentPopoverFromPoint: CGPointMake(self.view.center.x, self.view.center.y - popover.contentSize.height * 0.9)];
     objDeleteIncomeViewController.incomeBoardController = self;
     objDeleteIncomeViewController.popover = popover;
-    
+    [self.incomeTableView deselectRowAtIndexPath:indexPath animated:YES];
     NSLog(@"Popover should appear here...");
+    
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     
 }
 -(NSMutableArray *)getCurrentItemsArrayFromIndexPath:(NSInteger)section {

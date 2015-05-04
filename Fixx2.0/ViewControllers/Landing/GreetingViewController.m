@@ -211,8 +211,11 @@
 {
     NSLog(@"Result: %@",result);
     if (!error){
-        NSLog(@"FB LOGIN COMPLETED");
-        [self signInToHomeSuccessfully];
+        NSLog(@"FB LOGIN STARTED");
+        if ([FBSDKAccessToken currentAccessToken]) {
+            NSLog(@"WE HAVE THE TOKEN");
+            [self signInToHomeSuccessfully];
+        }
     }
 }
 

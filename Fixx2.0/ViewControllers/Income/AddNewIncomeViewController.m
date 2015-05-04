@@ -95,6 +95,33 @@
     }
 }
 - (IBAction)saveButtonPressed:(id)sender {
+    
+    if ([self.nameOfFixxTextField.text isEqualToString:@""]) {
+        CABasicAnimation *animationOnLoginEmail = [CABasicAnimation animationWithKeyPath:@"position"];
+        [animationOnLoginEmail setDuration:0.15];
+        [animationOnLoginEmail setRepeatCount:3];
+        [animationOnLoginEmail setAutoreverses:YES];
+        [animationOnLoginEmail setFromValue:[NSValue valueWithCGPoint: CGPointMake([self.nameOfFixxTextField center].x - 7.0f, [self.nameOfFixxTextField center].y)]];
+        [[self.nameOfFixxTextField layer] addAnimation:animationOnLoginEmail forKey:@"position"];
+    }
+    if ([self.earningAmountTextField.text isEqualToString:@""]) {
+            CABasicAnimation *animationOnLoginEmail = [CABasicAnimation animationWithKeyPath:@"position"];
+            [animationOnLoginEmail setDuration:0.15];
+            [animationOnLoginEmail setRepeatCount:3];
+            [animationOnLoginEmail setAutoreverses:YES];
+            [animationOnLoginEmail setFromValue:[NSValue valueWithCGPoint: CGPointMake([self.earningAmountTextField center].x - 7.0f, [self.earningAmountTextField center].y)]];
+            [[self.earningAmountTextField layer] addAnimation:animationOnLoginEmail forKey:@"position"];
+    }
+    if ([self.categoryTextField.text isEqualToString:@""]) {
+        CABasicAnimation *animationOnLoginEmail = [CABasicAnimation animationWithKeyPath:@"position"];
+        [animationOnLoginEmail setDuration:0.15];
+        [animationOnLoginEmail setRepeatCount:3];
+        [animationOnLoginEmail setAutoreverses:YES];
+        [animationOnLoginEmail setFromValue:[NSValue valueWithCGPoint: CGPointMake([self.categoryTextField center].x - 7.0f, [self.categoryTextField center].y)]];
+        [[self.categoryTextField layer] addAnimation:animationOnLoginEmail forKey:@"position"];
+    }
+    if (![self.nameOfFixxTextField.text isEqualToString:@""] && ![self.earningAmountTextField.text isEqualToString:@""] && ![self.categoryTextField.text isEqualToString:@""]) {
+    
     NSString* durationString = [[NSString alloc] init];
     switch (self.timeFrameSegmentedControl.selectedSegmentIndex) {
         case 0:
@@ -128,8 +155,7 @@
             self.incomeBoardController.incomeExpenseDictionary = [[DBManager getSharedInstance] returnAllByType:@"income"];
         }
         [self.incomeBoardController viewWillAppear:YES];
-    } else {
-        NSLog(@"adding is not successful.");
+        }
     }
 }
 

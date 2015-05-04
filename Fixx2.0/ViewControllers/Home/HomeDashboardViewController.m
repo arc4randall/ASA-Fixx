@@ -59,6 +59,7 @@
     [self.numberFormatter setGroupingSize:3];
     [self.numberFormatter setMinimumFractionDigits:2];
     [self.numberFormatter setMaximumFractionDigits:2];
+    [self.numberFormatter setMinimumIntegerDigits:1];
     
     UIFont* futuraMedium = [UIFont boldSystemFontOfSize:18.0];
     
@@ -450,9 +451,13 @@
     CGFloat screenHeight = screenRect.size.height;
     
     if (point.x > 0 && point.x < (screenWidth / 2) && point.y > 0 && point.y < screenHeight - (screenWidth / 2)) {
-        [self didSelectPieChart:@"Income"];
+        if (self.incomeObjectArray.count > 0) {
+            [self didSelectPieChart:@"Income"];
+        }
     } else if (point.x > screenWidth / 2 && point.x < screenWidth && point.y > 0 && point.y < screenHeight - (screenWidth / 2)) {
-        [self didSelectPieChart:@"Expense"];
+        if (self.expenseObjectArray.count > 0) {
+            [self didSelectPieChart:@"Expense"];
+        }
     }
 }
 
