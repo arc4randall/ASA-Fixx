@@ -16,7 +16,7 @@
     FPPopoverKeyboardResponsiveController *popover;
     OnboardIncomeViewController *incomeBoardController;
 }
-@property(strong, nonatomic) OnboardIncomeViewController *incomeBoardController;
+@property (strong, nonatomic) OnboardIncomeViewController *incomeBoardController;
 @property (strong, nonatomic) FPPopoverKeyboardResponsiveController *popover;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *timeFrameSegmentedControl;
 @property (strong, nonatomic) IBOutlet UITextField *earningAmountTextField;
