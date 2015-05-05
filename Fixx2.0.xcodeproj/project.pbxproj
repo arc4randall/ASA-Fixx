@@ -21,6 +21,7 @@
 		443FE1241AF7BACA00A47DB9 /* ReminderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 443FE1221AF7BACA00A47DB9 /* ReminderViewController.xib */; };
 		443FE1281AF7C51F00A47DB9 /* AddReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE1261AF7C51F00A47DB9 /* AddReminderViewController.m */; };
 		443FE1291AF7C51F00A47DB9 /* AddReminderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */; };
+		443FE12C1AF90A9E00A47DB9 /* Reminder.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE12B1AF90A9E00A47DB9 /* Reminder.m */; };
 		44698ADF1A729B29009126AC /* Webtrends.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2FAF37F1988236300FFABA6 /* Webtrends.framework */; };
 		448CF2861AB7149C00AA71A5 /* IETableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 448CF2841AB7149C00AA71A5 /* IETableViewCell.m */; };
 		448CF2871AB7149C00AA71A5 /* IETableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448CF2851AB7149C00AA71A5 /* IETableViewCell.xib */; };
@@ -235,6 +236,8 @@
 		443FE1251AF7C51F00A47DB9 /* AddReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddReminderViewController.h; path = Notifications/AddReminderViewController.h; sourceTree = "<group>"; };
 		443FE1261AF7C51F00A47DB9 /* AddReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddReminderViewController.m; path = Notifications/AddReminderViewController.m; sourceTree = "<group>"; };
 		443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddReminderViewController.xib; path = Notifications/AddReminderViewController.xib; sourceTree = "<group>"; };
+		443FE12A1AF90A9E00A47DB9 /* Reminder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reminder.h; path = ViewControllers/Reminder.h; sourceTree = "<group>"; };
+		443FE12B1AF90A9E00A47DB9 /* Reminder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reminder.m; path = ViewControllers/Reminder.m; sourceTree = "<group>"; };
 		44698ADE1A72958C009126AC /* Webtrends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Webtrends.h; sourceTree = "<group>"; };
 		448CF2831AB7149C00AA71A5 /* IETableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IETableViewCell.h; sourceTree = "<group>"; };
 		448CF2841AB7149C00AA71A5 /* IETableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IETableViewCell.m; sourceTree = "<group>"; };
@@ -531,6 +534,8 @@
 				443133361AA4EE6900DB5D9D /* Income.m */,
 				443D64A11AE9812A0061E837 /* GlobalManager.h */,
 				443D64A21AE9812A0061E837 /* GlobalManager.m */,
+				443FE12A1AF90A9E00A47DB9 /* Reminder.h */,
+				443FE12B1AF90A9E00A47DB9 /* Reminder.m */,
 			);
 			name = "Data Objects";
 			sourceTree = "<group>";
@@ -1349,6 +1354,7 @@
 				E2935C3F1925E9B10030205D /* AppDelegate.m in Sources */,
 				E23FDA2B1926B92300ADA815 /* UIImage+scale_resize.m in Sources */,
 				440BEF0E1AAF703D00DA5511 /* FPPopoverView.m in Sources */,
+				443FE12C1AF90A9E00A47DB9 /* Reminder.m in Sources */,
 				E23FDA3B1926B92300ADA815 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				4402C4DD1AD2E0AB009B2E0C /* PieChartPopoverViewController.m in Sources */,
 				E23FDA401926B92300ADA815 /* NSObject+SBJSON.m in Sources */,
