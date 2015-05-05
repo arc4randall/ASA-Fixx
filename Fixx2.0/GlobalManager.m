@@ -26,7 +26,7 @@
 - (id)init {
     if (self = [super init]) {
         self.incomeCategoryArray = @[@"Jobs & Work-Study",@"Internships",@"Scholarships & Grants",@"Loans",@"Parents & Family",@"Savings",@"Other"];
-        self.expenseCategoryArray = @[@"Groceries",@"Transportation",@"Utilities",@"Health & Beauty",@"Housing",@"School",@"Phone & Technology",@"Eating Out",@"Entertainment",@"Savings",@"Other",@""];
+        self.expenseCategoryArray = @[@"Groceries",@"Transportation",@"Utilities",@"Health & Beauty",@"Housing",@"School",@"Phone & Technology",@"Eating Out",@"Entertainment",@"Savings",@"Other"];
     }
     return self;
 }

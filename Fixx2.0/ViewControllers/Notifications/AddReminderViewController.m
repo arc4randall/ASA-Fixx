@@ -20,6 +20,10 @@
     self.reminderStartDateTextField = [[UITextField alloc] init];
     self.reminderEndDateTextField = [[UITextField alloc] init];
     
+    self.datePicker = [[UIDatePicker alloc] init];
+    [self.reminderStartDateTextField setInputView:self.datePicker];
+    [self.reminderEndDateTextField setInputView:self.datePicker];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,22 +47,10 @@
     [self.reminderEndDateTextField resignFirstResponder];
 }
 
--(void) createPickerView {
-    _datePicker = [[UIDatePicker alloc] init];
-    
-    UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(changeFromLabel)];
-    barButtonDone.tintColor=[UIColor blackColor];
-    
-}
-
--(IBAction)changeFromLabel
-{
-    NSLog(@"changefromlabel");
-}
 
 - (IBAction)saveButtonPressed:(id)sender
 {
-  
+    NSLog(@"Save Button Pressed");
 }
 
 @end
