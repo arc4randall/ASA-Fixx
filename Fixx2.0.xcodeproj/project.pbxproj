@@ -39,6 +39,14 @@
 		44D49A1C1AA62F7200DAFBDF /* GreetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D49A1A1AA62F7200DAFBDF /* GreetingViewController.m */; };
 		44D49A1D1AA62F7200DAFBDF /* GreetingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D49A1B1AA62F7200DAFBDF /* GreetingViewController.xib */; };
 		44DFEC061AD4280C004DC231 /* Signin_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DFEC051AD4280C004DC231 /* Signin_Logo.png */; };
+		CF00BDA21AFA85FA000961CE /* EditEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00BDA11AFA85FA000961CE /* EditEventViewController.m */; };
+		CF00BDA41AFA8648000961CE /* EditEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF00BDA31AFA8648000961CE /* EditEventViewController.xib */; };
+		CF00BDA71AFA8F40000961CE /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00BDA61AFA8F40000961CE /* DatePickerViewController.m */; };
+		CF00BDAB1AFA9284000961CE /* EditEventGeneralCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00BDA91AFA9284000961CE /* EditEventGeneralCell.m */; };
+		CF00BDAC1AFA9284000961CE /* EditEventGeneralCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF00BDAA1AFA9284000961CE /* EditEventGeneralCell.xib */; };
+		CF00BDB01AFA92B2000961CE /* EditEventTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00BDAE1AFA92B2000961CE /* EditEventTitleCell.m */; };
+		CF00BDB11AFA92B2000961CE /* EditEventTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF00BDAF1AFA92B2000961CE /* EditEventTitleCell.xib */; };
+		CF00BDB31AFAA179000961CE /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF00BDB21AFAA179000961CE /* DatePickerViewController.xib */; };
 		CF4296481AEB3CF800FEC750 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4296451AEB3CF800FEC750 /* FBSDKCoreKit.framework */; };
 		CF4296491AEB3CF800FEC750 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4296461AEB3CF800FEC750 /* FBSDKLoginKit.framework */; };
 		CF42964A1AEB3CF800FEC750 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4296471AEB3CF800FEC750 /* FBSDKShareKit.framework */; };
@@ -263,6 +271,18 @@
 		44D49A1A1AA62F7200DAFBDF /* GreetingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreetingViewController.m; sourceTree = "<group>"; };
 		44D49A1B1AA62F7200DAFBDF /* GreetingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GreetingViewController.xib; sourceTree = "<group>"; };
 		44DFEC051AD4280C004DC231 /* Signin_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Signin_Logo.png; sourceTree = "<group>"; };
+		CF00BDA01AFA85FA000961CE /* EditEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditEventViewController.h; sourceTree = "<group>"; };
+		CF00BDA11AFA85FA000961CE /* EditEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditEventViewController.m; sourceTree = "<group>"; };
+		CF00BDA31AFA8648000961CE /* EditEventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditEventViewController.xib; sourceTree = "<group>"; };
+		CF00BDA51AFA8F40000961CE /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
+		CF00BDA61AFA8F40000961CE /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
+		CF00BDA81AFA9284000961CE /* EditEventGeneralCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditEventGeneralCell.h; sourceTree = "<group>"; };
+		CF00BDA91AFA9284000961CE /* EditEventGeneralCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditEventGeneralCell.m; sourceTree = "<group>"; };
+		CF00BDAA1AFA9284000961CE /* EditEventGeneralCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditEventGeneralCell.xib; sourceTree = "<group>"; };
+		CF00BDAD1AFA92B2000961CE /* EditEventTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditEventTitleCell.h; sourceTree = "<group>"; };
+		CF00BDAE1AFA92B2000961CE /* EditEventTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditEventTitleCell.m; sourceTree = "<group>"; };
+		CF00BDAF1AFA92B2000961CE /* EditEventTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditEventTitleCell.xib; sourceTree = "<group>"; };
+		CF00BDB21AFAA179000961CE /* DatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerViewController.xib; sourceTree = "<group>"; };
 		CF4296451AEB3CF800FEC750 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		CF4296461AEB3CF800FEC750 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		CF4296471AEB3CF800FEC750 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -612,6 +632,12 @@
 		E2303E2A197150560005F817 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				CF00BDA51AFA8F40000961CE /* DatePickerViewController.h */,
+				CF00BDA61AFA8F40000961CE /* DatePickerViewController.m */,
+				CF00BDB21AFAA179000961CE /* DatePickerViewController.xib */,
+				CF00BDA01AFA85FA000961CE /* EditEventViewController.h */,
+				CF00BDA11AFA85FA000961CE /* EditEventViewController.m */,
+				CF00BDA31AFA8648000961CE /* EditEventViewController.xib */,
 				E2303E2B1971507F0005F817 /* NotificationsViewController.h */,
 				E2303E2C1971507F0005F817 /* NotificationsViewController.m */,
 				E2303E2D1971507F0005F817 /* NotificationsViewController.xib */,
@@ -621,6 +647,12 @@
 				443FE1251AF7C51F00A47DB9 /* AddReminderViewController.h */,
 				443FE1261AF7C51F00A47DB9 /* AddReminderViewController.m */,
 				443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */,
+				CF00BDA81AFA9284000961CE /* EditEventGeneralCell.h */,
+				CF00BDA91AFA9284000961CE /* EditEventGeneralCell.m */,
+				CF00BDAA1AFA9284000961CE /* EditEventGeneralCell.xib */,
+				CF00BDAD1AFA92B2000961CE /* EditEventTitleCell.h */,
+				CF00BDAE1AFA92B2000961CE /* EditEventTitleCell.m */,
+				CF00BDAF1AFA92B2000961CE /* EditEventTitleCell.xib */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -1222,6 +1254,7 @@
 				E2F9AAAA192BE72200E8C4B3 /* OnboardIncomeViewController.xib in Resources */,
 				44A583971ADD937400609E7C /* LegendTableViewCell.xib in Resources */,
 				E2310E841930D35400799AA5 /* add_edit.png in Resources */,
+				CF00BDB31AFAA179000961CE /* DatePickerViewController.xib in Resources */,
 				E280592F1A45FC7300B79911 /* Default.png in Resources */,
 				E23FDA1F1926B92300ADA815 /* PROXIMANOVA-REGULAR.ttf in Resources */,
 				E23FDA191926B92300ADA815 /* PROXIMANOVA-BLACK.ttf in Resources */,
@@ -1238,6 +1271,7 @@
 				E28059301A45FC7300B79911 /* Default@2x.png in Resources */,
 				E23FDA591926BE2200ADA815 /* step-3.png in Resources */,
 				E2310E871930D44900799AA5 /* spinner-small.png in Resources */,
+				CF00BDAC1AFA9284000961CE /* EditEventGeneralCell.xib in Resources */,
 				E207618B1928D35C003C01FC /* icon-list-hover.png in Resources */,
 				E2303E2F1971507F0005F817 /* NotificationsViewController.xib in Resources */,
 				E2F9AA9E192BDEB400E8C4B3 /* back-button.png in Resources */,
@@ -1275,6 +1309,7 @@
 				E2169BD7194C5CFE0095A8B6 /* small-arrow-down.png in Resources */,
 				E28E54791954D0CD0012AAA6 /* tab-income-active.png in Resources */,
 				E2E9EA92192D35AE005CD764 /* input-bg.png in Resources */,
+				CF00BDB11AFA92B2000961CE /* EditEventTitleCell.xib in Resources */,
 				E2E9EA94192D3CBB005CD764 /* check-icon.png in Resources */,
 				E2FE28901929269500C9300B /* power-icon.png in Resources */,
 				E205D83D19D49DCF00100F31 /* done-add-income.png in Resources */,
@@ -1294,6 +1329,7 @@
 				E206A413197D8CCB00302424 /* btn-back.png in Resources */,
 				E23FDA201926B92300ADA815 /* PROXIMANOVA-REGULARITALIC.ttf in Resources */,
 				E2E1CCAE19839D7700C5F8DA /* cup-icon.png in Resources */,
+				CF00BDA41AFA8648000961CE /* EditEventViewController.xib in Resources */,
 				E2F9AAAF192BE7F800E8C4B3 /* done-see-summary-button.png in Resources */,
 				E2E9EA89192D26A0005CD764 /* back-to-add-income-button.png in Resources */,
 				E23FDA1D1926B92300ADA815 /* ProximaNova-Light.ttf in Resources */,
@@ -1360,6 +1396,7 @@
 				E23FDA461926B92300ADA815 /* Reachability.m in Sources */,
 				E23FDA271926B92300ADA815 /* UIViewController+MMDrawerController.m in Sources */,
 				E23FDA541926BE2200ADA815 /* AlertDialogProgressView.m in Sources */,
+				CF00BDA71AFA8F40000961CE /* DatePickerViewController.m in Sources */,
 				E2935C3F1925E9B10030205D /* AppDelegate.m in Sources */,
 				E23FDA2B1926B92300ADA815 /* UIImage+scale_resize.m in Sources */,
 				440BEF0E1AAF703D00DA5511 /* FPPopoverView.m in Sources */,
@@ -1380,8 +1417,10 @@
 				440BEF0F1AAF703D00DA5511 /* FPTouchView.m in Sources */,
 				E23FDA421926B92300ADA815 /* SBJSON.m in Sources */,
 				44D49A1C1AA62F7200DAFBDF /* GreetingViewController.m in Sources */,
+				CF00BDAB1AFA9284000961CE /* EditEventGeneralCell.m in Sources */,
 				E2031E061948CC9500234F6A /* AlertDialogView.m in Sources */,
 				E23FDA431926B92300ADA815 /* SBJsonBase.m in Sources */,
+				CF00BDA21AFA85FA000961CE /* EditEventViewController.m in Sources */,
 				E23FDA241926B92300ADA815 /* MMDrawerController.m in Sources */,
 				E23FDA171926B92300ADA815 /* GTMNSString+HTML.m in Sources */,
 				4497FE801AC4953800E5833D /* DBManager.m in Sources */,
@@ -1392,6 +1431,7 @@
 				E2124A8D1933C4FF00889F2E /* UIImage+animatedGIF.m in Sources */,
 				E23FDA411926B92300ADA815 /* NSString+SBJSON.m in Sources */,
 				E21B479F1A017035001EDAB2 /* TTTAttributedLabel.m in Sources */,
+				CF00BDB01AFA92B2000961CE /* EditEventTitleCell.m in Sources */,
 				E2CC1FE119840ACB0051F9B8 /* XYPieChart.m in Sources */,
 				443FE1281AF7C51F00A47DB9 /* AddReminderViewController.m in Sources */,
 				443D64A31AE9812A0061E837 /* GlobalManager.m in Sources */,
