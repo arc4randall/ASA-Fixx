@@ -22,8 +22,9 @@
     UIButton *btnSliderLeft;
     NSMutableArray* incomeObjectArray;
     NSMutableArray* expenseObjectArray;
+    
 }
-
+-(void)requestAccessToEvents;
 @end
 
 @implementation HomeDashboardViewController
@@ -44,6 +45,7 @@
     
     [super viewDidLoad];
     [self prepareLayout];
+     [self performSelector:@selector(requestAccessToEvents) withObject:nil afterDelay:0.4];
     [self trackEvent:[WTEvent eventForScreenView:@"Home Dashboard" eventDescr:@"Landing On screen" eventType:@"" contentGroup:@""]];
     if (!self.incomeDictionary) {
         self.incomeDictionary = [[DBManager getSharedInstance]returnAllByType:@"income"];
@@ -174,6 +176,20 @@
     
     appDelegate.sectionSelect = 0;
     
+}
+
+-(void)requestAccessToEvents
+{
+    [appDelegate.eventManager.eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (error == nil) {
+            // Store the returned granted value.
+            appDelegate.eventManager.eventsAccessGranted = granted;
+        }
+        else{
+            // In case of error, just log its description to the debugger.
+            NSLog(@"%@", [error localizedDescription]);
+        }
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

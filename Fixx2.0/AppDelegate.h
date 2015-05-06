@@ -12,6 +12,7 @@
 #import "MMExampleDrawerVisualStateManager.h"
 #import "HomeDashboardViewController.h"
 #import "LeftTabController.h"
+#import "EventManager.h"
 
 @class RVLaunchViewController;
 @class AppDelegate;
@@ -31,6 +32,7 @@ extern BOOL isUserSignUp,isLoginClick;
     //use for all type of Reachability
 }
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) EventManager *eventManager;
 @property (strong, nonatomic) NavigationController * tabNavController;
 @property (assign, nonatomic) int sectionSelect;
 @property (strong, nonatomic) MMDrawerController * drawerController;

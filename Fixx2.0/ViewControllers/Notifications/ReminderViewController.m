@@ -33,6 +33,7 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    objAddReminderViewController = [[AddReminderViewController alloc] init];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -47,33 +48,9 @@
 
 -(IBAction)addReminder:(id)sender
 {
-    NSLog(@"Show reminder popup view");
-    
-    SAFE_ARC_RELEASE(popover); popover = nil;
-    
-    //the controller we want to present as a popover
-    objAddReminderViewController = [[AddReminderViewController alloc] init];
-    objAddReminderViewController.title = nil;
-    popover = [[FPPopoverKeyboardResponsiveController alloc] initWithViewController:objAddReminderViewController];
-    popover.tint = FPPopoverDefaultTint;
-    popover.keyboardHeight = _keyboardHeight;
-    
-    popover.border = NO;
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        popover.contentSize = CGSizeMake(self.view.frame.size.width * 0.85, self.view.frame.size.height * 0.80);
+    if (appDelegate.eventManager.eventsAccessGranted) {
+        [self.navigationController pushViewController:objAddReminderViewController animated:YES];
     }
-    else {
-        popover.contentSize = CGSizeMake(self.view.frame.size.width * 0.85, self.view.frame.size.height * 0.80);
-    }
-    popover.arrowDirection = FPPopoverNoArrow;
-    
-    [popover presentPopoverFromPoint: CGPointMake(self.view.center.x, self.view.center.y - popover.contentSize.height * 0.9)];
-    objAddReminderViewController.incomeBoardController = self;
-    objAddReminderViewController.popover = popover;
-    
-    NSLog(@"Popover should appear here...");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,7 +74,7 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    NSLog(@"Selected Row at %ld",(long)indexPath.row);
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

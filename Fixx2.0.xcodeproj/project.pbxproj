@@ -22,6 +22,8 @@
 		443FE1281AF7C51F00A47DB9 /* AddReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE1261AF7C51F00A47DB9 /* AddReminderViewController.m */; };
 		443FE1291AF7C51F00A47DB9 /* AddReminderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */; };
 		443FE12C1AF90A9E00A47DB9 /* Reminder.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE12B1AF90A9E00A47DB9 /* Reminder.m */; };
+		443FE12F1AF94FC300A47DB9 /* EventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE12E1AF94FC300A47DB9 /* EventManager.m */; };
+		443FE1311AF9502100A47DB9 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 443FE1301AF9502100A47DB9 /* EventKit.framework */; };
 		44698ADF1A729B29009126AC /* Webtrends.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2FAF37F1988236300FFABA6 /* Webtrends.framework */; };
 		448CF2861AB7149C00AA71A5 /* IETableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 448CF2841AB7149C00AA71A5 /* IETableViewCell.m */; };
 		448CF2871AB7149C00AA71A5 /* IETableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448CF2851AB7149C00AA71A5 /* IETableViewCell.xib */; };
@@ -238,6 +240,9 @@
 		443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddReminderViewController.xib; path = Notifications/AddReminderViewController.xib; sourceTree = "<group>"; };
 		443FE12A1AF90A9E00A47DB9 /* Reminder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reminder.h; path = ViewControllers/Reminder.h; sourceTree = "<group>"; };
 		443FE12B1AF90A9E00A47DB9 /* Reminder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reminder.m; path = ViewControllers/Reminder.m; sourceTree = "<group>"; };
+		443FE12D1AF94FC300A47DB9 /* EventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventManager.h; sourceTree = "<group>"; };
+		443FE12E1AF94FC300A47DB9 /* EventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventManager.m; sourceTree = "<group>"; };
+		443FE1301AF9502100A47DB9 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		44698ADE1A72958C009126AC /* Webtrends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Webtrends.h; sourceTree = "<group>"; };
 		448CF2831AB7149C00AA71A5 /* IETableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IETableViewCell.h; sourceTree = "<group>"; };
 		448CF2841AB7149C00AA71A5 /* IETableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IETableViewCell.m; sourceTree = "<group>"; };
@@ -482,6 +487,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				443FE1311AF9502100A47DB9 /* EventKit.framework in Frameworks */,
 				CF4296481AEB3CF800FEC750 /* FBSDKCoreKit.framework in Frameworks */,
 				CF4296491AEB3CF800FEC750 /* FBSDKLoginKit.framework in Frameworks */,
 				CF42964A1AEB3CF800FEC750 /* FBSDKShareKit.framework in Frameworks */,
@@ -536,6 +542,8 @@
 				443D64A21AE9812A0061E837 /* GlobalManager.m */,
 				443FE12A1AF90A9E00A47DB9 /* Reminder.h */,
 				443FE12B1AF90A9E00A47DB9 /* Reminder.m */,
+				443FE12D1AF94FC300A47DB9 /* EventManager.h */,
+				443FE12E1AF94FC300A47DB9 /* EventManager.m */,
 			);
 			name = "Data Objects";
 			sourceTree = "<group>";
@@ -991,6 +999,7 @@
 		E2935C2D1925E9B10030205D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				443FE1301AF9502100A47DB9 /* EventKit.framework */,
 				CF4296451AEB3CF800FEC750 /* FBSDKCoreKit.framework */,
 				CF4296461AEB3CF800FEC750 /* FBSDKLoginKit.framework */,
 				CF4296471AEB3CF800FEC750 /* FBSDKShareKit.framework */,
@@ -1393,6 +1402,7 @@
 				E23FDA261926B92300ADA815 /* MMExampleDrawerVisualStateManager.m in Sources */,
 				E23FDA371926B92300ADA815 /* AFHTTPClient.m in Sources */,
 				44BA9EB71AC98E9000D10292 /* DeleteIncomeViewController.m in Sources */,
+				443FE12F1AF94FC300A47DB9 /* EventManager.m in Sources */,
 				E2FAF386198823C700FFABA6 /* WebtrendsMobileLib.js in Sources */,
 				440BEF121AAF705200DA5511 /* FPPopoverController.m in Sources */,
 				448CF2861AB7149C00AA71A5 /* IETableViewCell.m in Sources */,
