@@ -9,17 +9,20 @@
 #import "ReminderViewController.h"
 #import "MMDrawerBarButtonItem.h"
 #import "UIViewController+MMDrawerController.h"
-#import "AddReminderViewController.h"
+#import "EditEventViewController.h"
+#import "AppDelegate.h"
 
 @interface ReminderViewController () <UITableViewDelegate,UITableViewDataSource, FPPopoverControllerDelegate>
 {
     UIButton *btnSliderLeft;
-    AddReminderViewController *objAddReminderViewController;
+    EditEventViewController *objEditEventViewController;
 }
-
+@property (nonatomic, strong) AppDelegate *appDelegate;
+@property (nonatomic, strong) NSArray *arrEvents;
 @end
 
 @implementation ReminderViewController
+@synthesize tblEvents;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,9 +34,16 @@
     
     self.navigationItem.rightBarButtonItem = addReminderButton;
     
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    objAddReminderViewController = [[AddReminderViewController alloc] init];
+    self.tblEvents.delegate = self;
+    self.tblEvents.dataSource = self;
+    objEditEventViewController = [[EditEventViewController alloc] init];
+    // Instantiate the appDelegate property.
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    // Request access to events.
+    [self performSelector:@selector(requestAccessToEvents) withObject:nil afterDelay:0.4];
+    
+    // Load the events with a small delay, so the store event gets ready.
+    [self performSelector:@selector(loadEvents) withObject:nil afterDelay:0.5];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -46,10 +56,10 @@
     }
 }
 
--(IBAction)addReminder:(id)sender
+-(void)addReminder:(id)sender
 {
     if (appDelegate.eventManager.eventsAccessGranted) {
-        [self.navigationController pushViewController:objAddReminderViewController animated:YES];
+        [self.navigationController pushViewController:objEditEventViewController animated:YES];
     }
 }
 
@@ -64,37 +74,95 @@
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:NO completion:nil];
 }
 
-#pragma mark UITableView Delegate Methods
+#pragma mark - UITableView Delegate and Datasource method implementation
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell* cell = [[UITableViewCell alloc] init];
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Selected Row at %ld",(long)indexPath.row);
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50;
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.arrEvents.count;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"idCellEvent"];
+    
+    // Get each single event.
+    EKEvent *event = [self.arrEvents objectAtIndex:indexPath.row];
+    
+    // Set its title to the cell's text label.
+    cell.textLabel.text = event.title;
+    
+    // Get the event start date as a string value.
+    NSString *startDateString = [self.appDelegate.eventManager getStringFromDate:event.startDate];
+    
+    // Get the event end date as a string value.
+    NSString *endDateString = [self.appDelegate.eventManager getStringFromDate:event.endDate];
+    
+    // Add the start and end date strings to the detail text label.
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", startDateString, endDateString];
+    
+    return cell;
 }
-*/
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 60.0;
+}
+
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+    // Keep the identifier of the event that's about to be edited.
+    self.appDelegate.eventManager.selectedEventIdentifier = [[self.arrEvents objectAtIndex:indexPath.row] eventIdentifier];
+    
+    // Perform the segue.
+    [self performSegueWithIdentifier:@"idSegueEvent" sender:self];
+}
+
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the selected event.
+        [self.appDelegate.eventManager deleteEventWithIdentifier:[[self.arrEvents objectAtIndex:indexPath.row] eventIdentifier]];
+        
+        // Reload all events and the table view.
+        [self loadEvents];
+    }
+}
+
+
+#pragma mark - EditEventViewControllerDelegate method implementation
+
+-(void)eventWasSuccessfullySaved{
+    // Reload all events.
+    [self loadEvents];
+}
+
+
+#pragma mark - Private method implementation
+
+-(void)requestAccessToEvents{
+    [self.appDelegate.eventManager.eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (error == nil) {
+            // Store the returned granted value.
+            self.appDelegate.eventManager.eventsAccessGranted = granted;
+        }
+        else{
+            // In case of error, just log its description to the debugger.
+            NSLog(@"%@", [error localizedDescription]);
+        }
+    }];
+}
+
+
+-(void)loadEvents{
+    if (self.appDelegate.eventManager.eventsAccessGranted) {
+        self.arrEvents = [self.appDelegate.eventManager getEventsOfSelectedCalendar];
+        
+        [self.tblEvents reloadData];
+    }
+}
 
 @end

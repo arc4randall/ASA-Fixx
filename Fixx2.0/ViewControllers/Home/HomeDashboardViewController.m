@@ -24,7 +24,6 @@
     NSMutableArray* expenseObjectArray;
     
 }
--(void)requestAccessToEvents;
 @end
 
 @implementation HomeDashboardViewController
@@ -45,7 +44,7 @@
     
     [super viewDidLoad];
     [self prepareLayout];
-     [self performSelector:@selector(requestAccessToEvents) withObject:nil afterDelay:0.4];
+    [self createCalenderForApp];
     [self trackEvent:[WTEvent eventForScreenView:@"Home Dashboard" eventDescr:@"Landing On screen" eventType:@"" contentGroup:@""]];
     if (!self.incomeDictionary) {
         self.incomeDictionary = [[DBManager getSharedInstance]returnAllByType:@"income"];
@@ -178,20 +177,45 @@
     
 }
 
--(void)requestAccessToEvents
-{
-    [appDelegate.eventManager.eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
-        if (error == nil) {
-            // Store the returned granted value.
-            appDelegate.eventManager.eventsAccessGranted = granted;
+-(void)createCalenderForApp {
+    // Create a new calendar.
+    EKCalendar *calendar = [EKCalendar calendarForEntityType:EKEntityTypeEvent
+                                                  eventStore:appDelegate.eventManager.eventStore];
+    
+    // Set the calendar title.
+    calendar.title = @"Fixx";
+    
+    // Find the proper source type value.
+    for (int i=0; i<appDelegate.eventManager.eventStore.sources.count; i++) {
+        EKSource *source = (EKSource *)[appDelegate.eventManager.eventStore.sources objectAtIndex:i];
+        EKSourceType currentSourceType = source.sourceType;
+        
+        if (currentSourceType == EKSourceTypeLocal) {
+            calendar.source = source;
+            break;
         }
-        else{
-            // In case of error, just log its description to the debugger.
-            NSLog(@"%@", [error localizedDescription]);
+    }
+    // Save and commit the calendar.
+    NSError *error;
+    [appDelegate.eventManager.eventStore saveCalendar:calendar commit:YES error:&error];
+    
+    // If no error occurs then turn the editing mode off, store the new calendar identifier and reload the calendars.
+    if (error == nil) {
+        // Store the calendar identifier.
+        [appDelegate.eventManager saveCustomCalendarIdentifier:calendar.calendarIdentifier];
+    }
+    else{
+        // Display the error description to the debugger.
+        NSLog(@"%@", [error localizedDescription]);
+    }
+    NSArray *localCalendars = [appDelegate.eventManager getLocalEventCalendars];
+    [localCalendars enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        EKCalendar *calendar = (EKCalendar *)obj;
+        if ([calendar.title isEqual:@"Fixx"]) {
+            appDelegate.eventManager.selectedCalendarIdentifier = calendar.calendarIdentifier;
         }
     }];
 }
-
 -(void)viewWillAppear:(BOOL)animated{
     animated = NO;
     

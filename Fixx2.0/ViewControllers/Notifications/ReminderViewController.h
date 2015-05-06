@@ -12,6 +12,6 @@
     FPPopoverKeyboardResponsiveController *popover;
     CGFloat _keyboardHeight;
 }
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UITableView *tblEvents;
 
 @end
