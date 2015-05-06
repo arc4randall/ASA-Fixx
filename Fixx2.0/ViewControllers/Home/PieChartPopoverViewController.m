@@ -26,7 +26,6 @@
         type = viewType;
         NSLog(@"Is this even loading???");
         self.legendTableView = [[UITableView alloc] init];
-        
     }
     return self;
 }

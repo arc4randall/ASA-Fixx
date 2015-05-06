@@ -367,6 +367,7 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [FBSDKAppEvents activateApp];
+    self.eventManager = [[EventManager alloc] init];
 }
 
 

@@ -18,6 +18,7 @@
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *timeFrameSegmentedControl;
 
+
 @property (nonatomic,weak) IBOutlet UILabel *lblSpendValue;
 @property (nonatomic,weak) IBOutlet UILabel *lblEarnValue;
 @property (nonatomic,weak) IBOutlet UILabel *lblAvgBalance;
