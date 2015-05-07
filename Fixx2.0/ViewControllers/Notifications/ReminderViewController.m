@@ -87,7 +87,7 @@
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"idCellEvent"];
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
     
     // Get each single event.
     EKEvent *event = [self.arrEvents objectAtIndex:indexPath.row];

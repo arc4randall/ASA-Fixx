@@ -185,6 +185,7 @@
     // Set the calendar title.
     calendar.title = @"Fixx";
     
+    NSLog(@"calender ID is: %@",calendar.calendarIdentifier);
     // Find the proper source type value.
     for (int i=0; i<appDelegate.eventManager.eventStore.sources.count; i++) {
         EKSource *source = (EKSource *)[appDelegate.eventManager.eventStore.sources objectAtIndex:i];
