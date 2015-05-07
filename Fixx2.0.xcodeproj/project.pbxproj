@@ -19,8 +19,6 @@
 		443D64A31AE9812A0061E837 /* GlobalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443D64A21AE9812A0061E837 /* GlobalManager.m */; };
 		443FE1231AF7BACA00A47DB9 /* ReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE1211AF7BACA00A47DB9 /* ReminderViewController.m */; };
 		443FE1241AF7BACA00A47DB9 /* ReminderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 443FE1221AF7BACA00A47DB9 /* ReminderViewController.xib */; };
-		443FE1281AF7C51F00A47DB9 /* AddReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE1261AF7C51F00A47DB9 /* AddReminderViewController.m */; };
-		443FE1291AF7C51F00A47DB9 /* AddReminderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */; };
 		443FE12C1AF90A9E00A47DB9 /* Reminder.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE12B1AF90A9E00A47DB9 /* Reminder.m */; };
 		443FE12F1AF94FC300A47DB9 /* EventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443FE12E1AF94FC300A47DB9 /* EventManager.m */; };
 		443FE1311AF9502100A47DB9 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 443FE1301AF9502100A47DB9 /* EventKit.framework */; };
@@ -243,9 +241,6 @@
 		443FE1201AF7BACA00A47DB9 /* ReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReminderViewController.h; path = Notifications/ReminderViewController.h; sourceTree = "<group>"; };
 		443FE1211AF7BACA00A47DB9 /* ReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReminderViewController.m; path = Notifications/ReminderViewController.m; sourceTree = "<group>"; };
 		443FE1221AF7BACA00A47DB9 /* ReminderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReminderViewController.xib; path = Notifications/ReminderViewController.xib; sourceTree = "<group>"; };
-		443FE1251AF7C51F00A47DB9 /* AddReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddReminderViewController.h; path = Notifications/AddReminderViewController.h; sourceTree = "<group>"; };
-		443FE1261AF7C51F00A47DB9 /* AddReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddReminderViewController.m; path = Notifications/AddReminderViewController.m; sourceTree = "<group>"; };
-		443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddReminderViewController.xib; path = Notifications/AddReminderViewController.xib; sourceTree = "<group>"; };
 		443FE12A1AF90A9E00A47DB9 /* Reminder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reminder.h; path = ViewControllers/Reminder.h; sourceTree = "<group>"; };
 		443FE12B1AF90A9E00A47DB9 /* Reminder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reminder.m; path = ViewControllers/Reminder.m; sourceTree = "<group>"; };
 		443FE12D1AF94FC300A47DB9 /* EventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventManager.h; sourceTree = "<group>"; };
@@ -644,9 +639,6 @@
 				443FE1201AF7BACA00A47DB9 /* ReminderViewController.h */,
 				443FE1211AF7BACA00A47DB9 /* ReminderViewController.m */,
 				443FE1221AF7BACA00A47DB9 /* ReminderViewController.xib */,
-				443FE1251AF7C51F00A47DB9 /* AddReminderViewController.h */,
-				443FE1261AF7C51F00A47DB9 /* AddReminderViewController.m */,
-				443FE1271AF7C51F00A47DB9 /* AddReminderViewController.xib */,
 				CF00BDA81AFA9284000961CE /* EditEventGeneralCell.h */,
 				CF00BDA91AFA9284000961CE /* EditEventGeneralCell.m */,
 				CF00BDAA1AFA9284000961CE /* EditEventGeneralCell.xib */,
@@ -1258,7 +1250,6 @@
 				E280592F1A45FC7300B79911 /* Default.png in Resources */,
 				E23FDA1F1926B92300ADA815 /* PROXIMANOVA-REGULAR.ttf in Resources */,
 				E23FDA191926B92300ADA815 /* PROXIMANOVA-BLACK.ttf in Resources */,
-				443FE1291AF7C51F00A47DB9 /* AddReminderViewController.xib in Resources */,
 				E28E547A1954D0CD0012AAA6 /* tab-income-inactive.png in Resources */,
 				440AF0461AD5C0D80004E03F /* Fixx4.png in Resources */,
 				E2F8BDB81970EA5D00516DCC /* arrow-prev.png in Resources */,
@@ -1433,7 +1424,6 @@
 				E21B479F1A017035001EDAB2 /* TTTAttributedLabel.m in Sources */,
 				CF00BDB01AFA92B2000961CE /* EditEventTitleCell.m in Sources */,
 				E2CC1FE119840ACB0051F9B8 /* XYPieChart.m in Sources */,
-				443FE1281AF7C51F00A47DB9 /* AddReminderViewController.m in Sources */,
 				443D64A31AE9812A0061E837 /* GlobalManager.m in Sources */,
 				443FE1231AF7BACA00A47DB9 /* ReminderViewController.m in Sources */,
 				E2310E7F1930D2F200799AA5 /* HomeDashboardViewController.m in Sources */,

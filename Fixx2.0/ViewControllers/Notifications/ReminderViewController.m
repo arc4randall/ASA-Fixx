@@ -88,6 +88,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] init];
+    cell.accessoryType = UITableViewCellAccessoryDetailButton;
     
     // Get each single event.
     EKEvent *event = [self.arrEvents objectAtIndex:indexPath.row];
@@ -118,7 +119,8 @@
     self.appDelegate.eventManager.selectedEventIdentifier = [[self.arrEvents objectAtIndex:indexPath.row] eventIdentifier];
     
     // Perform the segue.
-    [self performSegueWithIdentifier:@"idSegueEvent" sender:self];
+    [self.navigationController pushViewController:objEditEventViewController animated:YES];
+    //[self performSegueWithIdentifier:@"idSegueEvent" sender:self];
 }
 
 
@@ -130,6 +132,16 @@
         // Reload all events and the table view.
         [self loadEvents];
     }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Row %ld was selected",(long)indexPath.row);
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 
