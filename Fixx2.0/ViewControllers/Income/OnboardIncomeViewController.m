@@ -48,7 +48,6 @@
     [self trackEvent:[WTEvent eventForScreenView:@"Income Onboarding" eventDescr:@"List Of Incomes." eventType:@"" contentGroup:@""]];
     // Do any additional setup after loading the view from its nib.
     
-    
     self.incomeTableView.delegate = self;
     self.incomeTableView.dataSource = self;
     

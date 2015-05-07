@@ -146,9 +146,7 @@
     self.incomeObj.name = self.incomeSourceTextField.text;
     if (self.incomeBoardController.isExpenseController) {
         self.incomeObj.amount = fabs([self.incomeValueTextField.text doubleValue]) * -1.0;
-    }
-        
-    {
+    } else {
         self.incomeObj.amount = fabs([self.incomeValueTextField.text doubleValue]);
     }
     
@@ -207,7 +205,11 @@
 #pragma mark Pickerview Methods
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [[[GlobalManager sharedManager]incomeCategoryArray] count];
+    if (self.incomeBoardController.isExpenseController) {
+        return [[[GlobalManager sharedManager]expenseCategoryArray] count];
+    } else {
+        return [[[GlobalManager sharedManager]incomeCategoryArray] count];
+    }
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -217,7 +219,11 @@
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [[[GlobalManager sharedManager]incomeCategoryArray] objectAtIndex:row];
+    if (self.incomeBoardController.isExpenseController) {
+        return [[[GlobalManager sharedManager]expenseCategoryArray] objectAtIndex:row];
+    } else {
+        return [[[GlobalManager sharedManager]incomeCategoryArray] objectAtIndex:row];
+    }
 }
 
 //-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
@@ -227,7 +233,11 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    self.categoryTextField.text = [[GlobalManager sharedManager]incomeCategoryArray][row];
+    if (self.incomeBoardController.isExpenseController){
+        self.categoryTextField.text = [[GlobalManager sharedManager] expenseCategoryArray][row];
+    } else {
+        self.categoryTextField.text = [[GlobalManager sharedManager]incomeCategoryArray][row];
+    }
 }
 
 @end
