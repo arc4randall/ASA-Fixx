@@ -60,6 +60,7 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
     [self.window makeKeyAndVisible];
     self.window.tintColor = [UIColor whiteColor];
     [DBManager getSharedInstance];
+    self.eventManager = [[EventManager alloc] init];
     return [[FBSDKApplicationDelegate sharedInstance] application:application
                                            didFinishLaunchingWithOptions:launchOptions];;
 }
@@ -367,7 +368,6 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [FBSDKAppEvents activateApp];
-    self.eventManager = [[EventManager alloc] init];
 }
 
 

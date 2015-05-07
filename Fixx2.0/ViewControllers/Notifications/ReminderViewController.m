@@ -41,9 +41,7 @@
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     // Request access to events.
     [self performSelector:@selector(requestAccessToEvents) withObject:nil afterDelay:0.4];
-    
-    // Load the events with a small delay, so the store event gets ready.
-    [self performSelector:@selector(loadEvents) withObject:nil afterDelay:0.5];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -54,6 +52,8 @@
         [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:NO completion:nil];
         [self performSelector:@selector(nowHide) withObject:Nil afterDelay:0.1f];
     }
+    // Load the events with a small delay, so the store event gets ready.
+    [self performSelector:@selector(loadEvents) withObject:nil afterDelay:0.5];
 }
 
 -(void)addReminder:(id)sender
