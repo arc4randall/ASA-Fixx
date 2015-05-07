@@ -65,6 +65,7 @@
     // Set initial values.
     self.eventStartDate = nil;
     self.eventEndDate = nil;
+    self.eventTitle = nil;
     self.arrAlarms = [[NSMutableArray alloc] init];
     
     
