@@ -24,6 +24,7 @@
     NSMutableArray* expenseObjectArray;
     
 }
+@property (nonatomic, strong) AppDelegate *appDelegate;
 @end
 
 @implementation HomeDashboardViewController
@@ -173,49 +174,57 @@
     self.expensePieChartView.userInteractionEnabled = YES;
 
     
-    appDelegate.sectionSelect = 0;
+    self.appDelegate.sectionSelect = 0;
     
 }
 
 -(void)createCalenderForApp {
-    // Create a new calendar.
-    EKCalendar *calendar = [EKCalendar calendarForEntityType:EKEntityTypeEvent
-                                                  eventStore:appDelegate.eventManager.eventStore];
-    
-    // Set the calendar title.
-    calendar.title = @"Fixx";
-    
-    NSLog(@"calender ID is: %@",calendar.calendarIdentifier);
-    // Find the proper source type value.
-    for (int i=0; i<appDelegate.eventManager.eventStore.sources.count; i++) {
-        EKSource *source = (EKSource *)[appDelegate.eventManager.eventStore.sources objectAtIndex:i];
-        EKSourceType currentSourceType = source.sourceType;
-        
-        if (currentSourceType == EKSourceTypeLocal) {
-            calendar.source = source;
-            break;
-        }
-    }
-    // Save and commit the calendar.
-    NSError *error;
-    [appDelegate.eventManager.eventStore saveCalendar:calendar commit:YES error:&error];
-    
-    // If no error occurs then turn the editing mode off, store the new calendar identifier and reload the calendars.
-    if (error == nil) {
-        // Store the calendar identifier.
-        [appDelegate.eventManager saveCustomCalendarIdentifier:calendar.calendarIdentifier];
-    }
-    else{
-        // Display the error description to the debugger.
-        NSLog(@"%@", [error localizedDescription]);
-    }
-    NSArray *localCalendars = [appDelegate.eventManager getLocalEventCalendars];
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSArray *localCalendars = [self.appDelegate.eventManager getLocalEventCalendars];
+    bool __block isFixxCalendarExisted = NO;
     [localCalendars enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         EKCalendar *calendar = (EKCalendar *)obj;
         if ([calendar.title isEqual:@"Fixx"]) {
-            appDelegate.eventManager.selectedCalendarIdentifier = calendar.calendarIdentifier;
+            self.appDelegate.eventManager.selectedCalendarIdentifier = calendar.calendarIdentifier;
+            *stop = YES;
+             isFixxCalendarExisted = YES;
         }
     }];
+    if (!isFixxCalendarExisted) {
+        // Create a new calendar.
+        EKCalendar *calendar = [EKCalendar calendarForEntityType:EKEntityTypeEvent
+                                                      eventStore:self.appDelegate.eventManager.eventStore];
+        
+        // Set the calendar title.
+        calendar.title = @"Fixx";
+        
+        NSLog(@"calender ID is: %@",calendar.calendarIdentifier);
+        // Find the proper source type value.
+        for (int i=0; i<self.appDelegate.eventManager.eventStore.sources.count; i++) {
+            EKSource *source = (EKSource *)[self.appDelegate.eventManager.eventStore.sources objectAtIndex:i];
+            EKSourceType currentSourceType = source.sourceType;
+            
+            if (currentSourceType == EKSourceTypeLocal) {
+                calendar.source = source;
+                break;
+            }
+        }
+        // Save and commit the calendar.
+        NSError *error;
+        [self.appDelegate.eventManager.eventStore saveCalendar:calendar commit:YES error:&error];
+        
+        // If no error occurs then turn the editing mode off, store the new calendar identifier and reload the calendars.
+        if (error == nil) {
+            // Store the calendar identifier.
+            [self.appDelegate.eventManager saveCustomCalendarIdentifier:calendar.calendarIdentifier];
+            self.appDelegate.eventManager.selectedCalendarIdentifier = calendar.calendarIdentifier;
+        }
+        else{
+            // Display the error description to the debugger.
+            NSLog(@"%@", [error localizedDescription]);
+        }
+    }
+
 }
 -(void)viewWillAppear:(BOOL)animated{
     animated = NO;
@@ -269,7 +278,7 @@
 }
 
 - (void) prepareLayout {
-    [appDelegate.objNavController setNavigationBarHidden:NO animated:YES];
+    [self.appDelegate.objNavController setNavigationBarHidden:NO animated:YES];
     
     btnSliderLeft=[UIButton buttonWithType:UIButtonTypeCustom];
     [btnSliderLeft setFrame:CGRectMake(0, 5, 28, 28)];
