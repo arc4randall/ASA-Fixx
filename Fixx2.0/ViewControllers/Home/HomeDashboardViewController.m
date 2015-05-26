@@ -45,7 +45,7 @@
     
     [super viewDidLoad];
     [self prepareLayout];
-    [self createCalenderForApp];
+    //[self createCalenderForApp];
     [self trackEvent:[WTEvent eventForScreenView:@"Home Dashboard" eventDescr:@"Landing On screen" eventType:@"" contentGroup:@""]];
     if (!self.incomeDictionary) {
         self.incomeDictionary = [[DBManager getSharedInstance]returnAllByType:@"income"];
@@ -401,7 +401,7 @@
 
 -(void)didSelectPieChart:(NSString*)pieChartType
 {
-    NSLog(@"Did select Expense Pie Chart");
+    NSLog(@"Did select %@ Pie Chart",pieChartType);
     SAFE_ARC_RELEASE(popover); popover = nil;
 
     //the controller we want to present as a popover
@@ -418,6 +418,7 @@
     popover = [[FPPopoverKeyboardResponsiveController alloc] initWithViewController:objPieChartPopoverViewController];
     popover.tint = FPPopoverDefaultTint;
     popover.keyboardHeight = _keyboardHeight;
+    NSLog(@"%@",popover);
 
     popover.border = NO;
 

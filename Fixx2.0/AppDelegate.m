@@ -62,7 +62,7 @@ BOOL networkStatus, isIOS7, isUserSignUp=NO,isLoginClick=NO;
     [DBManager getSharedInstance];
     self.eventManager = [[EventManager alloc] init];
     return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                           didFinishLaunchingWithOptions:launchOptions];;
+                                           didFinishLaunchingWithOptions:launchOptions];
 }
 
 -(void)nowShow
