@@ -310,6 +310,8 @@
     
     NSString *strURL = [HOST_URL stringByAppendingString:[NSString stringWithFormat:Logout_User,API_KEY, objSharedData.str_AccessToken]];
     [requestOnWeb callThePassedURLASynchronouslyWithRequest:strURL RequestString:nil];
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"NO" forKey:@"LoginStatus"];
     [FBSDKAccessToken setCurrentAccessToken:nil];
     
 }
