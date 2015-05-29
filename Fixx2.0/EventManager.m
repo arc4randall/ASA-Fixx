@@ -51,7 +51,7 @@
         
         // Load the custom calendar identifiers (if exist).
         if ([userDefaults objectForKey:@"eventkit_cal_identifiers"] != nil) {
-            self.arrCustomCalendarIdentifiers = [userDefaults objectForKey:@"eventkit_cal_identifiers"];
+            self.arrCustomCalendarIdentifiers = [[userDefaults objectForKey:@"eventkit_cal_identifiers"] mutableCopy];
         }
         else{
             self.arrCustomCalendarIdentifiers = [[NSMutableArray alloc] init];
@@ -79,8 +79,8 @@
 
 #pragma mark - Private method implementation
 
--(NSArray *)getLocalEventCalendars{
-    NSArray *allCalendars = [self.eventStore calendarsForEntityType:EKEntityTypeEvent];
+-(NSMutableArray *)getLocalEventCalendars{
+    NSMutableArray *allCalendars = [[self.eventStore calendarsForEntityType:EKEntityTypeEvent] mutableCopy];
     NSMutableArray *localCalendars = [[NSMutableArray alloc] init];
     
     for (int i=0; i<allCalendars.count; i++) {
@@ -90,14 +90,18 @@
         }
     }
     
-    return (NSArray *)localCalendars;
+    return (NSMutableArray *)localCalendars;
 }
 
 
 -(void)saveCustomCalendarIdentifier:(NSString *)identifier{
+    self.arrCustomCalendarIdentifiers = [self.arrCustomCalendarIdentifiers mutableCopy];
+    NSLog(@"arrCustomCalendarIdentifiers is %@. This is what it looks like: %@",[self.arrCustomCalendarIdentifiers class],self.arrCustomCalendarIdentifiers);
+    
     [self.arrCustomCalendarIdentifiers addObject:identifier];
     
     [[NSUserDefaults standardUserDefaults] setObject:self.arrCustomCalendarIdentifiers forKey:@"eventkit_cal_identifiers"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
@@ -131,7 +135,7 @@
 }
 
 
--(NSArray *)getEventsOfSelectedCalendar{
+-(NSMutableArray *)getEventsOfSelectedCalendar{
     // Specify the calendar that will be used to get the events from.
     EKCalendar *calendar = nil;
     if (self.selectedCalendarIdentifier != nil && self.selectedCalendarIdentifier.length > 0) {
@@ -139,9 +143,9 @@
     }
     
     // If no selected calendar identifier exists and the calendar variable has the nil value, then all calendars will be used for retrieving events.
-    NSArray *calendarsArray = nil;
+    NSMutableArray *calendarsArray = nil;
     if (calendar != nil) {
-        calendarsArray = @[calendar];
+        calendarsArray = (NSMutableArray*)@[calendar];
     }
     
     // Create a predicate value with start date a year before and end date a year after the current date.
@@ -149,7 +153,7 @@
     NSPredicate *predicate = [self.eventStore predicateForEventsWithStartDate:[NSDate dateWithTimeIntervalSinceNow:-yearSeconds] endDate:[NSDate dateWithTimeIntervalSinceNow:yearSeconds] calendars:calendarsArray];
     
     // Get an array with all events.
-    NSArray *eventsArray = [self.eventStore eventsMatchingPredicate:predicate];
+    NSMutableArray *eventsArray = [[self.eventStore eventsMatchingPredicate:predicate] mutableCopy];
     
     // Copy all objects one by one to a new mutable array, and make sure that the same event is not added twice.
     NSMutableArray *uniqueEventsArray = [[NSMutableArray alloc] init];
@@ -179,7 +183,7 @@
     uniqueEventsArray = (NSMutableArray *)[uniqueEventsArray sortedArrayUsingSelector:@selector(compareStartDateWithEvent:)];
     
     // Return that array.
-    return (NSArray *)uniqueEventsArray;
+    return (NSMutableArray *)uniqueEventsArray;
 }
 
 

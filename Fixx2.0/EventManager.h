@@ -20,7 +20,7 @@
 @property (nonatomic) BOOL eventsAccessGranted;
 
 
--(NSArray *)getLocalEventCalendars;
+-(NSMutableArray *)getLocalEventCalendars;
 
 -(void)saveCustomCalendarIdentifier:(NSString *)identifier;
 
@@ -30,7 +30,7 @@
 
 -(NSString *)getStringFromDate:(NSDate *)date;
 
--(NSArray *)getEventsOfSelectedCalendar;
+-(NSMutableArray *)getEventsOfSelectedCalendar;
 
 -(void)deleteEventWithIdentifier:(NSString *)identifier;
 

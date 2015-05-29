@@ -24,7 +24,6 @@
     self = [super init];
     if (self) {
         type = viewType;
-        NSLog(@"Is this even loading???");
         self.legendTableView = [[UITableView alloc] init];
     }
     return self;
@@ -60,7 +59,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"SECTION %ld has %lu items",(long)section,(unsigned long)[[self getCurrentItemsArrayFromIndexPath:section] count]);
+//    NSLog(@"SECTION %ld has %lu items",(long)section,(unsigned long)[[self getCurrentItemsArrayFromIndexPath:section] count]);
     return [[self getCurrentItemsArrayFromIndexPath:section] count];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

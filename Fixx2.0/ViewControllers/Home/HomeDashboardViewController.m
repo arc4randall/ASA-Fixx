@@ -92,19 +92,7 @@
     
     // XYPieChart Setup
     
-    self.sliceColors =@[[UIColor redColor],
-                        [UIColor orangeColor],
-                        [UIColor yellowColor],
-                        [UIColor greenColor],
-                        [UIColor blueColor],
-                        [UIColor colorWithRed:0.365 green:0.463 blue:0.796 alpha:1],
-                        [UIColor purpleColor],
-                       [UIColor colorWithRed:129/255.0 green:195/255.0 blue:29/255.0 alpha:1],
-                       [UIColor colorWithRed:62/255.0 green:173/255.0 blue:219/255.0 alpha:1],
-                       [UIColor colorWithRed:229/255.0 green:66/255.0 blue:115/255.0 alpha:1],
-                       [UIColor grayColor],
-                       [UIColor magentaColor],
-                       [UIColor brownColor]];
+    [self setSliceColors];
     
     if (!_incomePieChart)
     {
@@ -401,9 +389,7 @@
 
 -(void)didSelectPieChart:(NSString*)pieChartType
 {
-    NSLog(@"Did select Expense Pie Chart");
-    SAFE_ARC_RELEASE(popover); popover = nil;
-
+    NSLog(@"Did select %@ Pie Chart",pieChartType);
     //the controller we want to present as a popover
     if ([pieChartType isEqualToString:@"Expense"]) {
         objPieChartPopoverViewController = [[PieChartPopoverViewController alloc] initWithType:@"Expense"];
@@ -414,22 +400,19 @@
         objPieChartPopoverViewController.title = @"Income Summary";
     
     }
-    
+
     popover = [[FPPopoverKeyboardResponsiveController alloc] initWithViewController:objPieChartPopoverViewController];
     popover.tint = FPPopoverDefaultTint;
     popover.keyboardHeight = _keyboardHeight;
 
     popover.border = NO;
 
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
     popover.contentSize = CGSizeMake(self.view.frame.size.width * 0.85, self.view.frame.size.height * 0.80);
-    } else {
-    popover.contentSize = CGSizeMake(self.view.frame.size.width * 0.85, self.view.frame.size.height * 0.80);
-    }
+  
     popover.arrowDirection = FPPopoverNoArrow;
 
     [popover presentPopoverFromPoint: CGPointMake(self.view.center.x, self.view.center.y - popover.contentSize.height * 0.9)];
+    
     objPieChartPopoverViewController.incomeBoardController = self;
     objPieChartPopoverViewController.popover = popover;
     objPieChartPopoverViewController.sliceColors = self.sliceColors;
@@ -490,7 +473,6 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"TOUCHES BEGAN!");
     UITouch* touch = [touches anyObject];
     
     CGPoint point = [touch locationInView:self.graphContainer];
@@ -500,15 +482,27 @@
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
     
-    if (point.x > 0 && point.x < (screenWidth / 2) && point.y > 0 && point.y < screenHeight - (screenWidth / 2)) {
-        if (self.incomeObjectArray.count > 0) {
+    if (point.x > 0 && point.x < (screenWidth / 2) && point.y > 0 && point.y < screenHeight - (screenWidth / 2) && self.incomeObjectArray.count > 0) {
             [self didSelectPieChart:@"Income"];
-        }
-    } else if (point.x > screenWidth / 2 && point.x < screenWidth && point.y > 0 && point.y < screenHeight - (screenWidth / 2)) {
-        if (self.expenseObjectArray.count > 0) {
+    } else if (point.x > screenWidth / 2 && point.x < screenWidth && point.y > 0 && point.y < screenHeight - (screenWidth / 2) && self.expenseObjectArray.count > 0) {
             [self didSelectPieChart:@"Expense"];
-        }
     }
+}
+
+-(void)setSliceColors{
+    self.sliceColors =@[[UIColor redColor],
+                        [UIColor orangeColor],
+                        [UIColor yellowColor],
+                        [UIColor greenColor],
+                        [UIColor blueColor],
+                        [UIColor colorWithRed:0.365 green:0.463 blue:0.796 alpha:1],
+                        [UIColor purpleColor],
+                        [UIColor colorWithRed:129/255.0 green:195/255.0 blue:29/255.0 alpha:1],
+                        [UIColor colorWithRed:62/255.0 green:173/255.0 blue:219/255.0 alpha:1],
+                        [UIColor colorWithRed:229/255.0 green:66/255.0 blue:115/255.0 alpha:1],
+                        [UIColor grayColor],
+                        [UIColor magentaColor],
+                        [UIColor brownColor]];
 }
 
 @end

@@ -80,5 +80,4 @@ typedef void (^FPPopoverCompletion)();
 /** @brief Refresh popover **/
 -(void)setupView;
 
-
 @end
